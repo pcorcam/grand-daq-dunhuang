@@ -33,6 +33,9 @@ private:
 
     EventOutput m_eventOutputFun;
 
+    // TEMP:
+    char *m_eventBuffer;
+
     /**
      * @brief generate T2 package from the electronic event data
      *

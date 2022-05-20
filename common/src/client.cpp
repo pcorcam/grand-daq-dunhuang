@@ -66,8 +66,8 @@ void Client::inputThread() {
         size_t sz = this->read(m_buffer, m_inputBufferSize, ID);
         //std::cout << sz << std::endl;
         if(sz > 0) {
+            CLOG(DEBUG, "network") << "Client input, size = " << sz;
             for(auto cb: m_callbacks) {
-                //std::cout << "call callback" << std::endl;
                 cb(ID, m_buffer, sz);
             }
         }

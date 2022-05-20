@@ -39,6 +39,7 @@ public:
     void sizeInc(size_t sz);
     void setSizeByData(size_t sz);
 
+    //void dump();
 protected:
     char* m_data;
     size_t m_size;

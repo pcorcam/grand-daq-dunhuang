@@ -37,15 +37,15 @@ void CSDAQApp::sysInit() {
     m_msgDispatcher->addProcessor((MessageType)MT_T2, std::bind(&T3Trigger::processData, m_t3Trigger, _1, _2, _3));
     m_msgDispatcher->addProcessor((MessageType)MT_DAQEVENT, std::bind(&EventStore::processData, m_eventStore, _1, _2, _3));
 
+    m_client->addCallback([this](std::string duID, char* data, size_t sz)->void {
+            this->m_msgDispatcher->dispatch(duID, data, sz);
+    });
+
     for(auto &duInfo: m_sysConfig->duConfigs()) {
         CLOG(INFO, "network") << "add server: " << duInfo.ID << ", " << duInfo.ip << ":" << duInfo.port;
         m_client->addClient(duInfo.ID, duInfo.ip, duInfo.port);
     }
 
-    m_client->addCallback([this](std::string duID, char* data, size_t sz)->void { 
-        this->m_msgDispatcher->dispatch(duID, data, sz); 
-    });
-    
     m_client->initialize();
 }
 
@@ -100,6 +100,9 @@ bool CSDAQApp::configure(void *param) {
 }
 
 bool CSDAQApp::start() {
+    m_eventStore->openStream();
+    std::cout << "opened" << std::endl;
+
     char buf[1024];
     CommandMessage msg(buf, 1024, true);
     msg.setCmd("STAR");
@@ -112,6 +115,9 @@ bool CSDAQApp::stop() {
     CommandMessage msg(buf, 1024, true);
     msg.setCmd("STOP");
     m_client->writeAll(buf, msg.size());
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    m_eventStore->closeStream();
     return true;
 }
 

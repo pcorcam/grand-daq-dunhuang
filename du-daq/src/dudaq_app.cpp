@@ -29,8 +29,13 @@ void DUDAQApp::sysInit() {
     });
 
     m_dataManager = new DataManager;
-    m_dataManager->setEventOutput([this](char *data, size_t sz)->void{
+    m_dataManager->setEventOutput([this](char *data, size_t sz)->void {
         this->m_server->write(data, sz);
+    });
+    m_dataManager->initialize();
+
+    m_frontend->setCallback([this](char *data, size_t sz)->void {
+        this->m_dataManager->addEvent(data, sz);
     });
 
     DUFSM::start();
@@ -41,6 +46,7 @@ void DUDAQApp::sysInit() {
 void DUDAQApp::sysTerm() {
     m_frontend->terminate();
     m_server->terminate();
+    m_dataManager->terminate();
 
     delete m_msgDispatcher;
     delete m_dataManager;

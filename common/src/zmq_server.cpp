@@ -1,4 +1,5 @@
 #include <zmq_server.h>
+#include <utils.h>
 
 #define ZMQ_HAVE_POLLER
 #define ZMQ_BUILD_DRAFT_API
@@ -105,6 +106,7 @@ size_t ZMQServer::read(char* p, size_t maxSz) {
 
 void ZMQServer::write(char* p, size_t sz) {    
     assert(m_addressSize > 0);
+    CLOG(DEBUG, "network") << "Server write, size = " << sz;
     int snd1 = zmq_send(m_socket, m_address, m_addressSize, ZMQ_SNDMORE);
     int snd2 = zmq_send(m_socket, "", sizeof(""), ZMQ_SNDMORE);
     int snd3 = zmq_send(m_socket, p, sz, 0);

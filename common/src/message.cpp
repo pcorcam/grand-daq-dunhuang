@@ -43,3 +43,4 @@ void Message::sizeInc(size_t sz) {
 void Message::setSizeByData(size_t sz) {
     header()->size = sz+messageHeaderSize;
 }
+
