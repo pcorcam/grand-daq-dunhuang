@@ -19,7 +19,7 @@ pipeline {
     stage('Test') {
       environment {
         GRAND_DAQ_HOME="${env.WORKSPACE}"
-        GRAND_DAQ_CONFIG="${GRAND_DAQ_HOME}/cfgs/csdaq"
+        GRAND_DAQ_CONFIG="${GRAND_DAQ_HOME}/cfgs"
         GRAND_DAQ_CONFIG_LOG="${GRAND_DAQ_CONFIG}/logging"
       }
 
