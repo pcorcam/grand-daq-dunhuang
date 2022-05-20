@@ -1,13 +1,13 @@
 #include <t3_trigger.h>
 #include <utils.h>
-#include <sys_config.h>
+#include <cs_sys_config.h>
 #include <cassert>
 
 using namespace grand;
 
 T3Trigger::T3Trigger(TriggerDone triggerDoneCallback) {
-    m_bufferSize = SysConfig::instance()->appConfig().t2BufferPageSize;
-    int numPages = SysConfig::instance()->appConfig().t2BufferNumberOfPages;
+    m_bufferSize = CSSysConfig::instance()->appConfig().t2BufferPageSize;
+    int numPages = CSSysConfig::instance()->appConfig().t2BufferNumberOfPages;
     m_buffers = new BufferPool(m_bufferSize, numPages);
     m_threadPool = new ThreadPool(1);
     m_triggerDone = triggerDoneCallback;

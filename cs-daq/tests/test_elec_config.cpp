@@ -11,7 +11,7 @@ using namespace grand;
 int main(){
     uint16_t sl[SHADOW_SIZE];
 
-    std::string defaultConfig = ::getenv("GRAND_CSDAQ_CONFIG");
+    std::string defaultConfig = ::getenv("GRAND_DAQ_CONFIG");
     std::string defaultConfigAddr = defaultConfig + "/DU-address-map.yaml";
     std::string defaultConfigData = defaultConfig + "/DU-readable-conf.yaml";
 

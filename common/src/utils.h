@@ -87,5 +87,6 @@ std::string stringFormat( const std::string& format, Args ... args )
 #include <internal/thread_pool.h>
 #include <internal/easylogging++.h>
 #include <internal/buffer_pool.h>
+#include <internal/tinny_fsm.h>
 
 

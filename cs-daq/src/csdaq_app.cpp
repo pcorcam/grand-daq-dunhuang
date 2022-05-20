@@ -1,7 +1,8 @@
 #include <csdaq_app.h>
 #include <utils.h>
 #include <functional>
-#include <sys_config.h>
+#include <cs_sys_config.h>
+#include <message_impl.h>
 
 using namespace std::placeholders;
 
@@ -12,11 +13,14 @@ CSDAQApp::CSDAQApp() {
 }
 
 void CSDAQApp::sysInit() {
-    std::string defaultConfig = ::getenv("GRAND_CSDAQ_CONFIG");
+    std::string defaultConfig = ::getenv("GRAND_DAQ_CONFIG");
     std::string defaultConfigAddr = defaultConfig + "/DU-address-map.yaml";
     std::string defaultConfigData = defaultConfig + "/DU-readable-conf.yaml";
+    std::string defaultConfigSys = defaultConfig + "/sysconfig.yaml";
 
-    SysConfig *m_sysConfig = SysConfig::instance();
+    CSSysConfig *m_sysConfig = CSSysConfig::instance();
+    m_sysConfig->load(defaultConfigSys);
+
     ElecConfig *m_elecConfig = ElecConfig::instance();
     m_elecConfig->load(defaultConfigAddr, defaultConfigData);
 
@@ -34,11 +38,12 @@ void CSDAQApp::sysInit() {
     m_msgDispatcher->addProcessor((MessageType)MT_DAQEVENT, std::bind(&EventStore::processData, m_eventStore, _1, _2, _3));
 
     for(auto &duInfo: m_sysConfig->duConfigs()) {
+        CLOG(INFO, "network") << "add server: " << duInfo.ID << ", " << duInfo.ip << ":" << duInfo.port;
         m_client->addClient(duInfo.ID, duInfo.ip, duInfo.port);
     }
 
     m_client->addCallback([this](std::string duID, char* data, size_t sz)->void { 
-        (*this->m_msgDispatcher)(duID, data, sz); 
+        this->m_msgDispatcher->dispatch(duID, data, sz); 
     });
     
     m_client->initialize();
@@ -61,10 +66,64 @@ void CSDAQApp::sysTerm() {
 void CSDAQApp::startDAQ() {
     // TODO: create command message and send
     LOG(INFO) << "starting DAQ...";
-    
+    initialize();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    configure(nullptr);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    start();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
 void CSDAQApp::stopDAQ() {
     // TODO: create command message and send
     LOG(INFO) << "stopping DAQ...";
+    stop();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    terminate();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
+
+bool CSDAQApp::initialize() {
+    char buf[1024];
+    CommandMessage msg(buf, 1024, true);
+    msg.setCmd("INIT");
+    m_client->writeAll(buf, msg.size());
+    return true;
+}
+
+bool CSDAQApp::configure(void *param) {
+    char buf[1024];
+    CommandMessage msg(buf, 1024, true);
+    msg.setCmd("CONF");
+    m_client->writeAll(buf, msg.size());
+    return true;
+}
+
+bool CSDAQApp::start() {
+    char buf[1024];
+    CommandMessage msg(buf, 1024, true);
+    msg.setCmd("STAR");
+    m_client->writeAll(buf, msg.size());
+    return true;
+}
+
+bool CSDAQApp::stop() {
+    char buf[1024];
+    CommandMessage msg(buf, 1024, true);
+    msg.setCmd("STOP");
+    m_client->writeAll(buf, msg.size());
+    return true;
+}
+
+bool CSDAQApp::terminate() {
+    char buf[1024];
+    CommandMessage msg(buf, 1024, true);
+    msg.setCmd("TERM");
+    m_client->writeAll(buf, msg.size());
+    return true;
+}
+
+bool CSDAQApp::toError() {
+    return true;
+}
+

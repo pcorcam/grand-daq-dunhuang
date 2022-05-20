@@ -1,4 +1,5 @@
 #include <client.h>
+#include <utils.h>
 
 using namespace grand;
 
@@ -20,6 +21,7 @@ void Client::setup(int inputBufferSize)
 }
 
 void Client::initialize() {
+    CLOG(INFO, "network") << "Client, input buffer size = " << m_inputBufferSize;
     m_buffer = new char[m_inputBufferSize];
     m_stop = false;
     m_thread = new std::thread(std::bind(&Client::inputThread, this));
@@ -58,6 +60,7 @@ Client::~Client() {
 }
 
 void Client::inputThread() {
+    CLOG(INFO, "network") << "Client, input thread started";
     while(!m_stop) {
         std::string ID;
         size_t sz = this->read(m_buffer, m_inputBufferSize, ID);

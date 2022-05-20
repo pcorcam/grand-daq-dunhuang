@@ -41,7 +41,12 @@ int main()
         }
         assert(msg.type() == MT_CMD);
         CommandMessage msg1(data, sz);
-        assert(msg1.cmd() == "initialize");
+        assert(msg1.cmd() == "CONFIG");
+        assert(msg1.paramSize() == 10);
+        for(int i=0; i<msg1.paramSize(); i++) {
+            //std::cout << (unsigned int)((unsigned char*)msg1.param())[i] << std::endl;
+            assert(((char*)msg1.param())[i] == '\x01');
+        }
         sRecv++;
     });
     ser.initialize();
@@ -50,8 +55,10 @@ int main()
 
     // create command
     char testData[1024];
+    char param[10];
+    memset(param, 1, 10);
     CommandMessage cmdMsg(testData, 1024, true);
-    cmdMsg.setCmd("initialize");
+    cmdMsg.setCmd("CONFIG", param, 10);
     cli.writeAll(testData, 1024);
 
     // server wirte test

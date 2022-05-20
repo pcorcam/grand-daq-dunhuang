@@ -42,4 +42,5 @@ add_subdirectory(du-daq)
 
 IF(NOT REAL_DU)
 add_subdirectory(cs-daq)
+add_subdirectory(tests)
 ENDIF(NOT REAL_DU)

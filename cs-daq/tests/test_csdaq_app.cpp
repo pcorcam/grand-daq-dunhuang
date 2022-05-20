@@ -10,6 +10,8 @@ int main()
 
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
-    app.stopDAQ();
-    app.sysTerm();
+    //No du client, the stop method will be block by sending messages to DUs
+    //app.stopDAQ();
+    //app.sysTerm();
+    return 0;
 }

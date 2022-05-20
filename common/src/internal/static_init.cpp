@@ -12,8 +12,9 @@ public:
         names.insert("default");
         names.insert("network");
         names.insert("data");
+        names.insert("elec");
 
-        char *cfg = getenv("GRAND_CSDAQ_CONFIG_LOG");
+        char *cfg = getenv("GRAND_DAQ_CONFIG_LOG");
 
         for(auto n: names) {
             el::Configurations c(std::string(cfg) + "/" + n + ".cfg");

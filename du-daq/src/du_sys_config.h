@@ -5,10 +5,10 @@
 
 namespace grand {
 
-class SysConfig {
+class DUSysConfig {
 public:
-    static SysConfig *instance() {
-        static SysConfig self;
+    static DUSysConfig *instance() {
+        static DUSysConfig self;
         return &self;
     }
 
@@ -18,7 +18,7 @@ public:
     uint32_t maxClientAddressSize;
 private:
 
-    SysConfig() {
+    DUSysConfig() {
         readoutBufferSize = 102400;
         messageInputBufferSize = 102400;
         backendBindUrl = "tcp://*:19555";

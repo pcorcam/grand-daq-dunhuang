@@ -4,7 +4,7 @@
  **/
 #include <iostream>
 #include "frontend.h"
-#include "sys_config.h"
+#include "du_sys_config.h"
 
 using namespace grand;
 
@@ -15,13 +15,12 @@ IFrontend::~IFrontend() {
 }
 
 void IFrontend::inputThread() {
-    size_t bufSize = SysConfig::instance()->readoutBufferSize;
+    size_t bufSize = DUSysConfig::instance()->readoutBufferSize;
     char *buf = new char[bufSize];
     while(true) {
         if(m_stop) {
             break;
         }
-        std::cout << "inputThread readdata is run" << std::endl; 
         int retSz = elecReadData(buf, bufSize);
         if(retSz > 0) {
             if(m_callback) {

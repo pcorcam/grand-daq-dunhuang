@@ -9,11 +9,7 @@ global:
   
 dataUnits:
 - type: "modelA"
-  ID: "1002"
-  ip: "192.168.10.2"
-  port: "19555"
-- type: "modelA"
-  ID: "1003"
-  ip: "192.168.10.3"
-  port: "19555"
+  ID: "1001"
+  ip: "localhost"
+  port: 19555
 

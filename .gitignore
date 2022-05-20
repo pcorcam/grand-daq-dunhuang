@@ -1,6 +1,7 @@
 *.swa
 *.swp
 *.nfs*
+*.bak
 bak/
 build/
 build-arm/

@@ -23,9 +23,9 @@ struct APPConfig {
     int eventBufferNumberOfPages;
 };
 
-class SysConfig {
+class CSSysConfig {
 public:
-    static SysConfig *instance();
+    static CSSysConfig *instance();
     void load(std::string file);
 
     std::vector<DUConfig> &duConfigs() {
@@ -40,7 +40,7 @@ private:
     std::vector<DUConfig> m_duConfigs;
     APPConfig m_appConfig;
     int m_zmqSndBufferSize;
-    SysConfig();
+    CSSysConfig();
 };
 
 }

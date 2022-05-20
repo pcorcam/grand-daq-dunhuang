@@ -1,4 +1,4 @@
-#include <sys_config.h>
+#include <cs_sys_config.h>
 #include <vector>
 #include <iostream>
 
@@ -10,15 +10,15 @@ using namespace grand;
 
 #define SYS_CONFIG_LOAD_GLOBAL(NAME, TYPE) m_appConfig.NAME = config["global"][#NAME].as<TYPE>()
 
-SysConfig *SysConfig::instance() {
-    static SysConfig self;
+CSSysConfig *CSSysConfig::instance() {
+    static CSSysConfig self;
     return &self;
 }
 
-SysConfig::SysConfig() {
+CSSysConfig::CSSysConfig() {
 }
 
-void SysConfig::load(std::string file) {
+void CSSysConfig::load(std::string file) {
     YAML::Node config = YAML::LoadFile(file);
     SYS_CONFIG_LOAD_GLOBAL(networkInputBufferSize, uint32_t);
     SYS_CONFIG_LOAD_GLOBAL(zmqSndBufferSize, uint32_t);

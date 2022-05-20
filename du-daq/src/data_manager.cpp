@@ -1,6 +1,12 @@
 #include <data_manager.h>
 
+using namespace grand;
+
 DataManager::DataManager() {}
+
+void DataManager::setEventOutput(EventOutput fun) {
+    m_eventOutputFun = fun;
+}
 
 void DataManager::initialize()
 {
@@ -15,7 +21,9 @@ void DataManager::terminate()
 void DataManager::addEvent(char *data, size_t sz)
 {
     // FIXME: currently, directly send event data to cs-daq
-    
+    if(m_eventOutputFun) {
+        m_eventOutputFun(data, sz);
+    }
 }
 
 void DataManager::accept(char *data, size_t sz)

@@ -11,12 +11,15 @@ class MessageDispatcher {
 public:
     MessageDispatcher();
 
-    void operator()(std::string duID, char* data, size_t sz);
+    void dispatch(std::string duID, char* data, size_t sz);
+    void dispatch(char* data, size_t sz);
 
-    void addProcessor(MessageType type, MessageProcessor mp);
+    void addProcessor(MessageType type, MessageProcessorA mp);
+    void addProcessor(MessageType type, MessageProcessorB mp);
 
 private:
-    std::map<MessageType, MessageProcessor> m_processors;
+    std::map<MessageType, MessageProcessorA> m_processorsA;
+    std::map<MessageType, MessageProcessorB> m_processorsB;
 };
 
 }

@@ -1,4 +1,5 @@
 #include <server.h>
+#include <utils.h>
 
 using namespace grand;
 
@@ -18,6 +19,7 @@ void Server::setup(int inputBufferSize)
 }
 
 void Server::initialize() {
+    CLOG(INFO, "network") << "Server, input buffer size = " << m_inputBufferSize;
     m_stop = false;
     m_thread = new std::thread(&Server::inputThread,this);
 }
@@ -34,6 +36,7 @@ void Server::setCallback(ServerInputCallback cb) {
 }
 
 void Server::inputThread() {
+    CLOG(INFO, "network") << "Server, input thread started";
     char* cmd = new char[m_inputBufferSize];
     
     while(true) {
@@ -41,7 +44,8 @@ void Server::inputThread() {
             break;
         }
         size_t sz = read(cmd, m_inputBufferSize);
-        if(sz > 0) {       
+        if(sz > 0) { 
+            //std::cout << "DU input" << std::endl;
             if(m_callback) {
                 m_callback(cmd, sz);
             }

@@ -22,7 +22,10 @@ public:
     ~CommandMessage();  
 
     std::string cmd();//read
-    void setCmd(std::string); //write to csdaq
+    void *param();//read
+    size_t paramSize();
+
+    void setCmd(std::string cmd, void *param = nullptr, size_t paramSize = 0); //write to csdaq
 };
 
 class AcceptMessage : public Message {

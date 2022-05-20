@@ -16,12 +16,30 @@ std::string CommandMessage::cmd() {
     return data();
 }
 
-void CommandMessage::setCmd(std::string cmd)
+void *CommandMessage::param() {
+    std::string c = data();
+    char *p = data()+c.size()+1;
+    return (void*)p;
+}
+
+size_t CommandMessage::paramSize() {
+    std::string c = data();
+    return dataSize()-c.size()-1;
+}
+
+void CommandMessage::setCmd(std::string cmd, void *param, size_t paramSize)
 {
-    assert(size()+cmd.size()+1 <= m_size);
+    size_t cmdSize = cmd.size()+1;
+    assert(size()+cmdSize+paramSize <= m_size);
+
     memcpy(data(), cmd.c_str(), cmd.size());
     data()[cmd.size()] = '\0';
-    setSizeByData(cmd.size()+1);
+
+    if(param != nullptr) {
+        memcpy(data()+cmdSize, param, paramSize);
+    }
+
+    setSizeByData(cmdSize+paramSize);
 }
 
 AcceptMessage::AcceptMessage(char *data, size_t sz, bool write) : Message(data, sz, write, MT_ACCEPT) {
