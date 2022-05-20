@@ -1,0 +1,32 @@
+#pragma once 
+
+#include <sys_config.h>
+#include <elec_config.h>
+#include <zmq_client.h>
+#include <message_dispatcher.h>
+#include <t3_trigger.h>
+#include <event_store.h>
+
+namespace grand {
+
+class CSDAQApp {
+public:
+    CSDAQApp();
+    void sysInit();
+    void sysTerm();
+
+    void startDAQ();
+    void stopDAQ();
+
+private:
+    SysConfig *m_sysConfig;
+    ElecConfig *m_elecConfig;
+    ZMQClient *m_client;
+    MessageDispatcher *m_msgDispatcher;
+
+    T3Trigger *m_t3Trigger;
+    ESFileHeaderWriter *m_fh;
+    EventStore *m_eventStore;
+};
+
+}

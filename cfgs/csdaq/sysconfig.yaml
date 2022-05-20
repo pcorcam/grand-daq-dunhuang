@@ -1,0 +1,19 @@
+
+global:
+  networkInputBufferSize: 102400
+  zmqSndBufferSize: 2048
+  eventBufferPageSize: 1024000
+  eventBufferNumberOfPages: 4
+  eventBufferPageSize: 2048000
+  eventBufferNumberOfPages: 1
+  
+dataUnits:
+- type: "modelA"
+  ID: "1002"
+  ip: "192.168.10.2"
+  port: "19555"
+- type: "modelA"
+  ID: "1003"
+  ip: "192.168.10.3"
+  port: "19555"
+
