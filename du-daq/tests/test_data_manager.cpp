@@ -7,6 +7,7 @@ using namespace grand;
 int main()
 {
     DataManager dm;
+    dm.initialize();
     bool bOut = false;
     dm.setEventOutput([&bOut](char *data, size_t sz)->void{
         LOG(INFO) << "output event, size = " << sz;
@@ -20,5 +21,6 @@ int main()
     
     assert(bOut = true);
 
+    dm.terminate();
     return 0;
 }
