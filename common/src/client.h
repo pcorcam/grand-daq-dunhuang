@@ -9,6 +9,7 @@
 #include <cassert>
 #include <vector>
 #include <list>
+#include <functional>
 
 #define MAX_INPUT_DATA_SIZE (1024*1024)
 

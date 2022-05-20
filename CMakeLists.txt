@@ -15,12 +15,15 @@ IF(REAL_DU)
     ADD_DEFINITIONS(-DREAL_DU)
 ENDIF(REAL_DU)
 
-IF(REAL_DU)
-    set(EXTERNAL_DIR /data/gv-dev/sys/grand/arm_installed)
-ELSE()
-    set(EXTERNAL_DIR /data/gv-dev/sys/grand/pc_installed)
-ENDIF(REAL_DU)
+IF(NOT DEFINED EXTERNAL_DIR)
+    IF(REAL_DU)
+        set(EXTERNAL_DIR /data/gv-dev/sys/grand/arm_installed)
+    ELSE()
+        set(EXTERNAL_DIR /data/gv-dev/sys/grand/pc_installed)
+    ENDIF(REAL_DU)
+ENDIF(NOT DEFINED EXTERNAL_DIR)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 enable_testing()
 
 include_directories(${EXTERNAL_DIR}/include)
@@ -29,8 +32,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common/src)
 link_directories(${EXTERNAL_DIR}/lib ${EXTERNAL_DIR}/lib64)
 link_libraries(pthread zmq)
 
-set(CMAKE_CXX_FLAGS "-g -std=c++11 -pipe -lstdc++")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_USE_CXX11_ABI=0")
+set (CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS "-g -pipe -lstdc++")
 
 ADD_DEFINITIONS(-DELPP_NO_LOG_TO_FILE -DELPP_NO_DEFAULT_LOG_FILE -DELPP_THREAD_SAFE)
 

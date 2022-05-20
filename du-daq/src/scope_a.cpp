@@ -161,9 +161,10 @@ int ScopeA::elecReadData(char *data, size_t maxSize){
                 evtbuf[offset+EVT_HARDWARE] = station_id;
 
                 data = (char *)evtbuf; 
+                std::cout << 1111111 << std::endl;
 
                 FILE* fp;
-                fp = fopen("event_binfile.txt","a");
+                fp = fopen("test_5.20_event_binfile.txt","a");
                 //fprintf(fp,"Reading event %08x %d %u.%09d %g\n",tbuf,evtbuf[EVT_STATSEC]&0xff,*sec,*nanosec,fracsec);
                 fwrite(evtbuf, (uint8_t*)ebuf-(uint8_t*)evtbuf, 1, fp);
                 //    printf("d%\n",(uint8_t*)ebuf-(uint8_t*)evtbuf);

@@ -8,6 +8,12 @@
 
 using namespace grand;
 
+IFrontend::IFrontend() : m_callback(nullptr) {
+}
+
+IFrontend::~IFrontend() {
+}
+
 void IFrontend::inputThread() {
     size_t bufSize = SysConfig::instance()->readoutBufferSize;
     char *buf = new char[bufSize];
@@ -15,6 +21,7 @@ void IFrontend::inputThread() {
         if(m_stop) {
             break;
         }
+        std::cout << "inputThread readdata is run" << std::endl; 
         int retSz = elecReadData(buf, bufSize);
         if(retSz > 0) {
             if(m_callback) {
@@ -23,12 +30,6 @@ void IFrontend::inputThread() {
         }
     }
     delete buf;
-}
-
-IFrontend::IFrontend() : m_callback(nullptr) {
-}
-
-IFrontend::~IFrontend() {
 }
 
 void IFrontend::setCallback(ReadoutCallback cb) {

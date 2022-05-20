@@ -9,16 +9,16 @@ module_test(TARGET test_message
 
 module_test(TARGET test_client
             SRCS test_client.cpp
-            LINKS csdaq)
+            LINKS grandcommon)
 
 module_test(TARGET test_server
             SRCS test_server.cpp
-            LINKS csdaq)
+            LINKS grandcommon)
 
 module_test(TARGET test_communication
             SRCS test_communication.cpp
-            LINKS csdaq)
+            LINKS grandcommon)
 
 module_test(TARGET test_send_recv_cmd
             SRCS test_send_recv_cmd.cpp
-            LINKS csdaq)
+            LINKS grandcommon)

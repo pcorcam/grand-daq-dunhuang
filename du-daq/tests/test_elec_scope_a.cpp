@@ -26,7 +26,7 @@ int main()
     scopeA.initialize();
     scopeA.configure(sl);
     scopeA.start();
-    sleep(1);
+    sleep(10);
     scopeA.stop();
     return 0;
 }
