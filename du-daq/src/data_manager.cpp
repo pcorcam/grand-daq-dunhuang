@@ -4,7 +4,10 @@
 
 using namespace grand;
 
-DataManager::DataManager() {}
+DataManager::DataManager() : m_eventBuffer(nullptr) {}
+DataManager::~DataManager() {
+    terminate();
+}
 
 void DataManager::setEventOutput(EventOutput fun) {
     m_eventOutputFun = fun;
@@ -13,13 +16,18 @@ void DataManager::setEventOutput(EventOutput fun) {
 void DataManager::initialize()
 {
     // TODO: create event buffer
-    m_eventBuffer = new char[1024000];
+    if(m_eventBuffer == nullptr) {
+        m_eventBuffer = new char[1024000];
+    }
 }
 
 void DataManager::terminate()
 {
     // TODO: release all
-    delete m_eventBuffer;
+    if(m_eventBuffer) {
+        delete m_eventBuffer;
+        m_eventBuffer = nullptr;
+    }
 }
 
 void DataManager::addEvent(char *data, size_t sz)

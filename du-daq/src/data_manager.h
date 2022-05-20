@@ -10,6 +10,7 @@ typedef std::function<void(char *data, size_t sz)> EventOutput;
 class DataManager {
 public:
     DataManager();
+    ~DataManager();
     void setEventOutput(EventOutput fun);
 
     /**
