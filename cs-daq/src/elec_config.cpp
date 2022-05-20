@@ -239,7 +239,7 @@ std::function<uint32_t(uint32_t)> ElecConfig::transformFunction_2(string first)
 };
 
 void ElecConfig::toShadowlist(uint16_t *sl)
-{   
+{
     ElecConfigAddress::addr_t addr;
     int SHADOW_SIZE = 8;
     memset(sl, 0, SHADOW_SIZE);

@@ -1,8 +1,9 @@
-.swa
-.swp
-.nfs*
+*.swa
+*.swp
+*.nfs*
 bak/
 build/
+build-arm/
 # Prerequisites
 *.d
 

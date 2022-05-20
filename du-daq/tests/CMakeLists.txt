@@ -1,6 +1,6 @@
 
-#module_test(TARGET test_frontend
-#            SRCS test_frontend.cpp
-#            LINKS grandcommon)
+module_test(TARGET test_elec_scope_a
+            SRCS test_elec_scope_a.cpp
+            LINKS grandcommon dudaq)
 
 

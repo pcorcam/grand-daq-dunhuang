@@ -6,13 +6,6 @@
 #include "scope_a.h"
 #include <cassert>
 
-// int ptr_evt=0;
-// extern TS_DATA *timestampbuf;
-// int32_t evgps=0;
-// uint16_t ppsbuf[WCNT_PPS*GPSSIZE];
-// int32_t prevgps = 0;
-//uint16_t *t3buf;
-//int32_t shadow_filled = 0;
 using namespace grand;
 using namespace std;
 
@@ -150,18 +143,19 @@ int ScopeA::elecReadData(char *data, size_t maxSize){
                     scope_raw_read(Reg_Data, ptr++);
                 }
                 evtbuf[offset+EVT_HDRLEN] = HEADER_EVT;
-                sec = (uint32_t *)&evtbuf[offset+EVT_SECOND];
-                tt.tm_sec = (evtbuf[offset+EVT_STATSEC]&0xff)-evtbuf[offset+EVT_LEAP];    // Convert GPS in a number of seconds
-                tt.tm_min = (evtbuf[offset+EVT_MINHOUR]>>8)&0xff;
-                tt.tm_hour = (evtbuf[offset+EVT_MINHOUR])&0xff;
-                tt.tm_mday = (evtbuf[offset+EVT_DAYMONTH]>>8)&0xff;
-                tt.tm_mon = (evtbuf[offset+EVT_DAYMONTH]&0xff)-1;
-                tt.tm_year = evtbuf[offset+EVT_YEAR] - 1900;
-                //printf("Event timestamp %02d/%02d/%04d %2d:%2d:%2d\n",tt.tm_mday,tt.tm_mon+1,tt.tm_year+1900,tt.tm_hour,tt.tm_min,tt.tm_sec);
-                *sec = (unsigned int)timegm(&tt);
-                fracsec = (double)(*(uint32_t *)&evtbuf[offset+EVT_CTD])/(double)(*(uint32_t *)&evtbuf[offset+EVT_CTP]);
-                nanosec = (uint32_t *)&evtbuf[offset+EVT_NANOSEC];
-                *nanosec = 1.E9*fracsec;
+                //TO DO:
+                //sec = (uint32_t *)&evtbuf[offset+EVT_SECOND];
+                //tt.tm_sec = (evtbuf[offset+EVT_STATSEC]&0xff)-evtbuf[offset+EVT_LEAP];    // Convert GPS in a number of seconds
+                //tt.tm_min = (evtbuf[offset+EVT_MINHOUR]>>8)&0xff;
+                //tt.tm_hour = (evtbuf[offset+EVT_MINHOUR])&0xff;
+                //tt.tm_mday = (evtbuf[offset+EVT_DAYMONTH]>>8)&0xff;
+                //tt.tm_mon = (evtbuf[offset+EVT_DAYMONTH]&0xff)-1;
+                //tt.tm_year = evtbuf[offset+EVT_YEAR] - 1900;
+                ////printf("Event timestamp %02d/%02d/%04d %2d:%2d:%2d\n",tt.tm_mday,tt.tm_mon+1,tt.tm_year+1900,tt.tm_hour,tt.tm_min,tt.tm_sec);
+                //*sec = (unsigned int)timegm(&tt);
+                //fracsec = (double)(*(uint32_t *)&evtbuf[offset+EVT_CTD])/(double)(*(uint32_t *)&evtbuf[offset+EVT_CTP]);
+                //nanosec = (uint32_t *)&evtbuf[offset+EVT_NANOSEC];
+                //*nanosec = 1.E9*fracsec;
                 evtbuf[offset+EVT_TRIGGERPOS] = shadowlist[Reg_Time1_Pre>>1]+shadowlist[Reg_Time_Common>>1];
                 evtbuf[offset+EVT_ID] = evtnr++;
                 evtbuf[offset+EVT_HARDWARE] = station_id;

@@ -7,6 +7,6 @@
 
 add_library(dudaq SHARED
         frontend.cpp
-        #scope_a.cpp
+        scope_a.cpp
         scope_dummy.cpp
 )

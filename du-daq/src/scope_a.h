@@ -22,7 +22,6 @@
 #include "frontend.h"
 
 #define DEVFILE "/dev/mem"
-//#define DEV int32_t
 #define Reg_End 0x1FC
 
 namespace grand {
@@ -47,19 +46,10 @@ class ScopeA: public IFrontend {
         virtual void elecTerminate();
 
     private:
-        //int scope_open();
-        // void scope_close();
         void scope_raw_write(uint32_t reg_addr, uint32_t value);
         int32_t scope_raw_read(uint32_t reg_addr, uint32_t *value);
         void scope_set_parameters(uint32_t reg_addr, uint32_t value,uint32_t to_shadow);
         void scope_flush();
-        // void scope_init_shadow();
-        //void scope_reset();
-        //void scope_start_run();
-        //void scope_stop_run();
-        //void readfromparas();
-        // void scope_copy_shadow();
-        //void scope_create_memory();
 };
 
 }

@@ -41,7 +41,7 @@ public:
 struct __attribute__((__packed__)) TQ {
     uint64_t time;
     uint32_t charge;
-} ;
+};
 
 public:
     T2Message(char *data, size_t sz, bool write = false);
