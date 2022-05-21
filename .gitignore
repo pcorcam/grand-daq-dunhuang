@@ -3,8 +3,10 @@
 *.nfs*
 *.bak
 bak/
+releases/
+build-*/
 build/
-build-arm/
+installed/
 # Prerequisites
 *.d
 
