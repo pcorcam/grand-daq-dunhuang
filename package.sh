@@ -1,7 +1,7 @@
 #!/bin/sh
 
-EXTERNAL_DIR_PC=/data/gv-dev/sys/grand/pc_installed
-EXTERNAL_DIR_ARM=/home/duanbh/arm_installed
+EXTERNAL_DIR_PC=/home/grand/pc_installed
+EXTERNAL_DIR_ARM=/home/grand/arm_a_installed
 
 SOFT_DIR=$(dirname $0)
 

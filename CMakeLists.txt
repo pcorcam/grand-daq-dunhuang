@@ -15,8 +15,10 @@ IF(REAL_DU)
     ADD_DEFINITIONS(-DREAL_DU)
 ENDIF(REAL_DU)
 
-set(EXTERNAL_DIR_ARM /data/gv-dev/sys/grand/arm_installed)
-set(EXTERNAL_DIR_PC /data/gv-dev/sys/grand/pc_installed)
+set(EXTERNAL_DIR_ARM /home/grand/arm_a_installed)
+set(EXTERNAL_DIR_PC /home/grand/pc_installed)
+#set(EXTERNAL_DIR_ARM /data/gv-dev/sys/grand/arm_installed)
+#set(EXTERNAL_DIR_PC /data/gv-dev/sys/grand/pc_installed)
 
 IF(REAL_DU)
     set(EXTERNAL_DIR "${EXTERNAL_DIR_ARM}" CACHE PATH "external software install path")
