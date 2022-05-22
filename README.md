@@ -13,6 +13,7 @@ set(EXTERNAL_DIR_PC /home/grand/pc_installed)
 对于高能所开发环境，变量设置如下：
 ```
 set(EXTERNAL_DIR_PC /data/gv-dev/sys/grand/pc_installed)
+```
 
 > 高能所环境没有ARM平台交叉编译，只能编译DUMMY DU插件。
 
