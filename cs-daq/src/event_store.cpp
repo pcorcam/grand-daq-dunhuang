@@ -50,13 +50,14 @@ EventStore::EventStore(std::string module, std::string tag, std::string dir, siz
     if(dir == "") {
         char *dir1 = ::getenv("GRAND_DATA_DIR");
         if(dir1) {
-            m_dir = dir;
+            m_dir = dir1;
         }
         else {
             m_dir = "./";
             LOG(WARNING) << "GRAND_DATA_DIR is not set, use working directory";
         }
     }
+    LOG(INFO) << "data store directory = " << m_dir;
     m_maxFileSize = maxFileSize;
     if(m_maxFileSize == 0) {
         char *s = ::getenv("GRAND_MAX_FILE_SIZE");

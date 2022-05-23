@@ -81,7 +81,7 @@ Global:
     0-255:0=0Hz,1=1MHz,255=124Hz: 
       baseAddr: 0x004
       startBit: 0
-      nBits: 16 
+      nBits: 16
   TriggerOverlap: 
     Time(ns): 
       baseAddr: 0x006

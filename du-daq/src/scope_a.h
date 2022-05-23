@@ -41,7 +41,7 @@ class ScopeA: public IFrontend {
 
     private:
         void scopeRawWrite(uint32_t regAddr, uint32_t value);
-        int32_t scopeRawRead(uint32_t regAddr, uint32_t *value);
+        void scopeRawRead(uint32_t regAddr, uint32_t *value);
         void scopeSetParameter(uint32_t regAddr, uint32_t value, bool toShadow = false);
         void scopeFlush();
 

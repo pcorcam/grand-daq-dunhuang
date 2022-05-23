@@ -3,6 +3,7 @@
 *.nfs*
 *.bak
 bak/
+logs/
 releases/
 build-*/
 build/

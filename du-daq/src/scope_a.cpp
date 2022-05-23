@@ -12,23 +12,19 @@ using namespace std;
 
 ScopeA::ScopeA()
 {
-    cout << "let us start dudaq" << endl;
 }
 
 ScopeA::~ScopeA(){
-    cout << "Son1 Obj ScopeA is being deleted!" << endl;
+}
+
+void ScopeA::scopeRawRead(uint32_t regAddr, uint32_t *value) //new, reading from AXI
+{
+    *value = *((unsigned int *)((char *)m_axiPtr+m_pageOffset+regAddr));
 }
 
 void ScopeA::scopeRawWrite(uint32_t regAddr, uint32_t value)
 {
   *((unsigned int *)((char *)m_axiPtr+m_pageOffset+regAddr)) = value;
-  //printf("%04x %08x\n", regAddr, value);
-}
-
-int32_t ScopeA::scopeRawRead(uint32_t regAddr, uint32_t *value) //new, reading from AXI
-{
-  *value = *((unsigned int *)((char *)m_axiPtr+m_pageOffset+regAddr));
-  return(1);
 }
 
 void ScopeA::scopeFlush()
@@ -98,8 +94,8 @@ int ScopeA::elecReadData(char *data, size_t maxSize){
     scopeRawRead(Reg_GenStatus,&isData);
     if((isData&(GENSTAT_EVTFIFO)) == 0) {
         //std::cout << 1111111 << std::endl;
-        XPTimer t1("R_EVT", 0);
-        t1.start();
+        //XPTimer t1("R_EVT", 0);
+        //t1.start();
         scopeRawWrite(Reg_GenControl,GENCTRL_EVTREAD);
         // buffer中有数据
         uint32_t dataSizeRaw;
@@ -107,7 +103,7 @@ int ScopeA::elecReadData(char *data, size_t maxSize){
         if((dataSizeRaw>>16) == 0xADC0) {
             uint32_t dataSizeBytes = (dataSizeRaw&0xffff)*sizeof(uint16_t);
             int dataSizeDWord = dataSizeBytes/(sizeof(uint32_t));
-            printf("data size = %d\n", dataSizeBytes);
+            //printf("data size = %d\n", dataSizeBytes);
             assert(("data buffer size >= real data size", maxSize >= dataSizeBytes+sizeof(uint32_t) ));
 
             uint32_t *ptr = (uint32_t*)data;
@@ -122,13 +118,21 @@ int ScopeA::elecReadData(char *data, size_t maxSize){
         else {
             // dat in buffer format error
             // read data to empty
+            CLOG(WARNING, "data") << "data format error 1";
+            int readToEmptyLen = 10000;
+            uint32_t tmpData;
+            XRate rate;
             do {
-                scopeRawRead(Reg_Data, &dataSizeRaw);
+                rate.add();
+                scopeRawRead(Reg_Data, &tmpData);
                 scopeRawRead(Reg_GenStatus, &isData);
-            } while((isData&(GENSTAT_EVTFIFO)) == 0);
+                readToEmptyLen --;
+            } while((isData&(GENSTAT_EVTFIFO)) == 0 && readToEmptyLen > 0);
+            CLOG(WARNING, "data") << "try read fifo to empty done";
+            //scopeFlush();
         }
-        t1.stop();
-        CLOG(DEBUG, "data") << "CPU time of 1 event readout = " << t1.timeMs() << " ms";
+        //t1.stop();
+        //CLOG(DEBUG, "data") << "CPU time of 1 event readout = " << t1.timeMs() << " ms";
     }
 
     return ret;

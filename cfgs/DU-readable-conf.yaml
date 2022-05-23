@@ -18,10 +18,10 @@ Global:
     Ch1 AND Ch2, Ch2>Ch1: 0
     Ch3 AND Ch4: 0
     Calibration: 0
-    10 sec: 1
-    External: 0
+    10 sec: 0
+    External: 1
   Test Pulse:
-    0-255:0=0Hz,1=1MHz,255=124Hz: 5
+    0-255:0=0Hz,1=1MHz,255=124Hz: 0xBF
   TriggerOverlap:
     Time(ns): 64
 # In this part 1: select ADC1; 2: select ADC2; 3: select ADC3 4:select ADC4 5:select ADC Filtered1; 6: select ADC Filtered2; 7: select ADC Filtered3; 8: select ADC Filtered4

@@ -38,7 +38,7 @@ link_directories(${EXTERNAL_DIR}/lib ${EXTERNAL_DIR}/lib64)
 link_libraries(pthread zmq)
 
 set (CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "-g -pipe -lstdc++")
+set(CMAKE_CXX_FLAGS "-O3 -pipe -lstdc++")
 
 ADD_DEFINITIONS(-DELPP_NO_LOG_TO_FILE -DELPP_NO_DEFAULT_LOG_FILE -DELPP_THREAD_SAFE)
 

@@ -29,7 +29,8 @@ ${CMAKE} -DCMAKE_CXX_COMPILER=${CXX_COMPILER} \
         -S . -B${build_dir}
 
 cd ${build_dir}
-VERBOSE=1 make -j4
+#make clean
+VERBOSE=1 make -j8
 make install
 
 cd -
