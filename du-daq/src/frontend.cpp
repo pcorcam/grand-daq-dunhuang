@@ -44,11 +44,11 @@ void IFrontend::configure(void *parameters) {
 }
 
 void IFrontend::start(){
+    elecStopRun();
     elecStartRun();
 
     m_stop = false;
     m_thread = std::thread(&IFrontend::inputThread,this);
-    elecStartRun();
 }
 
 void IFrontend::stop(){

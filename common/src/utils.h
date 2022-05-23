@@ -71,6 +71,34 @@ public:
     }
 };
 
+class XPTimer 
+{
+public:
+    XPTimer(std::string name="", int level = 3) {
+        m_name = name;
+        m_level = level;
+        m_startTime = XClock::nowMilliSeconds();
+    };
+
+    void start() {
+        m_startTime = XClock::nowMilliSeconds();
+    }
+
+    void stop() {
+        m_stopTime = XClock::nowMilliSeconds();
+    }
+
+    uint64_t timeMs() {
+        return m_stopTime - m_startTime;
+    }
+
+private:
+    uint64_t m_startTime;
+    uint64_t m_stopTime;
+    std::string m_name;
+    int m_level;
+};
+
 template<typename ... Args>
 std::string stringFormat( const std::string& format, Args ... args )
 {

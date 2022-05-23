@@ -20,7 +20,6 @@ public:
 
 private:
     CSSysConfig *m_sysConfig;
-    ElecConfig *m_elecConfig;
     ZMQClient *m_client;
     MessageDispatcher *m_msgDispatcher;
 

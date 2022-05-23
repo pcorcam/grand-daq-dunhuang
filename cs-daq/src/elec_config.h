@@ -32,7 +32,7 @@ class ElecConfig
 public:
     static ElecConfig* instance();
     void load(string addressFile, std::string dataFile);
-    void toShadowlist(uint16_t *sl);
+    size_t toShadowlist(uint8_t *sl);
 
 private:
     map<string, std::function<uint32_t(uint32_t)>> m_transformFunction;
@@ -46,9 +46,9 @@ private:
     std::function<uint32_t(uint32_t)> transformFunction(string first, string second, string third);
     std::function<void(double*, size_t, uint16_t*, size_t&)> transformFunctionArray(string first, string second, string third);
     std::function<uint32_t(uint32_t)> transformFunction_2(string first);
-    void setBit(uint16_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t value);
-    void setBits(uint16_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t nBits, uint32_t value);
-    void setBits(uint16_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t nBits, uint16_t *value);
+    void setBit(uint8_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t value);
+    void setBits(uint8_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t nBits, uint32_t value);
+    void setBits(uint8_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t nBits, uint16_t *value);
     int float2fixed(float x, int len_int, int len_frac);
     uint32_t fundefault(uint32_t value);
     void fundefaultArray(double *value, size_t sz, uint16_t*, size_t&);

@@ -14,15 +14,10 @@ CSDAQApp::CSDAQApp() {
 
 void CSDAQApp::sysInit() {
     std::string defaultConfig = ::getenv("GRAND_DAQ_CONFIG");
-    std::string defaultConfigAddr = defaultConfig + "/DU-address-map.yaml";
-    std::string defaultConfigData = defaultConfig + "/DU-readable-conf.yaml";
     std::string defaultConfigSys = defaultConfig + "/sysconfig.yaml";
 
     CSSysConfig *m_sysConfig = CSSysConfig::instance();
     m_sysConfig->load(defaultConfigSys);
-
-    ElecConfig *m_elecConfig = ElecConfig::instance();
-    m_elecConfig->load(defaultConfigAddr, defaultConfigData);
 
     m_client = new ZMQClient;
     APPConfig &appCfg = m_sysConfig->appConfig();
@@ -65,6 +60,7 @@ void CSDAQApp::sysTerm() {
 
 void CSDAQApp::startDAQ() {
     // TODO: create command message and send
+    stopDAQ();
     LOG(INFO) << "starting DAQ...";
     initialize();
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -92,9 +88,18 @@ bool CSDAQApp::initialize() {
 }
 
 bool CSDAQApp::configure(void *param) {
-    char buf[1024];
-    CommandMessage msg(buf, 1024, true);
-    msg.setCmd("CONF");
+    std::string defaultConfig = ::getenv("GRAND_DAQ_CONFIG");
+    std::string defaultConfigAddr = defaultConfig + "/DU-address-map.yaml";
+    std::string defaultConfigData = defaultConfig + "/DU-readable-conf.yaml";
+
+    ElecConfig::instance()->load(defaultConfigAddr, defaultConfigData);
+
+    char buf[100*1024];
+    char elecParameter[100*1024];
+    size_t elecParameterSize = ElecConfig::instance()->toShadowlist((uint8_t*)elecParameter);
+
+    CommandMessage msg(buf, 100*1024, true);
+    msg.setCmd("CONF", elecParameter, elecParameterSize);
     m_client->writeAll(buf, msg.size());
     return true;
 }

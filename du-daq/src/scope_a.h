@@ -31,12 +31,6 @@ class ScopeA: public IFrontend {
         ScopeA();
         ~ScopeA();
 
-        uint32_t page_offset;
-        int32_t dev = 0;
-        void *axi_ptr;
-        uint32_t shadowlist[Reg_End>>2];
-        uint16_t evtlen;
-        uint16_t *evtbuf=NULL;                                          
     protected:
         virtual void elecInit();
         virtual void elecConfig(void *parameters);
@@ -46,10 +40,15 @@ class ScopeA: public IFrontend {
         virtual void elecTerminate();
 
     private:
-        void scope_raw_write(uint32_t reg_addr, uint32_t value);
-        int32_t scope_raw_read(uint32_t reg_addr, uint32_t *value);
-        void scope_set_parameters(uint32_t reg_addr, uint32_t value,uint32_t to_shadow);
-        void scope_flush();
+        void scopeRawWrite(uint32_t regAddr, uint32_t value);
+        int32_t scopeRawRead(uint32_t regAddr, uint32_t *value);
+        void scopeSetParameter(uint32_t regAddr, uint32_t value, bool toShadow = false);
+        void scopeFlush();
+
+        uint32_t m_pageOffset;
+        int32_t m_dev = 0;
+        void *m_axiPtr;
+        uint32_t m_shadowList[Reg_End>>2];
 };
 
 }

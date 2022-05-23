@@ -134,10 +134,12 @@ void EventStore::newFile()
 
 void EventStore::closeStream()
 {
-    closeFile();
-    m_curId = 0;
-    m_totalWritten = 0;
-    m_currentWritten = 0;
+    if(m_file) {
+        closeFile();
+        m_curId = 0;
+        m_totalWritten = 0;
+        m_currentWritten = 0;
+    }
 }
 
 void EventStore::openFile()

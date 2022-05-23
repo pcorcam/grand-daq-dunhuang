@@ -7,6 +7,8 @@
 #include <functional>
 #include <malloc.h>
 
+#define Reg_End 0x1FC
+
 using namespace std;
 using namespace grand;
 
@@ -172,7 +174,7 @@ void ElecConfig::load(std::string addressFile, std::string dataFile)
     m_transformFunction_2["Station Rate(Simulation)"] = std::bind(&ElecConfig::fun_2default, this, std::placeholders::_1);
 }
 
-void ElecConfig::setBit(uint16_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t value)
+void ElecConfig::setBit(uint8_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t value)
 {
     if(value == 0) {
         sl[baseAddr] &= (~(0x01<<startBit));
@@ -182,7 +184,7 @@ void ElecConfig::setBit(uint16_t *sl, uint32_t baseAddr, uint32_t startBit, uint
     }
 }
 
-void ElecConfig::setBits(uint16_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t nBits, uint32_t value)
+void ElecConfig::setBits(uint8_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t nBits, uint32_t value)
 {
     uint32_t value1= value;
     for(int i=0; i<nBits; i++) {
@@ -194,7 +196,7 @@ void ElecConfig::setBits(uint16_t *sl, uint32_t baseAddr, uint32_t startBit, uin
     }
 }
 
-void ElecConfig::setBits(uint16_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t nBits, uint16_t *value)
+void ElecConfig::setBits(uint8_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t nBits, uint16_t *value)
 {
     int nloop = nBits/16;
     uint32_t value1;
@@ -238,7 +240,7 @@ std::function<uint32_t(uint32_t)> ElecConfig::transformFunction_2(string first)
     }
 };
 
-void ElecConfig::toShadowlist(uint16_t *sl)
+size_t ElecConfig::toShadowlist(uint8_t *sl)
 {
     ElecConfigAddress::addr_t addr;
     int SHADOW_SIZE = 256;
@@ -286,6 +288,7 @@ void ElecConfig::toShadowlist(uint16_t *sl)
             }
         }
     }
+    return Reg_End;
 }
 
 

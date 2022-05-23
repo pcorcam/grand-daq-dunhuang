@@ -4,6 +4,7 @@
 #include <du_sys_config.h>
 #include <du_fsm.h>
 #include <scope_dummy.h>
+#include <scope_a.h>
 #include <message_impl.h>
 
 using namespace std::placeholders;
@@ -16,7 +17,11 @@ DUDAQApp::DUDAQApp() {
 void DUDAQApp::sysInit() {
     DUSysConfig *m_sysConfig = DUSysConfig::instance();
 
+#ifdef REAL_DU
+    m_frontend = new ScopeA;
+#else
     m_frontend = new ScopeDummy;
+#endif
 
     m_server = new ZMQServer;
     m_server->setup(m_sysConfig->messageInputBufferSize, m_sysConfig->backendBindUrl, m_sysConfig->maxClientAddressSize);
