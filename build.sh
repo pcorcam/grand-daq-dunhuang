@@ -30,7 +30,6 @@ ${CMAKE} -DCMAKE_CXX_COMPILER=${CXX_COMPILER} \
 
 cd ${build_dir}
 #make clean
-VERBOSE=1 make -j8
-make install
+VERBOSE=1 make -j8 && make install
 
 cd -

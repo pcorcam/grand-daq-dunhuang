@@ -47,6 +47,7 @@ add_subdirectory(du-daq)
 
 IF(NOT REAL_DU)
     add_subdirectory(cs-daq)
+    add_subdirectory(decode)
     add_subdirectory(tests)
 ENDIF(NOT REAL_DU)
 
@@ -56,7 +57,7 @@ install(TARGETS dudaq_run RUNTIME)
 install(TARGETS test_elec_scope_a RUNTIME)
 IF(NOT REAL_DU)
     install(TARGETS csdaq LIBRARY)
-    install(TARGETS csdaq_run LIBRARY)
+    install(TARGETS csdaq_run decode_v1_0 RUNTIME)
 ENDIF(NOT REAL_DU)
 
 install(DIRECTORY cfgs DESTINATION .)

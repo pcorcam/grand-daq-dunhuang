@@ -2,6 +2,8 @@
 #include <utils.h>
 #include <cassert>
 #include <iomanip>
+#include <eformat.h>
+#include <message_impl.h>
 
 using namespace grand;
 
@@ -91,12 +93,27 @@ void EventStore::processData(std::string du, char *data, size_t sz) {
     // TODO: this is dummy
     CLOG(INFO, "data") << "input event from DU = " << du
             << ", datasize = " << sz;
-    write(data, sz);
+    uint32_t duID = atol(du.c_str());
+    DAQEvent msg(data, sz);
+
+    struct DAQHeader header;
+    header.size = sizeof(DAQHeader) + msg.dataSize();
+    header.type = DAQPCK_TYPE_DUEVENT;
+    header.source = duID;
+
+
+    write((char*)&header, sizeof(DAQHeader));
+    write(msg.data(), msg.dataSize());
 }
 
 #define WRITE_ONE_SIZE 128000000
 void EventStore::write(char *ptr, size_t size)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if(m_file == nullptr) {
+        LOG(WARNING) << "Data is still arriving after stop..";
+        return;
+    }
     if(!m_enableWriting) {
         return;
     }
@@ -118,11 +135,13 @@ void EventStore::write(char *ptr, size_t size)
 
 void EventStore::openStream()
 {
-    assert(m_file == nullptr);
-    m_curId = 0;
-    m_totalWritten = 0;
-    m_currentWritten = 0;
-    openFile();
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if(m_file == nullptr) {
+        m_curId = 0;
+        m_totalWritten = 0;
+        m_currentWritten = 0;
+        openFile();
+    }
 }
 
 void EventStore::newFile()
@@ -135,6 +154,7 @@ void EventStore::newFile()
 
 void EventStore::closeStream()
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     if(m_file) {
         closeFile();
         m_curId = 0;

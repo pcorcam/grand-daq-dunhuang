@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <mutex>
 
 namespace grand {
 
@@ -68,6 +69,7 @@ private:
 
     bool m_withSubdir;
     std::string m_curSubdir;
+    std::mutex m_mutex;
 };
 
 }
