@@ -54,7 +54,7 @@ void printData(FILE *fp, char *buffer, size_t size, uint32_t duID) {
     fprintf(fp, "  ADC resolution = %d\n", *(ptr++));
     fprintf(fp, "  Input selection = %d\n", *(ptr++));
     fprintf(fp, "  DAQ Channel Enable = %d\n", *(ptr++));
-    fprintf(fp, "  Total number of samples = %d\n", *(ptr++));
+    fprintf(fp, "  Total number of samples = %d\n", 16*(*(ptr++)));
     fprintf(fp, "  Samples in channel 1 = %d\n", *(ptr++));
     fprintf(fp, "  Samples in channel 2 = %d\n", *(ptr++));
     fprintf(fp, "  Samples in channel 3 = %d\n", *(ptr++));
@@ -322,7 +322,7 @@ int main(int argc, char* argv[])
         if(ret != sizeof(DAQHeader)) {
             break;
         }
-
+        
         DAQHeader *h = (DAQHeader*)buffer;
         assert(h->type == DAQPCK_TYPE_DUEVENT);
         uint32_t sz = h->size;
