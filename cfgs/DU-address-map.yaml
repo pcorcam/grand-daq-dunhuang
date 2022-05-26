@@ -65,7 +65,7 @@ Global:
       baseAddr: 0x002
       startBit: 0
       nBits: 1
-    Calibration: 
+    20Hz: 
       baseAddr: 0x002
       startBit: 6
       nBits: 1
@@ -73,18 +73,27 @@ Global:
       baseAddr: 0x002
       startBit: 5
       nBits: 1
-    External: 
+    Internal: 
       baseAddr: 0x002
       startBit: 4
       nBits: 1
-  Test Pulse:
-    0-255:0=0Hz,1=1MHz,255=124Hz: 
+  Internal Trigger Rate:
+    (1000000,124)Hz: 
       baseAddr: 0x004
       startBit: 0
       nBits: 16
   TriggerOverlap: 
     Time(ns): 
       baseAddr: 0x006
+      startBit: 0
+      nBits: 16
+  Battery Voltages(off,on)V:
+    BatLow:
+      baseAddr: 0x00C
+      startBit: 0
+      nBits: 16
+    BatHigh:
+      baseAddr: 0x00E
       startBit: 0
       nBits: 16
 Input: 
@@ -134,7 +143,7 @@ Channels:
       baseAddr: 0x012
       startBit: 0
       nBits: 16
-    Additional Gain: 
+    Additional Gain[-14,23.5](dB): 
       baseAddr: 0x020
       startBit: 0
       nBits: 16
@@ -437,7 +446,7 @@ Channels:
       baseAddr: 0x170
       startBit: 0
       nBits: 128
-Station Rate(Simulation): 
-  baseAddr: 0x1e0
-  startBit: 0
-  nBits: 16
+# Station Rate(Simulation): 
+#   baseAddr: 0x1e0
+#   startBit: 0
+#   nBits: 16

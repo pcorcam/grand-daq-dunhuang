@@ -17,13 +17,16 @@ Global:
     (not Ch1)AND Ch2: 0
     Ch1 AND Ch2, Ch2>Ch1: 0
     Ch3 AND Ch4: 0
-    Calibration: 0
+    20Hz: 0
     10 sec: 0
-    External: 1
-  Test Pulse:
-    0-255:0=0Hz,1=1MHz,255=124Hz: 0xBF
+    Internal: 1
+  Internal Trigger Rate:
+    (1000000,124)Hz: 191
   TriggerOverlap:
     Time(ns): 64
+  Battery Voltages(off,on)V:
+    BatLow: 2570
+    BatHigh: 3111
 # In this part 1: select ADC1; 2: select ADC2; 3: select ADC3 4:select ADC4 5:select ADC Filtered1; 6: select ADC Filtered2; 7: select ADC Filtered3; 8: select ADC Filtered4
 Input:
   Ch1:
@@ -42,7 +45,7 @@ Channels:
   Channel 1:
     Pre Trigger: 1024
     Post Trigger: 960
-    Additional Gain: 0
+    Additional Gain[-14,23.5](dB): 0
     Integration time: 5
     Min.Baseline(ADC): 6144
     Max.Baseline(ADC): 10240
@@ -155,4 +158,4 @@ Channels:
     Filter4:
     - 105.0
     - 0.999
-Station Rate(Simulation): 1000
+# Station Rate(Simulation): 1000

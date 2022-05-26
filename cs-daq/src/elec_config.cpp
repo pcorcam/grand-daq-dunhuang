@@ -36,7 +36,7 @@ void ElecConfig::fundefaultArray(double* value, size_t size, uint16_t*, size_t&)
     std::cout << 0 << std::endl;
 }
 
-uint32_t ElecConfig::funTest_Pulse(uint32_t value)
+uint32_t ElecConfig::funInternalTriggerRate(uint32_t value)
 {
     if(value == 0){
         return value+=15;
@@ -50,6 +50,11 @@ uint32_t ElecConfig::funTest_Pulse(uint32_t value)
 }
 
 uint32_t ElecConfig::funTriggerOverlap(uint32_t value) {return value/2;}
+uint32_t ElecConfig::funBattery(uint32_t value) {
+    int volt = int(value)*(2.5*(18+91))/(18*4096);
+    volt = int(10*(volt+0.05))/10;
+    return volt;
+}
 uint32_t ElecConfig::funInput_Off(uint32_t value) {return value*0;}
 uint32_t ElecConfig::funInput_ADC(uint32_t value) {return value-1;}
 uint32_t ElecConfig::funPreorPostTri(uint32_t value){return value/2;}
@@ -114,16 +119,17 @@ void ElecConfig::funIIR(double *value, size_t sz, uint16_t* values, size_t& leng
     }
 }
 
-uint32_t ElecConfig::fun_2default(uint32_t value){return value;}
+// uint32_t ElecConfig::fun_2default(uint32_t value){return value;}
 
 void ElecConfig::load(std::string addressFile, std::string dataFile)
 {
     m_config = YAML::LoadFile(addressFile);
     n_config = YAML::LoadFile(dataFile);
-
     m_transformFunction["default"] = std::bind(&ElecConfig::fundefault, this, std::placeholders::_1);
-    m_transformFunction["Global|Test Pulse|0-255:0=0Hz,1=1MHz,255=124Hz"] = std::bind(&ElecConfig::funTest_Pulse, this, std::placeholders::_1);
+    m_transformFunction["Global|Internal Trigger Rate|(1000000,124)Hz"] = std::bind(&ElecConfig::funInternalTriggerRate, this, std::placeholders::_1);
     m_transformFunction["Global|TriggerOverlap|Time(ns)"] = std::bind(&ElecConfig::funTriggerOverlap, this, std::placeholders::_1);
+    m_transformFunction["Global|Battery Voltages(off,on)V|BatLow"] = std::bind(&ElecConfig::funBattery, this, std::placeholders::_1);
+    m_transformFunction["Global|Battery Voltages(off,on)V|BatHigh"] = std::bind(&ElecConfig::funBattery, this, std::placeholders::_1);
     m_transformFunction["Input|Ch1|Off"] = std::bind(&ElecConfig::funInput_Off, this, std::placeholders::_1);
     m_transformFunction["Input|Ch1|ADC"] = std::bind(&ElecConfig::funInput_ADC, this, std::placeholders::_1);
     m_transformFunction["Input|Ch2|Off"] = std::bind(&ElecConfig::funInput_Off, this, std::placeholders::_1);
@@ -171,7 +177,7 @@ void ElecConfig::load(std::string addressFile, std::string dataFile)
     m_transformFunctionArray["Channels|Channel 4|Filter3"] = std::bind(&ElecConfig::funIIR, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
     m_transformFunctionArray["Channels|Channel 4|Filter4"] = std::bind(&ElecConfig::funIIR, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
 
-    m_transformFunction_2["Station Rate(Simulation)"] = std::bind(&ElecConfig::fun_2default, this, std::placeholders::_1);
+    // m_transformFunction_2["Station Rate(Simulation)"] = std::bind(&ElecConfig::fun_2default, this, std::placeholders::_1);
 }
 
 void ElecConfig::setBit(uint8_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t value)
