@@ -52,8 +52,9 @@ private:
     int float2fixed(float x, int len_int, int len_frac);
     uint32_t fundefault(uint32_t value);
     void fundefaultArray(double *value, size_t sz, uint16_t*, size_t&);
-    uint32_t funTest_Pulse(uint32_t value);
+    uint32_t funInternalTriggerRate(uint32_t value);
     uint32_t funTriggerOverlap(uint32_t value);
+    uint32_t funBattery(uint32_t value);
     uint32_t funInput_Off(uint32_t value);
     uint32_t funInput_ADC(uint32_t value);
     uint32_t funPreorPostTri(uint32_t value);
@@ -61,7 +62,7 @@ private:
     uint32_t funtimeAfter(uint32_t value);
     uint32_t funMaxTime(uint32_t value);
     void funIIR(double *value, size_t sz, uint16_t* values, size_t& length);
-    uint32_t fun_2default(uint32_t value);
+    // uint32_t fun_2default(uint32_t value);
 };
 
 }
