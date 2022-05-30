@@ -11,3 +11,5 @@ add_library(grandcommon SHARED
         zmq_server.cpp
         message_dispatcher.cpp
 )
+
+install(TARGETS grandcommon LIBRARY DESTINATION .)

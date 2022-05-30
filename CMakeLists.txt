@@ -1,6 +1,6 @@
 project(cs-daq)
 
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.0)
 
 include(macros.cmake)
 
@@ -15,8 +15,8 @@ IF(REAL_DU)
     ADD_DEFINITIONS(-DREAL_DU)
 ENDIF(REAL_DU)
 
-set(EXTERNAL_DIR_ARM /home/grand/arm_a_installed)
-set(EXTERNAL_DIR_PC /home/grand/pc_installed)
+set(EXTERNAL_DIR_ARM /home/wang/arm_a_installed)
+set(EXTERNAL_DIR_PC /home/wang/pc_installed)
 #set(EXTERNAL_DIR_ARM /data/gv-dev/sys/grand/arm_installed)
 #set(EXTERNAL_DIR_PC /data/gv-dev/sys/grand/pc_installed)
 
@@ -49,15 +49,6 @@ IF(NOT REAL_DU)
     add_subdirectory(cs-daq)
     add_subdirectory(decode)
     add_subdirectory(tests)
-ENDIF(NOT REAL_DU)
-
-install(TARGETS grandcommon LIBRARY)
-install(TARGETS dudaq LIBRARY)
-install(TARGETS dudaq_run RUNTIME)
-install(TARGETS test_elec_scope_a RUNTIME)
-IF(NOT REAL_DU)
-    install(TARGETS csdaq LIBRARY)
-    install(TARGETS csdaq_run decode_v1_0 RUNTIME)
 ENDIF(NOT REAL_DU)
 
 install(DIRECTORY cfgs DESTINATION .)

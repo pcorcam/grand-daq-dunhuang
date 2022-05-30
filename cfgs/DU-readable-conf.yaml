@@ -21,12 +21,12 @@ Global:
     10 sec: 0
     Internal: 1
   Internal Trigger Rate:
-    (1000000,124)Hz: 191
+    (1000000,124)Hz: 0xFF
   TriggerOverlap:
     Time(ns): 64
-  Battery Voltages(off,on)V:
-    BatLow: 2570
-    BatHigh: 3111
+#  Battery Voltages(off,on)V:
+#    BatLow: 2570
+#    BatHigh: 3111
 # In this part 1: select ADC1; 2: select ADC2; 3: select ADC3 4:select ADC4 5:select ADC Filtered1; 6: select ADC Filtered2; 7: select ADC Filtered3; 8: select ADC Filtered4
 Input:
   Ch1:

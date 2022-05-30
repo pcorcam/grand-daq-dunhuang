@@ -8,3 +8,7 @@ add_library(csdaq SHARED
     csdaq_app.cpp
 )
 
+IF(NOT REAL_DU)
+    install(TARGETS csdaq LIBRARY DESTINATION .)
+ENDIF(NOT REAL_DU)
+
