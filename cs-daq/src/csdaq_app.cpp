@@ -106,7 +106,6 @@ bool CSDAQApp::configure(void *param) {
 
 bool CSDAQApp::start() {
     m_eventStore->openStream();
-    std::cout << "opened" << std::endl;
 
     char buf[1024];
     CommandMessage msg(buf, 1024, true);

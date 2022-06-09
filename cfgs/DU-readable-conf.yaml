@@ -9,19 +9,19 @@ Global:
     1PPS: 1
     Enable DAQ: 1
   Trigger:
-    Channel 1: 1
-    Channel 2: 1
+    Channel 1: 0
+    Channel 2: 0
     Channel 3: 0
     Channel 4: 0
     Ch1 AND Ch2: 0
     (not Ch1)AND Ch2: 0
     Ch1 AND Ch2, Ch2>Ch1: 0
     Ch3 AND Ch4: 0
-    20Hz: 0
-    10 sec: 0
-    Internal: 1
+    20Hz: 1 
+    10 sec: 0 
+    Internal: 0
   Internal Trigger Rate:
-    (1000000,124)Hz: 0xFF
+    (1000000,124)Hz: 0xC7 
   TriggerOverlap:
     Time(ns): 64
 #  Battery Voltages(off,on)V:
@@ -34,7 +34,7 @@ Input:
     ADC: 1
   Ch2:
     Off: 0
-    ADC: 2 
+    ADC: 5 
   Ch3:
     Off: 0
     ADC: 3
@@ -60,8 +60,8 @@ Channels:
     Max charge: 255
     #IIR Notch filter
     Filter1:  
-    - 90.0             # Mean(MHz)
-    - 0.999           # Width 1=small, 0=infinite
+    - 80.0             # Mean(MHz)
+    - 0.9           # Width 1=small, 0=infinite
     Filter2: 
     - 95.0
     - 0.999
@@ -89,8 +89,8 @@ Channels:
     Max charge: 255
     #IIR Notch filter
     Filter1:
-    - 90.0              # Mean(MHz)
-    - 0.999           # Width 1=small, 0=infinite
+    - 80.0              # Mean(MHz)
+    - 0.9           # Width 1=small, 0=infinite
     Filter2:
     - 95.0
     - 0.999
@@ -158,4 +158,4 @@ Channels:
     Filter4:
     - 105.0
     - 0.999
-# Station Rate(Simulation): 1000
+  Station Rate(Simulation): 1000

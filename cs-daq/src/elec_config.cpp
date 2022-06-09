@@ -39,14 +39,11 @@ void ElecConfig::fundefaultArray(double* value, size_t size, uint16_t*, size_t&)
 uint32_t ElecConfig::funInternalTriggerRate(uint32_t value)
 {
     if(value == 0){
-        return value+=15;
+	return 15;
     }
-
-    if(value != 0){
-        uint32_t value1 = value<<8;
-        return value1+=((1<<7)+15);
+    else if(value != 0){
+	return (value<<8)|((1<<7)+15);
     }
-    return 0;
 }
 
 uint32_t ElecConfig::funTriggerOverlap(uint32_t value) {return value/2;}

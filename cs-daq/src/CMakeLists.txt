@@ -9,6 +9,6 @@ add_library(csdaq SHARED
 )
 
 IF(NOT REAL_DU)
-    install(TARGETS csdaq LIBRARY DESTINATION .)
+    install(TARGETS csdaq LIBRARY DESTINATION lib)
 ENDIF(NOT REAL_DU)
 

@@ -90,20 +90,24 @@ EventStore::~EventStore() {
 }
 
 void EventStore::processData(std::string du, char *data, size_t sz) {
+    static XRate rate("SAVE");
     // TODO: this is dummy
+    uint16_t triggerpattern = *(uint16_t*)(data + (38)*sizeof(uint16_t));
+
     CLOG(INFO, "data") << "input event from DU = " << du
-            << ", datasize = " << sz;
+            << ", datasize = " << sz << ", trigger pattern is " << triggerpattern;
     uint32_t duID = atol(du.c_str());
     DAQEvent msg(data, sz);
-
+    
     struct DAQHeader header;
     header.size = sizeof(DAQHeader) + msg.dataSize();
     header.type = DAQPCK_TYPE_DUEVENT;
     header.source = duID;
 
-
     write((char*)&header, sizeof(DAQHeader));
     write(msg.data(), msg.dataSize());
+    
+    rate.add();
 }
 
 #define WRITE_ONE_SIZE 128000000

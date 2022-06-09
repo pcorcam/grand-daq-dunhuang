@@ -446,7 +446,7 @@ Channels:
       baseAddr: 0x170
       startBit: 0
       nBits: 128
-# Station Rate(Simulation): 
-#   baseAddr: 0x1e0
-#   startBit: 0
-#   nBits: 16
+  Station Rate(Simulation): 
+    baseAddr: 0x1e0
+    startBit: 0
+    nBits: 16

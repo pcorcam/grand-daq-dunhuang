@@ -64,7 +64,8 @@ void ScopeA::elecInit() {
     printf("Done opening m_dev = %d\n",(int)m_dev);
     sleep(1);
     assert(("m_axiPtr should not be NULL",m_axiPtr != NULL));
-    //scopeRawWrite(Reg_Dig_Control,0x00004000);
+    scopeRawWrite(Reg_Dig_Control,0x00004000);
+    sleep(1);
     scopeRawWrite(Reg_Dig_Control,0x00000000);
     memset(m_shadowList,0,sizeof(m_shadowList));
     assert(("m_axiPtr should not be NULL",m_axiPtr != NULL));
@@ -91,6 +92,8 @@ int ScopeA::elecReadData(char *data, size_t maxSize){
     bool hasData = false;
     int ret = 0;
 
+    static XRate rInput("AXI-EVENT");
+
     scopeRawRead(Reg_GenStatus,&isData);
     if((isData&(GENSTAT_EVTFIFO)) == 0) {
         //std::cout << 1111111 << std::endl;
@@ -114,6 +117,7 @@ int ScopeA::elecReadData(char *data, size_t maxSize){
                 ptr++;
             }
             ret = dataSizeBytes+sizeof(uint32_t);
+            rInput.add();
         }
         else {
             // dat in buffer format error
@@ -121,9 +125,9 @@ int ScopeA::elecReadData(char *data, size_t maxSize){
             CLOG(WARNING, "data") << "data format error 1";
             int readToEmptyLen = 10000;
             uint32_t tmpData;
-            XRate rate;
+            //XRate rate;
             do {
-                rate.add();
+                //rate.add();
                 scopeRawRead(Reg_Data, &tmpData);
                 scopeRawRead(Reg_GenStatus, &isData);
                 readToEmptyLen --;

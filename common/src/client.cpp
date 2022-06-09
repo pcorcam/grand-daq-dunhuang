@@ -44,6 +44,7 @@ void Client::terminate() {
 void Client::writeAll(char *p, size_t sz) {
     //std::cout << sz << std::endl;
     for(auto &info: m_clientInfo) {
+	//std::cout << "write: " << info.ID << std::endl;
         this->write(info.ID, p, sz);
     }
 }

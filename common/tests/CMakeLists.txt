@@ -22,3 +22,7 @@ module_test(TARGET test_communication
 module_test(TARGET test_send_recv_cmd
             SRCS test_send_recv_cmd.cpp
             LINKS grandcommon)
+
+module_test(TARGET test_time
+            SRCS test_time.cpp
+            LINKS grandcommon)

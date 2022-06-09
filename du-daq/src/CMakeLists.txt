@@ -14,4 +14,4 @@ add_library(dudaq SHARED
         scope_dummy.cpp
 )
 
-install(TARGETS dudaq LIBRARY DESTINATION .)
+install(TARGETS dudaq LIBRARY DESTINATION lib)

@@ -11,4 +11,4 @@ module_test(TARGET test_scope_dummy
         SRCS test_scope_dummy.cpp
         LINKS grandcommon dudaq)
 
-install(TARGETS test_elec_scope_a RUNTIME DESTINATION .)
+install(TARGETS test_elec_scope_a RUNTIME DESTINATION bin)

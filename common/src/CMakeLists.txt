@@ -12,4 +12,4 @@ add_library(grandcommon SHARED
         message_dispatcher.cpp
 )
 
-install(TARGETS grandcommon LIBRARY DESTINATION .)
+install(TARGETS grandcommon LIBRARY DESTINATION lib)

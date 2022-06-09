@@ -68,7 +68,7 @@ class XClock {
 public:
     inline static uint64_t nowMilliseconds() {
         std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds> tp = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());
-        std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count();
+        return std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count();
     }
 };
 
@@ -102,13 +102,15 @@ private:
 
 class XRate {
 public:
-    XRate(int calculateInterval = 10, bool output = true) {
+    XRate(std::string name, int calculateInterval = 2, bool output = true) {
+        m_name = name;
         m_calcInterval = calculateInterval;
         m_output = output;
         
         m_t0 = XClock::nowMilliseconds();
         m_total = 0;
         m_lastCount = 0;
+        //std::cout << m_t0 << std::endl;
     }
 
     void add(int n = 1) {
@@ -130,9 +132,10 @@ private:
     }
 
     void output() {
-        CLOG(INFO, "data") << "[CR] total = " << m_total << ", rate = " << m_rate;
+        CLOG(INFO, "data") << "[CR-" << m_name << "] total = " << m_total << ", rate = " << m_rate;
     }
 
+    std::string m_name;
     uint64_t m_calcInterval;
     bool m_output;
 

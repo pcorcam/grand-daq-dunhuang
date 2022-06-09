@@ -12,11 +12,11 @@ dataUnits:
 #  ID: "1001"
 #  ip: "192.168.10.2"
 #  port: 19555
-#- type: "modelA"
-#  ID: "1002"
-#  ip: "192.168.61.24"
-#  port: 19555
 - type: "modelA"
-  ID: "1002"
+  ID: "2001"
+  ip: "192.168.61.24"
+  port: 19555
+- type: "modelA"
+  ID: "2002"
   ip: "192.168.61.53"
   port: 19555
