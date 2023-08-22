@@ -18,6 +18,9 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <data_format.h>
+#include <thread>
+#include <mutex>
 
 #include "frontend.h"
 
@@ -30,12 +33,11 @@ class ScopeA: public IFrontend {
     public:
         ScopeA();
         ~ScopeA();
-
     protected:
         virtual void elecInit();
         virtual void elecConfig(void *parameters);
         virtual void elecStartRun();
-        virtual int elecReadData(char *data, size_t maxSize);
+        virtual int elecReadData(char *data, size_t maxSize, uint32_t* hitId);
         virtual void elecStopRun();
         virtual void elecTerminate();
 
@@ -45,10 +47,20 @@ class ScopeA: public IFrontend {
         void scopeSetParameter(uint32_t regAddr, uint32_t value, bool toShadow = false);
         void scopeFlush();
 
+        std::mutex m_mtx;
+        
+        int station_id = 0;
+        
         uint32_t m_pageOffset;
         int32_t m_dev = 0;
         void *m_axiPtr;
+        uint16_t* evtbuf;
+        uint16_t m_ppsbuf[WCNT_PPS*GPSSIZE];
         uint32_t m_shadowList[Reg_End>>2];
-};
 
+	uint64_t m_time0, m_time1;
+	int m_count;
+	uint64_t m_duNanoSec;
+};
 }
+

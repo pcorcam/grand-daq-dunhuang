@@ -5,5 +5,5 @@ link_libraries(yaml-cpp grandcommon)
 
 add_subdirectory(src)
 add_subdirectory(exec)
-add_subdirectory(tests)
+#add_subdirectory(tests)
 

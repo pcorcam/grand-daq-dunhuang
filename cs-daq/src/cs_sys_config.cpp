@@ -26,12 +26,14 @@ void CSSysConfig::load(std::string file) {
     SYS_CONFIG_LOAD_GLOBAL(eventBufferNumberOfPages, uint32_t);
     SYS_CONFIG_LOAD_GLOBAL(eventBufferPageSize, uint32_t);
     SYS_CONFIG_LOAD_GLOBAL(eventBufferNumberOfPages, uint32_t);
-
-    // m_appConfig.zmqSndBufferSize = config["global"]["zmqSndBufferSize"].as<uint32_t>();
-    // m_appConfig.eventBufferPageSize = config["global"]["eventBufferPageSize"].as<uint32_t>();
-    // m_appConfig.eventBufferNumberOfPages = config["global"]["eventBufferNumberOfPages"].as<uint32_t>();
-    // m_appConfig.eventBufferPageSize = config["global"]["eventBufferPageSize"].as<uint32_t>();
-    // m_appConfig.eventBufferNumberOfPages = config["global"]["eventBufferNumberOfPages"].as<uint32_t>();
+    SYS_CONFIG_LOAD_GLOBAL(t3TriggerTimeCut, uint32_t);
+    SYS_CONFIG_LOAD_GLOBAL(t3TriggerTimeOut, uint32_t);
+    SYS_CONFIG_LOAD_GLOBAL(t3TriggerTimeWindow, uint32_t);
+    // SYS_CONFIG_LOAD_GLOBAL(t3TriggerThreshold, uint32_t);
+    SYS_CONFIG_LOAD_GLOBAL(t3TriggerDuNumber, uint32_t);
+    SYS_CONFIG_LOAD_GLOBAL(daqMode, uint32_t);
+    SYS_CONFIG_LOAD_GLOBAL(eventNumberSaved, uint32_t);
+    
     for(auto du: config["dataUnits"]) {
         DUConfig duCfg;
         duCfg.type = du["type"].as<std::string>();

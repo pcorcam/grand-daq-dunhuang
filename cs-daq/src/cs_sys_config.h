@@ -21,6 +21,12 @@ struct APPConfig {
     int t2BufferNumberOfPages;
     int eventBufferPageSize;
     int eventBufferNumberOfPages;
+    int t3TriggerTimeCut;
+    int t3TriggerTimeOut;
+    int t3TriggerTimeWindow;
+    int t3TriggerDuNumber;
+    int daqMode;
+    int eventNumberSaved;
 };
 
 class CSSysConfig {
@@ -41,6 +47,7 @@ private:
     APPConfig m_appConfig;
     int m_zmqSndBufferSize;
     CSSysConfig();
+    int m_csDAQMODE;
 };
 
 }

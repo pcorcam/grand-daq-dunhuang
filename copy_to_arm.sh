@@ -3,8 +3,10 @@
 dir=$GRAND_DAQ_HOME/installed/arm
 arm_dir=/home/root/grand-daq/arm/grand-daq
 
-targets="192.168.61.24 192.168.61.53"
+#targets="192.168.61.24 192.168.61.53"
 #targets="192.168.61.24"
+#targets="192.168.61.38"
+targets="192.168.61.88"
 
 for i in $targets; do
   if [ "$1" == "all" ]; then

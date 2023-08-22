@@ -2,6 +2,8 @@
 
 #include <string>
 #include <vector>
+#include <yaml-cpp/yaml.h>
+#include "yaml-cpp/node/parse.h"
 
 namespace grand {
 
@@ -16,6 +18,7 @@ public:
     uint32_t messageInputBufferSize;
     std::string backendBindUrl;
     uint32_t maxClientAddressSize;
+    
 private:
 
     DUSysConfig() {

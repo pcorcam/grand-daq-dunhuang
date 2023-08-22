@@ -35,6 +35,7 @@ void Client::terminate() {
         m_thread = nullptr;
 
         m_callbacks.clear();
+        // m_t2callbacks.clear();
         m_clientInfo.clear();
         delete m_buffer;
         m_buffer = nullptr;
@@ -42,15 +43,21 @@ void Client::terminate() {
 };
 
 void Client::writeAll(char *p, size_t sz) {
-    //std::cout << sz << std::endl;
+    // std::cout << "sz of data input writeAll is " << sz << std::endl;
+    // std::cout << "Here is writeAll func" << std::endl;
     for(auto &info: m_clientInfo) {
-	//std::cout << "write: " << info.ID << std::endl;
+        // std::cout << "duID is " << info.ID << std::endl;
         this->write(info.ID, p, sz);
     }
 }
 
 void Client::writeOne(std::string ID, char *p, size_t sz) {
-    this->write(ID, p, sz);
+    // std::cout << "this is writeone func" << std::endl;
+    // std::cout << "sz of data input writeAll is " << sz << std::endl;
+    // std::cout << "duID is " << ID << std::endl;
+    // this->write(ID, p, sz);
+    write(ID, p, sz);
+    // std::cout << "That's all for writeOne" << std::endl;
 }
 
 Client::Client() {
@@ -65,6 +72,7 @@ void Client::inputThread() {
     while(!m_stop) {
         std::string ID;
         size_t sz = this->read(m_buffer, m_inputBufferSize, ID);
+        // size_t sz_t2=this->read(m_t2buffer,m_t2inputBufferSize, ID);
         //std::cout << sz << std::endl;
         if(sz > 0) {
             CLOG(DEBUG, "network") << "Client input, size = " << sz;

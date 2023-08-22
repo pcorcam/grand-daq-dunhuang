@@ -1,0 +1,214 @@
+1. Assertion failed: !_current_out (src/router.cpp:193)
+
+2. csdaq_run: /home/grand/workarea/grand-daq/common/src/zmq_client.cpp:111: virtual size_t grand::ZMQClient::read(char*, size_t, std::__cxx11::string&): Assertion `nbytes == 1' failed.
+
+3.  nbytes is 159
+csdaq_run: /home/grand/workarea/grand-daq/common/src/zmq_client.cpp:111: virtual size_t grand::ZMQClient::read(char*, size_t, std::__cxx11::string&): Assertion `nbytes == 1' failed.
+Aborted (core dumped)
+
+4.
+evtID1 is 22217
+333
+3332
+3333
+3334
+3335
+AddEvent func is over
+munmap_chunk(): invalid pointer
+evtID1 is 17
+evtID1 is 17
+evtID1 is 17
+17
+evtID1 is 17
+evtID1 is 17
+Aborted
+
+5. 
+i*20 is 10060, szof_m_duTimeStampSave is 12420
+tmpBuf is 548536575840
+222
+111
+i*20 is 10080, szof_m_duTimeStampSave is 12420
+tmpBuf is 548536575860
+222
+222
+szof_m_duTimeStampSave1 is 12440
+AddEvent func is over
+111
+munmap_chunk(): invalid pointer
+i*20 is 10100, szof_m_duTimeStampSave is 12440
+i*20 is 10100, szof_m_duTimeStampSave is 12440
+tmpBuf is 548536575880
+222
+Aborted
+
+6.
+111
+i*20 is 5160, szof_m_duTimeStampSave is 16980
+tmpBuf is 548045677628
+222
+111
+i*20 is 5180, szof_m_duTimeStampSave is 16980
+tmpBuf is 548045677648
+222
+111222
+i*20 is 5200, szof_m_duTimeStampSave is 16980
+
+szof_m_duTimeStampSave1 is 17000
+AddEvent func is over
+tmpBuf is 548045677668
+2022-09-06 18:18:34,464 WARNING [data] data format error 1
+double free or corruption (out)
+222
+111
+111
+i*20 is 5220, szof_m_duTimeStampSave is 17000
+tmpBuf is 548045677688
+Aborted
+
+7. evtID1 is 6898
+szofRingBuffer2 is 592144
+111
+szofRingBuffer is 592144
+szofRingBuffer is 600852
+szofRingBuffer is 609560
+szofRingBuffer is 618268
+szofRingBuffer is 626976
+szofRingBuffer is 635684
+szofRingBuffer is 644392
+szofRingBuffer is 653100
+szofRingBuffer is 661808
+szofRingBuffer is 670516
+szofRingBuffer is 679224
+szofRingBuffer is 687932
+szofRingBuffer is 696640
+szofRingBuffer is 705348
+szofRingBuffer is 714056
+szofRingBuffer is 722764
+szofRingBuffer is 731472
+Segmentation fault
+
+
+8. AddEvent func is over
+m_time is 2173939377026847179
+szofRingBuffer is 20176436
+sizeof(int) + szSended is 45884
+sizeof(int) + szof_m_duTimeStampSave is 46344
+AddEvent func is over
+m_time is 2173939377027736145
+szofRingBuffer is 20185144
+sizeof(int) + szSended is 45884
+sizeof(int) + szof_m_duTimeStampSave is 46364
+AddEvent func is over
+m_time is 2173939377028625111
+szofRingBuffer is 20193852
+sizeof(int) + szSended is 45884
+sizeof(int) + szof_m_duTimeStampSave is 46384
+AddEvent func is over
+Segmentation fault
+
+9. Accept T3 TRIGGER Func Ends Here.
+AddEvent func is over
+AddEvent func starts.
+addEvent func duID is 1079
+1112
+1113
+1114
+1115
+m_time is 2173921853844207741
+szofRingBuffer is 0
+sizeof(int) + szSended is 88324
+sizeof(int) + szof_m_duTimeStampSave is 4
+AddEvent func is over
+Segmentation fault
+
+10. m_time is 2173911359003075201
+szofRingBuffer is 22005116
+sizeof(int) + szSended is 46304
+sizeof(int) + szof_m_duTimeStampSave is 50544
+corrupted size vs. prev_size
+Aborted
+
+11. Accept T3 TRIGGER Func Ends Here.
+HERE IS T3 TRIGGER!
+q is 5
+evtID1 is 535
+szofRingBuffer2 is 18626412
+m_rawDataSize is 8708
+222
+t3msg->size() is 8716
+444
+evtID1 is 536
+szofRingBuffer2 is 18626412
+m_rawDataSize is 8708
+222
+t3msg
+
+12. AddEvent func is over
+AddEvent func starts.
+addEvent func duID is 1079
+1112
+1113
+1114
+1115
+m_time is 2173931926366454702
+szofRingBuffer is 39995844
+Segmentation fault
+
+Accept T3 TRIGGER Func Ends Here.
+AddEvent func starts.
+addEvent func duID is 1080
+1112
+1113
+1114
+1115
+m_time is 2173932905663894431
+szofRingBuffer is 8708
+sizeof(int) + szSended is 87724
+sizeof(int) + szof_m_duTimeStampSave is 24
+1211
+AddEvent func is over
+munmap_chunk(): invalid pointer
+Aborted
+
+13. m_time is 2173963494000123921
+szofRingBuffer is 653100
+sizeof(int) + szSended is 44
+sizeof(int) + szof_m_duTimeStampSave is 1504
+AddEvent func is over
+AddEvent func starts.
+addEvent func duID is 1038
+1112
+1113
+1114
+1115
+m_time is 2173963494000722798
+szofRingBuffer is 661808
+sizeof(int) + szSended is 44
+sizeof(int) + szof_m_duTimeStampSave is 1524
+1211
+1212
+send part 1
+send part 2
+Segmentation fault
+
+14.  nbytes is 1
+ nbytes is 1
+ nbytes is 1
+ nbytes is 188
+csdaq_run: /home/grand/workarea/grand-daq/common/src/zmq_client.cpp:111: virtual size_t grand::ZMQClient::read(char*, size_t, std::__cxx11::string&): Assertion `nbytes == 1' failed.
+Aborted (core dumped)
+
+done
+
+15. csdaq_run: /home/grand/workarea/grand-daq/common/src/message_impl.cpp:41: void grand::CommandMessage::setCmd(std::__cxx11::string, void*, size_t): Assertion `size()+cmdSize+paramSize <= m_size' failed.
+Aborted (core dumped)
+
+16. csdaq_run: /home/grand/workarea/grand-daq/common/src/message_impl.cpp:41: void grand::CommandMessage::setCmd(std::__cxx11::string, void*, size_t): Assertion `size()+cmdSize+paramSize <= m_size' failed.
+Aborted (core dumped)
+
+17. du is 1076
+trigger du is 1078
+trigger du is 1094
+
+

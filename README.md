@@ -6,8 +6,8 @@
 
 对于PMO测试计算机，变量设置如下：
 ```
-set(EXTERNAL_DIR_ARM /home/wang/arm_a_installed)
-set(EXTERNAL_DIR_PC /home/wang/pc_installed)
+set(EXTERNAL_DIR_ARM /home/grand/arm_a_installed)
+set(EXTERNAL_DIR_PC /home/grand/pc_installed)
 ```
 
 对于高能所开发环境，变量设置如下：

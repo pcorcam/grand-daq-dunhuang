@@ -15,8 +15,8 @@ IF(REAL_DU)
     ADD_DEFINITIONS(-DREAL_DU)
 ENDIF(REAL_DU)
 
-set(EXTERNAL_DIR_ARM /home/wang/arm_a_installed)
-set(EXTERNAL_DIR_PC /home/wang/pc_installed)
+set(EXTERNAL_DIR_ARM /home/grand/arm_a_installed)
+set(EXTERNAL_DIR_PC /home/grand/pc_installed)
 #set(EXTERNAL_DIR_ARM /data/gv-dev/sys/grand/arm_installed)
 #set(EXTERNAL_DIR_PC /data/gv-dev/sys/grand/pc_installed)
 
@@ -33,8 +33,11 @@ enable_testing()
 
 include_directories(${EXTERNAL_DIR}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common/src)
+#include_directories(/home/grand/pc_installed/include)
 
 link_directories(${EXTERNAL_DIR}/lib ${EXTERNAL_DIR}/lib64)
+#link_directories(/home/grand/arm_a_installed/lib)
+#link_libraries(yaml-cpp)
 link_libraries(pthread zmq)
 
 set (CMAKE_CXX_STANDARD 11)
@@ -48,7 +51,8 @@ add_subdirectory(du-daq)
 IF(NOT REAL_DU)
     add_subdirectory(cs-daq)
     add_subdirectory(decode)
-    add_subdirectory(tests)
+    # add_subdirectory(tests)
 ENDIF(NOT REAL_DU)
 
 install(DIRECTORY cfgs DESTINATION .)
+

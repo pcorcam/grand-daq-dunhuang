@@ -18,6 +18,7 @@
 
 #define DATA_MAX_SAMP   8192                       //!< Maximal trace length (samples)
 #define MAX_READOUT     (256 + DATA_MAX_SAMP*4) //!< Maximal raw event size
+
 //#define MAXT3 200               //!< 200 T3 events in circular cuffer
 
 #define TDAQ_BASE             0x80000000
@@ -132,6 +133,9 @@
 #define GENSTAT_PPSFIFO  (1<<24)
 #define GENSTAT_EVTFIFO  (1<<25)
 #define GENCTRL_EVTREAD  (1<<25)
+
+// defined by duanbh
+#define DU_ID 38
 
 /*
   buffer definitions for the scope readout process.

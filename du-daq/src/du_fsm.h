@@ -19,6 +19,7 @@ typedef std::function<bool()> ActionFunction;
 struct SIdle;
 struct SInitialized;
 struct SConfigured;
+struct SOneConfigured;
 struct SRunning;
 struct SError;
 
@@ -28,6 +29,7 @@ struct ECommon : tinyfsm::Event {
 
 struct EInitialize : ECommon { };
 struct EConfigure : ECommon { };
+struct EConfigureOne : ECommon { };
 struct EStart : ECommon { };
 struct EStop : ECommon { };
 struct ETerminate : ECommon { };
@@ -37,6 +39,7 @@ struct DUState : tinyfsm::Fsm<DUState>
 {
   virtual void react(EInitialize const &) { };
   virtual void react(EConfigure const &) { };
+  virtual void react(EConfigureOne const &) { };
   virtual void react(EStart const &) { };
   virtual void react(EStop const &) { };
   virtual void react(ETerminate const &) { };
@@ -58,10 +61,13 @@ struct DUState : tinyfsm::Fsm<DUState>
 //
 struct SIdle : DUState
 {
-  void entry() override { std::cout << "Enter state: " << stateString() << std::endl; }
+  void entry() override { 
+    std::cout << "Du-daq softawre Version is 2023/03/01 in Dun Huang." << std::endl;
+    std::cout << "Enter state: " << stateString() << std::endl; 
+  }
   void react(EInitialize const &ev) override { DO_ACT(SInitialized); }
   void react(ETerminate const &ev) override { DO_ACT(SIdle); }
-
+  
   std::string stateString() { return "IDLE"; }
 };
 
@@ -69,6 +75,7 @@ struct SInitialized : DUState
 {
   void entry() override { std::cout << "Enter state: " << stateString() << std::endl; }
   void react(EConfigure const &ev) override { DO_ACT(SConfigured); }
+  void react(EConfigureOne const &ev) override { DO_ACT(SOneConfigured); }
   void react(ETerminate const &ev) override { DO_ACT(SIdle); }
 
   std::string stateString() { return "INITIALIZED"; }
@@ -81,6 +88,15 @@ struct SConfigured : DUState
   void react(ETerminate const &ev) override { DO_ACT(SIdle); }
 
   std::string stateString() { return "CONFIGURED"; }
+};
+
+struct SOneConfigured : DUState
+{
+  void entry() override { std::cout << "Enter state: " << stateString() << std::endl; }
+  void react(EStart const &ev) override { DO_ACT(SRunning); }
+  void react(ETerminate const &ev) override { DO_ACT(SIdle); }
+
+  std::string stateString() { return "OneCONFIGURED"; }
 };
 
 struct SRunning : DUState

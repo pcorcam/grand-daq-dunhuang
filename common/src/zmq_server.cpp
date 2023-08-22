@@ -49,7 +49,7 @@ size_t ZMQServer::read(char* p, size_t maxSz) {
     size_t more_size = sizeof(more);
     size_t recvSize = 0;
     zmq_poller_event_t events[1];
-    int rc = zmq_poller_wait_all(m_poller, events, 1, 1000);
+    int rc = zmq_poller_wait_all(m_poller, events, 1, 100);
     bool succ = true;
     if(rc > 0) {
         assert(("", rc == 1));
@@ -74,6 +74,22 @@ size_t ZMQServer::read(char* p, size_t maxSz) {
                 succ = false;
             }
             assert(nbytes == 1);
+            int rc1 = zmq_getsockopt(m_socket, ZMQ_RCVMORE, &more, &more_size);
+            assert(rc1 == 0);
+            assert(more);
+        }
+
+        // recv mode cmd
+        if(succ) {
+            int nbytes = zmq_recv(m_socket, m_daqMode, sizeof(m_daqMode), 0);
+            if(nbytes < 0) {
+                succ = false;
+            }
+
+            m_duDAQMode = atoi(m_daqMode);
+            // assert(nbytes == sizeof("1"));
+            // std::cout << "nbytes is " << nbytes << std::endl;
+            // std::cout << "daq_mode is " << atoi(m_daqMode) << std::endl;
             int rc1 = zmq_getsockopt(m_socket, ZMQ_RCVMORE, &more, &more_size);
             assert(rc1 == 0);
             assert(more);
@@ -107,6 +123,9 @@ size_t ZMQServer::read(char* p, size_t maxSz) {
 void ZMQServer::write(char* p, size_t sz) {    
     assert(m_addressSize > 0);
     CLOG(DEBUG, "network") << "send message(fromt server), size = " << sz;
+    
+    std::unique_lock<mutex> lock(m_mutex);
+
     int snd1 = zmq_send(m_socket, m_address, m_addressSize, ZMQ_SNDMORE);
     int snd2 = zmq_send(m_socket, "", sizeof(""), ZMQ_SNDMORE);
     int snd3 = zmq_send(m_socket, p, sz, 0);

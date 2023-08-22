@@ -221,7 +221,7 @@ Channels:
       baseAddr: 0x016
       startBit: 0
       nBits: 16
-    Additional Gain:
+    Additional Gain[-14,23.5](dB):
       baseAddr: 0x02c
       startBit: 0
       nBits: 16
@@ -299,7 +299,7 @@ Channels:
       baseAddr: 0x01a
       startBit: 0
       nBits: 16
-    Additional Gain:
+    Additional Gain[-14,23.5](dB):
       baseAddr: 0x038
       startBit: 0
       nBits: 16
@@ -377,7 +377,7 @@ Channels:
       baseAddr: 0x01e
       startBit: 0
       nBits: 16
-    Additional Gain:
+    Additional Gain[-14,23.5](dB):
       baseAddr: 0x044
       startBit: 0
       nBits: 16

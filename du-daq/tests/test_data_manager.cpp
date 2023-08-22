@@ -17,7 +17,8 @@ int main()
     size_t size = 1024;
     char testData[size];
 
-    dm.addEvent(testData, size);
+    int daqMode = 3;
+    dm.addEvent(testData, size, daqMode);
     
     assert(bOut = true);
 

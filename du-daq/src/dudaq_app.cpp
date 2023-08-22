@@ -1,3 +1,8 @@
+/************************/
+// Created by gumh, duanbh
+// 2022.09.02
+/************************/
+
 #include <dudaq_app.h>
 #include <utils.h>
 #include <functional>
@@ -6,12 +11,15 @@
 #include <scope_dummy.h>
 #include <scope_a.h>
 #include <message_impl.h>
+#include <mutex>
 
 using namespace std::placeholders;
 using namespace grand;
 
-DUDAQApp::DUDAQApp() {
+int duID;
 
+DUDAQApp::DUDAQApp() {
+    
 }
 
 void DUDAQApp::sysInit() {
@@ -22,26 +30,31 @@ void DUDAQApp::sysInit() {
 #else
     m_frontend = new ScopeDummy;
 #endif
-
+    
     m_server = new ZMQServer;
+    // std::cout << "Now will connect scoket " << m_sysConfig->backendBindUrl << std::endl;
     m_server->setup(m_sysConfig->messageInputBufferSize, m_sysConfig->backendBindUrl, m_sysConfig->maxClientAddressSize);
     m_msgDispatcher = new MessageDispatcher;
-
     m_msgDispatcher->addProcessor((MessageType)MT_CMD, std::bind(&DUDAQApp::processCommand, this, _1, _2));
-
+    
     m_server->setCallback([this](char* data, size_t sz)->void { 
         this->m_msgDispatcher->dispatch(data, sz); 
     });
-
     m_dataManager = new DataManager;
+    
     m_dataManager->setEventOutput([this](char *data, size_t sz)->void {
+        this->m_server->write(data, sz); // send data here.
+    });
+    
+    m_dataManager->setT2EventOutput([this](char *data, size_t sz)->void {
         this->m_server->write(data, sz);
     });
-    m_dataManager->initialize();
 
-    m_frontend->setCallback([this](char *data, size_t sz)->void {
-        this->m_dataManager->addEvent(data, sz);
+    m_dataManager->setRawEventOutput([this](char *data, size_t sz)->void {
+        this->m_server->write(data, sz);
     });
+    
+    m_dataManager->initialize();
 
     DUFSM::start();
 
@@ -62,6 +75,7 @@ void DUDAQApp::sysTerm() {
 void DUDAQApp::processCommand(char *data, size_t sz) {
     CommandMessage msg(data, sz);
     std::string cmd = msg.cmd();
+
     if(cmd == "INIT") {
         EInitialize e;
         e.fun = std::bind(&DUDAQApp::initialize, this);
@@ -72,10 +86,18 @@ void DUDAQApp::processCommand(char *data, size_t sz) {
         e.fun = std::bind(&DUDAQApp::configure, this, msg.param());
         DUFSM::sendEvent(e);
     }
+    else if(cmd == "CONFONE") {
+        duID = atoi((char*)msg.param());
+    }
     else if(cmd == "STAR") {
         EStart e;
         e.fun = std::bind(&DUDAQApp::start, this);
         DUFSM::sendEvent(e);
+    }
+    else if(cmd == "DOTRIGGER") {
+        std::cout << "we will trigger now" << std::endl;
+        m_dataManager->accept((char*)msg.param(), (size_t)msg.paramSize());
+        std::cout << "we will end trigger" << std::endl;
     }
     else if(cmd == "STOP") {
         EStop e;
@@ -86,6 +108,24 @@ void DUDAQApp::processCommand(char *data, size_t sz) {
         ETerminate e;
         e.fun = std::bind(&DUDAQApp::terminate, this);
         DUFSM::sendEvent(e);
+    }
+
+    int daqMode = m_server->m_duDAQMode;
+    m_daqMode = daqMode;
+    if(m_daqMode == 1) {
+        m_frontend->setCallback([this](char *data, size_t sz)->void {
+            this->m_dataManager->addRawEvent(data, sz); 
+        });
+    }
+    if(m_daqMode == 2) {
+        m_frontend->setCallback([this](char *data, size_t sz)->void {
+            this->m_dataManager->addEvent(data, sz, m_daqMode);
+        });
+    }
+    if(m_daqMode == 3) {
+        m_frontend->setCallback([this](char *data, size_t sz)->void {
+            this->m_dataManager->addEvent(data, sz, m_daqMode);
+        });
     }
 }
 

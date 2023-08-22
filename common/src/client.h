@@ -23,7 +23,8 @@ public:
     virtual ~Client();
 
     void addClient(std::string id ,std::string ip, uint32_t port);
-    void addCallback(ClientInputCallback cb);
+    void addCallback(ClientInputCallback cb); // ******
+
 
     virtual void initialize();
     virtual void terminate();
@@ -44,17 +45,17 @@ protected:
     
     virtual void write(std::string duID, char* p, size_t sz) = 0;
     virtual size_t read(char* p, size_t maxSz, std::string &duID) = 0;
-
     void inputThread();
 
 private:
     int m_inputBufferSize;
-
+    int m_t2inputBufferSize;
     std::thread *m_thread;
     bool m_stop;
     char *m_buffer;
 
     std::list<ClientInputCallback> m_callbacks;
+    
 };
 
 }

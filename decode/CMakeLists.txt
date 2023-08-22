@@ -1,3 +1,7 @@
-add_executable(decode_v1_0 decode_v1_0.cpp)
+add_executable(decode_t3_data_Version_app decode_t3_data.cpp)
 
-install(TARGETS decode_v1_0 RUNTIME DESTINATION bin)
+install(TARGETS decode_t3_data_Version_app RUNTIME DESTINATION bin)
+
+add_executable(decode_raw_data_Version_app decode_raw_data.cpp)
+
+install(TARGETS decode_raw_data_Version_app RUNTIME DESTINATION bin)

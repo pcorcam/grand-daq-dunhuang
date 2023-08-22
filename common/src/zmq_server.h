@@ -2,6 +2,8 @@
 
 #include <string>
 #include <server.h>
+#include <thread>
+#include <mutex>
 
 namespace grand {
 
@@ -16,17 +18,22 @@ public:
     void initialize();
     void terminate();
 
+    int m_duDAQMode;
+    
 protected:
 
 private:
     std::string m_backendBindUrl;
     int m_maxClientAddressSize;
-
+    std::mutex m_mutex;
+    
     void *m_context;
     void *m_socket;
     char *m_address;
     void *m_poller;
     int m_addressSize;
+
+    char m_daqMode[20] = {0};
 };
 
 }

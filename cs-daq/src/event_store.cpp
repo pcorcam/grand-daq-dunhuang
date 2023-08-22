@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <eformat.h>
 #include <message_impl.h>
+#include <cs_sys_config.h>
 
 using namespace grand;
 
@@ -17,6 +18,7 @@ ESFileHeaderWriter::ESFileHeaderWriter()
 
 ESFileHeaderWriter::~ESFileHeaderWriter() {
     delete m_ptr;
+    m_ptr = nullptr;
 }
 
 void ESFileHeaderWriter::fileOpen(std::string filename)
@@ -41,24 +43,31 @@ void ESFileHeaderWriter::fileClose()
 }
 
 EventStore::EventStore(std::string module, std::string tag, std::string dir, size_t maxFileSize, FileHeaderWriter* fh, bool enableWriting) {
+    std::cout << "Here is EventStore!" << std::endl;
     m_file = nullptr;
     m_module = module;
     m_tag = tag;
     m_enableWriting = enableWriting;
-    if(!m_enableWriting) {
-        LOG(WARNING) << "data writing is disable by user";
-    }
 
+    if(!m_enableWriting) {
+        LOG(WARNING) << "Data writing is disabled by user";
+    }
+    
     if(dir == "") {
-        char *dir1 = ::getenv("GRAND_DATA_DIR");
-        if(dir1) {
-            m_dir = dir1;
+        m_daqMode = CSSysConfig::instance()->appConfig().daqMode;
+        std::cout << "EventStore DAQ MODE IS " << m_daqMode;
+        
+        m_dir1 = ::getenv("GRAND_T3_DATA_DIR");
+        
+        if(m_dir1) {
+            m_dir = m_dir1;
         }
         else {
             m_dir = "./";
             LOG(WARNING) << "GRAND_DATA_DIR is not set, use working directory";
         }
     }
+    
     LOG(INFO) << "data store directory = " << m_dir;
     m_maxFileSize = maxFileSize;
     if(m_maxFileSize == 0) {
@@ -67,6 +76,8 @@ EventStore::EventStore(std::string module, std::string tag, std::string dir, siz
             m_maxFileSize = strtol(s, nullptr, 0);
         }
     }
+
+    m_maxEventNumberSaved =  CSSysConfig::instance()->appConfig().eventNumberSaved;
 
     m_withSubdir = false;
     char *s = ::getenv("GRAND_STORE_WITH_SUBDIR");
@@ -90,9 +101,9 @@ EventStore::~EventStore() {
 }
 
 void EventStore::processData(std::string du, char *data, size_t sz) {
+    // std::cout << "DuID is " << du << ",size is " << sz << std::endl;
     static XRate rate("SAVE");
-    // TODO: this is dummy
-    uint16_t triggerpattern = *(uint16_t*)(data + (38)*sizeof(uint16_t));
+    uint16_t triggerpattern = *(uint16_t*)(data + (40)*sizeof(uint16_t));
 
     CLOG(INFO, "data") << "input event from DU = " << du
             << ", datasize = " << sz << ", trigger pattern is " << triggerpattern;
@@ -104,6 +115,7 @@ void EventStore::processData(std::string du, char *data, size_t sz) {
     header.type = DAQPCK_TYPE_DUEVENT;
     header.source = duID;
 
+    m_dataSz = msg.dataSize();
     write((char*)&header, sizeof(DAQHeader));
     write(msg.data(), msg.dataSize());
     
@@ -115,7 +127,7 @@ void EventStore::write(char *ptr, size_t size)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
     if(m_file == nullptr) {
-        LOG(WARNING) << "Data is still arriving after stop..";
+        LOG(WARNING) << "DAQ Data is still arriving after stop..";
         return;
     }
     if(!m_enableWriting) {
@@ -132,6 +144,20 @@ void EventStore::write(char *ptr, size_t size)
         pos += WRITE_ONE_SIZE;
     }
     fwrite(ptr+pos, size-pos, 1, m_file);
+
+    // use evt ID to save data.
+    if(size == m_dataSz) {
+        char tmp[10] = {0};
+        memcpy(tmp, ptr, 4);
+        m_eventSave[atol(tmp)] = 1;
+        if((m_maxEventNumberSaved != (size_t)0) && m_eventSave.size() > m_maxEventNumberSaved) {
+            newFile();
+            std::map<size_t, size_t>::iterator it;
+            for(it = m_eventSave.begin(); it != m_eventSave.end(); ) {
+                m_eventSave.erase(it++);
+            }
+        }
+    }
 
     m_currentWritten += size;
     m_totalWritten += size;
@@ -232,7 +258,7 @@ std::string EventStore::genFilename()
 
     std::stringstream ss;
     m_curId ++ ;
-    ss << m_module << "." << m_tag << "." << szBuf << "." << std::setw(3) << std::setfill('0') << m_curId << ".dat";
+     ss << m_module << "." << m_tag << "." << szBuf << "." << std::setw(3) << std::setfill('0') << m_maxEventNumberSaved << "."<<  m_curId << ".dat";
     return ss.str();
 }
 

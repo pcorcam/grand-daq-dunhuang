@@ -5,7 +5,9 @@
 **********************************************/
 #include "scope_a.h"
 #include <cassert>
+#include <stdint.h>
 #include <utils.h>
+#include <chrono>
 
 using namespace grand;
 using namespace std;
@@ -15,9 +17,11 @@ ScopeA::ScopeA()
 }
 
 ScopeA::~ScopeA(){
+    delete evtbuf;
+    evtbuf = nullptr;
 }
 
-void ScopeA::scopeRawRead(uint32_t regAddr, uint32_t *value) //new, reading from AXI
+void ScopeA::scopeRawRead(uint32_t regAddr, uint32_t *value) // new, reading from AXI
 {
     *value = *((unsigned int *)((char *)m_axiPtr+m_pageOffset+regAddr));
 }
@@ -45,7 +49,7 @@ void ScopeA::scopeSetParameter(uint32_t regAddr, uint32_t value, bool toShadow)
 void ScopeA::elecInit() {
     unsigned int addr, page_addr;
     unsigned int page_size=sysconf(_SC_PAGESIZE);
-
+    
     printf("open scope\n");
     if(m_dev != 0) close(m_dev);
     m_axiPtr = NULL;
@@ -64,8 +68,7 @@ void ScopeA::elecInit() {
     printf("Done opening m_dev = %d\n",(int)m_dev);
     sleep(1);
     assert(("m_axiPtr should not be NULL",m_axiPtr != NULL));
-    scopeRawWrite(Reg_Dig_Control,0x00004000);
-    sleep(1);
+    //scopeRawWrite(Reg_Dig_Control,0x00004000);
     scopeRawWrite(Reg_Dig_Control,0x00000000);
     memset(m_shadowList,0,sizeof(m_shadowList));
     assert(("m_axiPtr should not be NULL",m_axiPtr != NULL));
@@ -86,19 +89,23 @@ void ScopeA::elecStartRun() {
     scopeSetParameter(Reg_Dig_Control,m_shadowList[Reg_Dig_Control>>2] |(CTRL_PPS_EN | CTRL_SEND_EN ), true);
 }
 
-int ScopeA::elecReadData(char *data, size_t maxSize){
+int ScopeA::elecReadData(char *data, size_t maxSize, uint32_t* hitId){
+    std::unique_lock<mutex> lock(m_mtx);
+
     assert(("m_axiPtr should not be NULL", m_axiPtr != NULL));
-    uint32_t isData;
+    uint32_t isData, tbuf, *pbuf, ctp;
     bool hasData = false;
     int ret = 0;
-
-    static XRate rInput("AXI-EVENT");
+    int offset = 0;
+    int32_t prevgps = 0;
+    int32_t evgps=0; 
+    int length;
+    struct tm tt;
+    double fracsec;
+    uint32_t sec, nanosec;
 
     scopeRawRead(Reg_GenStatus,&isData);
     if((isData&(GENSTAT_EVTFIFO)) == 0) {
-        //std::cout << 1111111 << std::endl;
-        //XPTimer t1("R_EVT", 0);
-        //t1.start();
         scopeRawWrite(Reg_GenControl,GENCTRL_EVTREAD);
         // buffer中有数据
         uint32_t dataSizeRaw;
@@ -106,18 +113,31 @@ int ScopeA::elecReadData(char *data, size_t maxSize){
         if((dataSizeRaw>>16) == 0xADC0) {
             uint32_t dataSizeBytes = (dataSizeRaw&0xffff)*sizeof(uint16_t);
             int dataSizeDWord = dataSizeBytes/(sizeof(uint32_t));
-            //printf("data size = %d\n", dataSizeBytes);
-            assert(("data buffer size >= real data size", maxSize >= dataSizeBytes+sizeof(uint32_t) ));
-
+            assert(("data buffer size >= real data size", maxSize >= dataSizeBytes+sizeof(uint32_t) ));    
             uint32_t *ptr = (uint32_t*)data;
+            *ptr++ = *hitId;
+            (*hitId)++;
             (*ptr++) = dataSizeRaw;
 
+            evtbuf = new uint16_t[2*dataSizeDWord];
+            evtbuf[2*dataSizeDWord] = {0};
+
+            int n=0;
             for(int i=0; i<dataSizeDWord; i++) {
                 scopeRawRead(Reg_Data,ptr);
+                *(evtbuf+2*n) = *(ptr);
+                *(evtbuf+2*n+1) = (*(ptr))>>16;
+                n++;
                 ptr++;
             }
+            *(ptr-dataSizeDWord) = HEADER_EVT << 16;
+
+            ElecEvent ev(evtbuf, dataSizeDWord*2);
+            ev.getTimeNotFullDataSz(); // use getTimeNotFullDataSz because we do not include index 0 data.
+            *(ptr-dataSizeDWord+1) = ev.getTimeNotFullDataSz().sec;
+            *(ptr-dataSizeDWord+2) = ev.getTimeNotFullDataSz().nanosec;
+
             ret = dataSizeBytes+sizeof(uint32_t);
-            rInput.add();
         }
         else {
             // dat in buffer format error
@@ -125,7 +145,7 @@ int ScopeA::elecReadData(char *data, size_t maxSize){
             CLOG(WARNING, "data") << "data format error 1";
             int readToEmptyLen = 10000;
             uint32_t tmpData;
-            //XRate rate;
+
             do {
                 //rate.add();
                 scopeRawRead(Reg_Data, &tmpData);

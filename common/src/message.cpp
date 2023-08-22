@@ -25,15 +25,15 @@ MessageType Message::type() {
 }
 
 uint32_t Message::size() {
-    return header()->size;
+    return header()->size; // get size of message which is saved in header.
 }
 
-uint32_t Message::dataSize() {
+uint32_t Message::dataSize() { // get dataSize .
     return size() - messageHeaderSize;
 } 
 
 char* Message::data() {
-    return m_data+messageHeaderSize;
+    return m_data+messageHeaderSize; // From return place to read data, because we use pointer here.
 }
 
 void Message::sizeInc(size_t sz) {

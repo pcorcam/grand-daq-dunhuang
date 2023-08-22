@@ -7,6 +7,7 @@
 #include "yaml-cpp/node/parse.h"
 #include <fstream>
 #include <map>
+#include <assert.h>
 
 #define Reg_End 0x1FC
 
@@ -33,6 +34,7 @@ public:
     static ElecConfig* instance();
     void load(string addressFile, std::string dataFile);
     size_t toShadowlist(uint8_t *sl);
+    size_t toShadowlist(uint8_t *sl, std::string DUid);
 
 private:
     map<string, std::function<uint32_t(uint32_t)>> m_transformFunction;
@@ -41,14 +43,18 @@ private:
     YAML::Node m_config;
     YAML::Node n_config;
     ElecConfigAddress m_configAddress;
+    
+    bool COMMON, SPECIAL;
 
     ElecConfig();
     std::function<uint32_t(uint32_t)> transformFunction(string first, string second, string third);
+    std::function<double(double)> transformFunction2(string first, string second, string third);
     std::function<void(double*, size_t, uint16_t*, size_t&)> transformFunctionArray(string first, string second, string third);
     std::function<uint32_t(uint32_t)> transformFunction_2(string first);
     void setBit(uint8_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t value);
     void setBits(uint8_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t nBits, uint32_t value);
     void setBits(uint8_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t nBits, uint16_t *value);
+    void setBits(uint8_t *sl, uint32_t baseAddr, uint32_t startBit, uint32_t nBits, double *value);
     int float2fixed(float x, int len_int, int len_frac);
     uint32_t fundefault(uint32_t value);
     void fundefaultArray(double *value, size_t sz, uint16_t*, size_t&);
@@ -61,8 +67,8 @@ private:
     uint32_t funQuiettime(uint32_t value);
     uint32_t funtimeAfter(uint32_t value);
     uint32_t funMaxTime(uint32_t value);
+    uint32_t funAdditionaGain(double value);
     void funIIR(double *value, size_t sz, uint16_t* values, size_t& length);
-    // uint32_t fun_2default(uint32_t value);
 };
 
 }

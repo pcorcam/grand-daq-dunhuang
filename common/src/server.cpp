@@ -54,4 +54,6 @@ void Server::inputThread() {
             //std::cout << "no msg is recvd" << std::endl;
         }
    }
+    delete cmd;
+    cmd = nullptr;
 }
