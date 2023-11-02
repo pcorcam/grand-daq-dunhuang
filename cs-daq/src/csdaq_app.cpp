@@ -31,11 +31,12 @@ void CSDAQApp::sysInit() {
     m_daqMode = CSSysConfig::instance()->appConfig().daqMode;
     m_msgDispatcher->addProcessor((MessageType)MT_T2, std::bind(&T3Trigger::processData, m_t3Trigger, _1, _2, _3));
     if(m_daqMode == 2 || m_daqMode == 3) {
-        m_eventStore = new EventStore("GRAND", "TEST-TRIGGER", "", 0, m_fh); // Create a new file to save data.
+        m_eventStore = new EventStore("GRAND", "TEST-T3-10DUs-RUN77", "", 0, m_fh); // Create a new file to save data.
         m_msgDispatcher->addProcessor((MessageType)MT_DAQEVENT, std::bind(&EventStore::processData, m_eventStore, _1, _2, _3));
     }
     if(m_daqMode == 1 || m_daqMode == 3) {
-        m_rawEventStore = new rawEventStore("GRAND", "TEST-RAW-10s-ChanXYZ-20dB-14dus", "", 0, m_fh2);
+        m_rawEventStore = new rawEventStore("GRAND", "TEST-RAW-10s-ChanXYZ_20dB_DU31_RUN82_test", "", 0, m_fh2);
+        // m_rawEventStore = new rawEventStore("GRAND", "TEST-RAW-10s-ChanXYZ_20dB_DU10_16_17_19_20_21_29_32_33_35_10Dus_test", "", 0, m_fh2);
         m_msgDispatcher->addProcessor((MessageType)MT_RAWEVENT, std::bind(&rawEventStore::processData, m_rawEventStore, _1, _2, _3));
     }
     

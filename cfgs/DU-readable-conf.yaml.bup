@@ -13,14 +13,14 @@ CommonConfig:
     Trigger:
       Channel 1: 0 # self-triggered: based on signal from hits
       Channel 2: 0
-      Channel 3: 0
+      Channel 3: 1
       Channel 4: 0
       Ch1 AND Ch2: 0
       (not Ch1)AND Ch2: 0
       Ch1 AND Ch2, Ch2>Ch1: 0
       Ch3 AND Ch4: 0
       20Hz: 0
-      10 sec: 1
+      10 sec: 0
       Internal: 0 
     Internal Trigger Rate:
       (1000000,124)Hz: 0xFF
@@ -44,7 +44,7 @@ CommonConfig:
       ADC: 4
   Channels:
     Channel 1:
-      Pre Trigger: 3072 # readout: prevoious time window
+      Pre Trigger: 1024 # readout: prevoious time window
       Post Trigger: 960 # readout: post time window
       Additional Gain[-14,23.5](dB): 5
       Integration time: 5    # smooth
@@ -72,14 +72,14 @@ CommonConfig:
         - 105.0
         - 0.999
     Channel 2:
-      Pre Trigger: 3072
+      Pre Trigger: 1024
       Post Trigger: 960
       Additional Gain[-14,23.5](dB): 20
       Integration time: 5
       Min.Baseline(ADC): 6144
       Max.Baseline(ADC): 10240
-      Signal Treshold(ADC): 50
-      Noise Treshold(ADC): 25
+      Signal Treshold(ADC): 200
+      Noise Treshold(ADC): 100
       Quiet Time before Sig treshold(ns): 52
       Time after Sig threshold(ns): 0
       Max Time between threshold crossings(ns): 1000
@@ -100,14 +100,14 @@ CommonConfig:
         - 105.0
         - 0.999
     Channel 3:
-      Pre Trigger: 3072
+      Pre Trigger: 1024
       Post Trigger: 960
       Additional Gain[-14,23.5](dB): 20
       Integration time: 5
       Min.Baseline(ADC): 6144
       Max.Baseline(ADC): 10240
-      Signal Treshold(ADC): 50
-      Noise Treshold(ADC): 25
+      Signal Treshold(ADC): 200
+      Noise Treshold(ADC): 100
       Quiet Time before Sig treshold(ns): 52
       Time after Sig threshold(ns): 0
       Max Time between threshold crossings(ns): 1000
@@ -128,7 +128,7 @@ CommonConfig:
         - 105.0
         - 0.999
     Channel 4:
-      Pre Trigger: 3072
+      Pre Trigger: 1024
       Post Trigger: 960
       Additional Gain[-14,23.5](dB): 20
       Integration time: 5

@@ -19,8 +19,8 @@ CommonConfig:
       (not Ch1)AND Ch2: 0
       Ch1 AND Ch2, Ch2>Ch1: 0
       Ch3 AND Ch4: 0
-      20Hz: 0
-      10 sec: 1
+      20Hz: 1
+      10 sec: 0
       Internal: 0 
     Internal Trigger Rate:
       (1000000,124)Hz: 0xFF
@@ -78,8 +78,8 @@ CommonConfig:
       Integration time: 5
       Min.Baseline(ADC): 6144
       Max.Baseline(ADC): 10240
-      Signal Treshold(ADC): 50
-      Noise Treshold(ADC): 25
+      Signal Treshold(ADC): 200
+      Noise Treshold(ADC): 100
       Quiet Time before Sig treshold(ns): 52
       Time after Sig threshold(ns): 0
       Max Time between threshold crossings(ns): 1000
@@ -106,8 +106,8 @@ CommonConfig:
       Integration time: 5
       Min.Baseline(ADC): 6144
       Max.Baseline(ADC): 10240
-      Signal Treshold(ADC): 50
-      Noise Treshold(ADC): 25
+      Signal Treshold(ADC): 200
+      Noise Treshold(ADC): 100
       Quiet Time before Sig treshold(ns): 52
       Time after Sig threshold(ns): 0
       Max Time between threshold crossings(ns): 1000

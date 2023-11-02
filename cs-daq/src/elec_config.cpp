@@ -61,9 +61,11 @@ uint32_t ElecConfig::funPreorPostTri(uint32_t value){return value/2;}
 uint32_t ElecConfig::funQuiettime(uint32_t value){return value/4;}
 uint32_t ElecConfig::funtimeAfter(uint32_t value){return value/16;}
 uint32_t ElecConfig::funMaxTime(uint32_t value){return value/4;}
-uint32_t ElecConfig::funAdditionaGain(double value) {
+double ElecConfig::funAdditionaGain(double value) {
+    printf("value is %f\n", value);
     assert((-14 <= value <= 23.5)&&("You should choose a number during this scope!"));
     uint32_t GainDB2=uint32_t(int((4096*(value+14)/(37.5*2.5))+0.5));
+    std::cout << "Gain DA is " << GainDB2 << std::endl;
     return GainDB2;
 }
 
