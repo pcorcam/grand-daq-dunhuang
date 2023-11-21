@@ -1,0 +1,3 @@
+find . -type f -name "*.cpp" -exec cat {} \; | grep -v '^$' | wc -l0
+
+grep -v -R --exclude=*.txt "^$" | wc -l

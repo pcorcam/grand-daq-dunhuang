@@ -1,0 +1,33 @@
+global:
+  networkInputBufferSize: 102400
+  zmqSndBufferSize: 2048
+  eventBufferPageSize: 1024000
+  eventBufferNumberOfPages: 4
+  eventBufferPageSize: 2048000
+  eventBufferNumberOfPages: 1
+  t3TriggerTimeCut: 1000000000
+  t3TriggerTimeOut: 1000000000
+  t3TriggerTimeWindow: 825000000
+  t3TriggerDuNumber: 2
+  l1FileName: "TEST-RAW-10s-ChanXYZ_0dB_DU11_test_RUN_test"
+  l3FileName: "TEST-TRIGGER-ChanY-RUN88-DU11_and_DU18"
+  # daqMode: 1 is L1-TRIGGER mode, 2 is L3-TRIGGER mode, 3 is BOTH-DATA mode
+  daqMode: 1
+  eventNumberSaved: 100
+
+  
+dataUnits:
+#- type: "modelA"
+#  ID: "1001"
+#  ip: "192.168.10.2"
+#  port: 19555
+- type: "modelA"
+  ID: "1011"
+  ip: "192.168.61.11"
+  port: 19555
+# - type: "modelA"
+#   ID: "1018"
+#   ip: "192.168.61.18"
+#   port: 19555
+
+

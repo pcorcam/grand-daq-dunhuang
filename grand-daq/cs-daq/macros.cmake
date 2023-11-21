@@ -1,0 +1,10 @@
+
+function(module_test)
+    #set(options OPTIONAL FAST)
+    set(oneValueArgs TARGET)
+    set(multiValueArgs LINKS SRCS)
+    CMAKE_PARSE_ARGUMENTS(VAR "" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+    add_executable(${VAR_TARGET} ${VAR_SRCS})
+    target_link_libraries(${VAR_TARGET} ${VAR_LINKS})
+    add_test(NAME ${VAR_TARGET} COMMAND $<TARGET_FILE:${VAR_TARGET}>)
+endfunction()
