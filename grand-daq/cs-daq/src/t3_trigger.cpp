@@ -99,8 +99,14 @@ void T3Trigger::doT3Trigger(std::string du, char* data, size_t sz) {
     std::map<size_t, evtInfo>::iterator it_1;
     std::map<size_t, uint64_t>::iterator it_2;
 
+    FILE *fp=fopen("/home/grand/workarea/ana/l3TriggerAnaData/trigger_CSDAQ_timestamp.txt", "a+");
     memcpy(m_t3TimeBuf, data+12, szData);
-    
+    for(int i = 0; i< szTimeStamp; i++) {
+        memset(timeTmp, 0, EACH_DATA_SZ);
+        memcpy(timeTmp, m_t3TimeBuf+i*EACH_DATA_SZ, EACH_DATA_SZ);
+        fprintf(fp, "DU is %d, trigger_cs_timestamp is %lld\n", atoi(du.c_str()), atoll(timeTmp));
+    }
+    fclose(fp);
     // get tmID and DuId
     memcpy(tmp, m_t3TimeBuf, EACH_DATA_SZ);
     tmId = atoll(tmp)/paras.m_timeCut;
@@ -228,6 +234,9 @@ void T3Trigger::triggerAlgorithm(char *data, int sz, uint64_t tmID) {
     char p2[EACH_DATA_SZ]={0};
     int diff=0;
     int nStruct=0;
+    int N_first_position_in_last_part = 0; // last paras.m_triggerThreshold
+    uint64_t N_first_time = 0;
+    int N_counts = 0;
 
     t3TmDuid win[num];
     std::map<size_t, evtInfo>::iterator it_t3;
@@ -243,7 +252,12 @@ void T3Trigger::triggerAlgorithm(char *data, int sz, uint64_t tmID) {
     t_af = XXClock::nowNanoSeconds();
 
     // printf("after sort, the time diff is %lld\n",t_af - t_be);
-
+    FILE *fp=fopen("/home/grand/workarea/ana/l3TriggerAnaData/trigger_Algorithm_CSDAQ_timestamp.txt", "a+");
+    for(int i=0; i<num; i++) {
+        fprintf(fp, "timestamp %d is %lld\n", i, m_t3Container[i]);
+    }
+    fclose(fp);
+    
     for(size_t i=0; i<num; i++) {
         snprintf(m_t3TimeContainer+i*EACH_DATA_SZ, EACH_DATA_SZ, "%lld", m_t3Container[i]);
     }
@@ -253,24 +267,49 @@ void T3Trigger::triggerAlgorithm(char *data, int sz, uint64_t tmID) {
         memcpy(p, m_t3TimeContainer+i*EACH_DATA_SZ, EACH_DATA_SZ);
         t1 = atoll(p);
 
-        for(int j=i; j<num; j++) {
-            memset(p2, 0, EACH_DATA_SZ);
-            memcpy(p2, m_t3TimeContainer+j*EACH_DATA_SZ, EACH_DATA_SZ);
-            t2 = atoll(p2);
+        if(num - i <= paras.m_triggerThreshold) {
+            if(N_counts == 0) {
+                N_first_time = t1;
+                N_first_position_in_last_part = i;
+            }   
             
-            if(t2-t1>paras.m_timeWindow) {
-                diff = j-i;
-                win[nStruct].buf = new char[(diff)*EACH_DATA_SZ]();
-                assert((i*EACH_DATA_SZ+diff*EACH_DATA_SZ < dataSz, "sz is out of range"));                
-                memcpy(win[nStruct].buf, m_t3TimeContainer+i*EACH_DATA_SZ, diff*EACH_DATA_SZ);
-                win[nStruct].sz = diff*EACH_DATA_SZ;
-                i=j-1;
-                nStruct++;
-                break;
+            for(int j=i; j<num; j++) {
+                memset(p2, 0, EACH_DATA_SZ);
+                memcpy(p2, m_t3TimeContainer+j*EACH_DATA_SZ, EACH_DATA_SZ);
+                t2 = atoll(p2);
+                if( 0 < t2-N_first_time < paras.m_timeWindow) {
+                    i=j+1; // must add 1 to itself because if i equal to j, the value will add twice.
+                    // nStruct++;
+                    N_counts++;
+                    continue;
+                }
             }
+            win[nStruct].buf = new char[(N_counts+1)*EACH_DATA_SZ]();
+            assert((N_first_position_in_last_part*EACH_DATA_SZ+(N_counts+1)*EACH_DATA_SZ < dataSz, "sz is out of range"));                
+            memcpy(win[nStruct].buf, m_t3TimeContainer+N_first_position_in_last_part*EACH_DATA_SZ,(N_counts+1)*EACH_DATA_SZ);        
+            win[nStruct].sz = (N_counts+1)*EACH_DATA_SZ;
+            nStruct++;
+        }
+
+        // *************Modified by duanbh 2023.11.24**************
+            for(int j=i; j<num; j++) {
+                memset(p2, 0, EACH_DATA_SZ);
+                memcpy(p2, m_t3TimeContainer+j*EACH_DATA_SZ, EACH_DATA_SZ);
+                t2 = atoll(p2);
+            
+                if(t2-t1>paras.m_timeWindow) {
+                    diff = j-i;
+                    win[nStruct].buf = new char[(diff)*EACH_DATA_SZ]();
+                    assert((i*EACH_DATA_SZ+diff*EACH_DATA_SZ < dataSz, "sz is out of range"));                
+                    memcpy(win[nStruct].buf, m_t3TimeContainer+i*EACH_DATA_SZ, diff*EACH_DATA_SZ);
+                    win[nStruct].sz = diff*EACH_DATA_SZ;
+                    i = j-1; // right here, beacuse i will add 1 to itself after the loop.
+                    nStruct++;
+                    break;
+                }
             else 
                 continue;
-        }
+            }
     }
     
     // now will send info to dudaq
@@ -295,6 +334,8 @@ void T3Trigger::triggerAlgorithm(char *data, int sz, uint64_t tmID) {
 
         int n=m_trigerDU.size();
         char duTriggerNumbers[4] = {0};
+        char testtmstamp[20] = {0};
+        int k=0;
         if(n>=paras.m_triggerThreshold) {
             std::cout << "trigger DU number is " << n << std::endl;
             std::map<size_t, size_t>::iterator itt;
@@ -315,6 +356,16 @@ void T3Trigger::triggerAlgorithm(char *data, int sz, uint64_t tmID) {
             memset(tmpTag, 0, 4);
             sprintf(tmpTag, "%d", m_tag);
             printf("m_tag is %d\n", atol(tmpTag));
+            FILE *fp=fopen("/home/grand/workarea/ana/l3TriggerAnaData/Triggered_CSDAQ_timestamp.txt", "a+");
+            fprintf(fp, "m_tag is %d\n", atol(tmpTag));
+            fprintf(fp, "trigger DU number is %d\n", n);
+            for(itt = m_trigerDU.begin(); itt != m_trigerDU.end(); itt++){
+                memset(testtmstamp, 0, 20);
+                memcpy(testtmstamp, win[i].buf + k*EACH_DATA_SZ, EACH_DATA_SZ);
+                fprintf(fp, "triggered DU id is %d, No.%d timestamp is %lld\n", itt->first, k, atoll(testtmstamp));
+                k++;
+            }
+            fclose(fp);
             sprintf(duTriggerNumbers, "%d", n);
             if(msg.size()+sizeof(uint32_t)>20480) {
                 memset(buf, 0, 20480);
@@ -324,8 +375,6 @@ void T3Trigger::triggerAlgorithm(char *data, int sz, uint64_t tmID) {
                 msg.copyFrom(tmpTag, sizeof(uint32_t));
             }
             msg.copyFrom(duTriggerNumbers, sizeof(uint32_t));
-            // *********************************** //
-
             size_t szofMsg = msg.size();
             m_client->writeAll(buf, szofMsg);
 
@@ -351,7 +400,6 @@ void T3Trigger::triggerAlgorithm(char *data, int sz, uint64_t tmID) {
         }
         delete win[i].buf;
         win[i].buf = nullptr;
-        // ******************************************************* //
     }
 
     delete m_t3Container;

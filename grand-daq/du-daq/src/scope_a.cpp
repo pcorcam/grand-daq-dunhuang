@@ -81,6 +81,7 @@ void ScopeA::elecConfig(void *parameters) {
 
     for(int i=0;i<Reg_End;i+=4){
         scopeSetParameter(i, m_shadowList[i>>2]);
+        // printf("%d is %x\n", i, m_shadowList[i>>2]);
     }
 }
 

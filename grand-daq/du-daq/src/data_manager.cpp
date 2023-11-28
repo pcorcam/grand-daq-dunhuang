@@ -136,15 +136,17 @@ void DataManager::addEvent(char *data, size_t sz, int daqMode)
     char timeAcceptT2Msg[EACH_DATA_SZ] = {0};
     char duIdTmp[4] = {0};
    
-    m_time = 0;
-
+    uint64_t m_time;
 
     m_evtbuf = new uint16_t[sz/sizeof(uint16_t)];
     memset(m_evtbuf, 0, sz);
     memcpy(m_evtbuf, data, sz);
     ElecEvent ev(m_evtbuf, sz/sizeof(uint16_t));
-
+    
+    FILE *fp=fopen("/run/grand-daq/trigger_DU_timestamp.txt", "a+");
     m_time = ev.getTimeFullDataSz().totalSec; // use getTimeFullDataSz because we include index 0 data length here.
+    fprintf(fp, "DU is %d, trigger_du_timestamp is %lld\n", duID, m_time);
+    fclose(fp);
     // printf("m_time is %lld, duID is %d\n", m_time, duID);
     printf("m_time is %lld\n", m_time);
     sprintf(duIdTmp, "%d", duID);
@@ -209,9 +211,6 @@ void DataManager::addEvent(char *data, size_t sz, int daqMode)
 
     szof_m_duTimeStampSave += EACH_DATA_SZ;
     szofRingBuffer+=sz;
-    
-    // delete m_evtbuf;
-    // m_evtbuf = nullptr;
 }
 
 void DataManager::accept(char *data, size_t sz) // send a buffer which include eventIDs' information
