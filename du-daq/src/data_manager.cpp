@@ -54,6 +54,10 @@ void DataManager::initialize()
     m_rawEventSz = 1024000;
 }
 
+void DataManager::stop(){
+    lastAddEvent();
+}
+
 void DataManager::terminate()
 {
     // TODO: release all
@@ -86,8 +90,7 @@ void DataManager::terminate()
 
 void DataManager::addRawEvent(char *data, size_t sz)
 {   
-    // uint64_t nanoTime = 0;
-    	
+    // uint64_t nanoTime = 0;	
     // m_evtbuf = new uint16_t[sz/sizeof(uint16_t)];
     // memset(m_evtbuf, 0, sz);
     // memcpy(m_evtbuf, data, sz);
@@ -138,8 +141,6 @@ void DataManager::addEvent(char *data, size_t sz, int daqMode)
     char duIdTmp[4] = {0};
    
     m_time = 0;
-
-
     m_evtbuf = new uint16_t[sz/sizeof(uint16_t)];
     memset(m_evtbuf, 0, sz);
     memcpy(m_evtbuf, data, sz);
@@ -171,6 +172,7 @@ void DataManager::addEvent(char *data, size_t sz, int daqMode)
     // int ret = snprintf(timeTmp, EACH_DATA_SZ, "%lld", m_time-m_timeInit+1000000000);
     // m_count++;
     // ***************************************** //
+
     int ret = snprintf(timeTmp, EACH_DATA_SZ, "%lld", m_time);
     memcpy(m_duTimeStampSave + sizeof(int) + szof_m_duTimeStampSave, timeTmp, EACH_DATA_SZ);
     assert(("sizeof(int) + szSended should less than M_DUTIMESTAMPSZ",sizeof(int) + szSended < M_DUTIMESTAMPSZ));
@@ -212,6 +214,24 @@ void DataManager::addEvent(char *data, size_t sz, int daqMode)
     
     // delete m_evtbuf;
     // m_evtbuf = nullptr;
+}
+
+void DataManager::lastAddEvent() {
+    std:: cout << "This is lastAddEvent func" << std::endl;
+    if(szof_m_duTimeStampSave >= szSended) {
+        memset(m_timeBuffer, 0 ,M_TIMEBUFFERSZ);
+        T2Message t2msg(m_timeBuffer, M_TIMEBUFFERSZ, true);
+        assert(szSended < M_DUTIMESTAMPSZ);
+        assert( szof_m_duTimeStampSave + sizeof(int) - szSended < M_DUTIMESTAMPSZ);
+        t2msg.addTime(m_duTimeStampSave + szSended, szof_m_duTimeStampSave + sizeof(int)-szSended); // keep tmID same, because t_acceptT2Msg-m_timeStart>timeCut 
+        szSended = szof_m_duTimeStampSave;
+        if(m_t2EventOutputFun){
+            m_t2EventOutputFun(t2msg.base(), t2msg.size());
+        }
+    }
+    else {
+        szSended = 0; // In this case, m_duTimeStampSave has been initialized;
+    }
 }
 
 void DataManager::accept(char *data, size_t sz) // send a buffer which include eventIDs' information
@@ -261,7 +281,7 @@ void DataManager::acceptT3Trigger(char* data, size_t sz) {
     memset(m_duNumbers, 0, 20);
     memcpy(m_duNumbers, data+szT3Trigger-sizeof(uint32_t), sizeof(uint32_t));
 
-    printf("m_tag is %d\n", atoi(m_tag));
+    printf("m_tag is %d\n", *(uint32_t*)(m_tag));
     // printf("trigger dus number is %d\n", atoi(m_duNumbers));
     for(int i=0; i<szof_m_duTimeStampSave/EACH_DATA_SZ; i++) {
         tmpBuf[EACH_DATA_SZ] = {0};

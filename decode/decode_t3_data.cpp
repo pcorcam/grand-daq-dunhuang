@@ -46,7 +46,7 @@ void printData(FILE *fp, char *buffer, size_t size, uint16_t duID, size_t hitIdI
     
     uint16_t *ptr = (uint16_t*)(buffer+sizeof(DAQHeader));
     memcpy(Event_ID_tag, (char*)(ptr++),4);
-    fprintf(fp, " Event_ID_Tag = %d\n", atoi(Event_ID_tag));
+    fprintf(fp, " Event_ID_Tag = %d\n", *(uint32_t*)(Event_ID_tag));
     *(ptr++);
 
     memcpy(TriggerNumbers, (char*)ptr++, 4);
@@ -241,7 +241,7 @@ int main(int argc, char* argv[])
         ret = fread(buffer+sizeof(DAQHeader), 1, sz-sizeof(DAQHeader), fin);
         memset(tmpTag, 0, 100);
         memcpy(tmpTag, buffer+sizeof(DAQHeader), sizeof(uint32_t));
-        evtTag = atoi(tmpTag);
+        evtTag = *(uint32_t*)(tmpTag);
         if(!TraceOrderstack[evtTag].count(duID))
             TraceOrderstack[evtTag][duID].buf = new uint32_t[100];
         TraceOrderstack[evtTag][duID].buf[TraceOrderstack[evtTag][duID].sameEventCount] = TraceOrder;

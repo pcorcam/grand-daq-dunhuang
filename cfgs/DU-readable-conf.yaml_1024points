@@ -19,8 +19,8 @@ CommonConfig:
       (not Ch1)AND Ch2: 0 # exclude the channe1 adc, and just open channel2
       Ch1 AND Ch2, Ch2>Ch1: 0
       Ch3 AND Ch4: 0
-      20Hz: 1
-      10 sec: 0
+      20Hz: 0
+      10 sec: 1
       Internal: 0 
     Internal Trigger Rate:
       (1000000,124)Hz: 0xFF

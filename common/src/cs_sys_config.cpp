@@ -31,6 +31,8 @@ void CSSysConfig::load(std::string file) {
     SYS_CONFIG_LOAD_GLOBAL(t3TriggerTimeWindow, uint32_t);
     // SYS_CONFIG_LOAD_GLOBAL(t3TriggerThreshold, uint32_t);
     SYS_CONFIG_LOAD_GLOBAL(t3TriggerDuNumber, uint32_t);
+    SYS_CONFIG_LOAD_GLOBAL(l1FileName, string);
+    SYS_CONFIG_LOAD_GLOBAL(l3FileName, string);
     SYS_CONFIG_LOAD_GLOBAL(daqMode, uint32_t);
     SYS_CONFIG_LOAD_GLOBAL(eventNumberSaved, uint32_t);
     

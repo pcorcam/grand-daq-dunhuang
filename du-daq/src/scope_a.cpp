@@ -123,19 +123,19 @@ int ScopeA::elecReadData(char *data, size_t maxSize, uint32_t* hitId){
             evtbuf[2*dataSizeDWord] = {0};
 
             int n=0;
-            for(int i=0; i<dataSizeDWord; i++) {
+            for(int i=0; i<dataSizeDWord-1; i++) {
                 scopeRawRead(Reg_Data,ptr);
                 *(evtbuf+2*n) = *(ptr);
                 *(evtbuf+2*n+1) = (*(ptr))>>16;
                 n++;
                 ptr++;
             }
-            *(ptr-dataSizeDWord) = HEADER_EVT << 16;
+            *(ptr-dataSizeDWord+1) = HEADER_EVT << 16;
 
             ElecEvent ev(evtbuf, dataSizeDWord*2);
             ev.getTimeNotFullDataSz(); // use getTimeNotFullDataSz because we do not include index 0 data.
-            *(ptr-dataSizeDWord+1) = ev.getTimeNotFullDataSz().sec;
-            *(ptr-dataSizeDWord+2) = ev.getTimeNotFullDataSz().nanosec;
+            *(ptr-dataSizeDWord+2) = ev.getTimeNotFullDataSz().sec;
+            *(ptr-dataSizeDWord+3) = ev.getTimeNotFullDataSz().nanosec;
 
             ret = dataSizeBytes+sizeof(uint32_t);
         }
@@ -151,6 +151,39 @@ int ScopeA::elecReadData(char *data, size_t maxSize, uint32_t* hitId){
                 scopeRawRead(Reg_Data, &tmpData);
                 scopeRawRead(Reg_GenStatus, &isData);
                 readToEmptyLen --;
+
+                if((tmpData>>16) == 0xADC0) {
+                    uint32_t dataSizeBytes = (tmpData&0xffff)*sizeof(uint16_t);
+                    int dataSizeDWord = dataSizeBytes/(sizeof(uint32_t));
+                    printf("error level 2 maxsize: %d\n", maxSize);
+                    assert(("data buffer size >= real data size", maxSize >= dataSizeBytes+sizeof(uint32_t) ));    
+                    uint32_t *ptr = (uint32_t*)data;
+                    *ptr++ = *hitId;
+                    (*hitId)++;
+                    printf("hit: %lld\n", *hitId);
+                    (*ptr++) = tmpData;
+                    evtbuf = new uint16_t[2*dataSizeDWord];
+                    evtbuf[2*dataSizeDWord] = {0};
+                    
+                    int n=0;
+                    for(int i=0; i<(dataSizeDWord-1); i++) {
+                        scopeRawRead(Reg_Data,ptr);
+                        *(evtbuf+2*n) = *(ptr);
+                        *(evtbuf+2*n+1) = (*(ptr))>>16;
+                        n++;
+                        ptr++;
+                    }
+                    *(ptr-dataSizeDWord+1) = HEADER_EVT << 16;
+
+                    ElecEvent ev(evtbuf, dataSizeDWord*2);
+                    ev.getTimeNotFullDataSz(); // use getTimeNotFullDataSz because we do not include index 0 data.
+                    *(ptr-dataSizeDWord+2) = ev.getTimeNotFullDataSz().sec;
+                    *(ptr-dataSizeDWord+3) = ev.getTimeNotFullDataSz().nanosec;
+                    // uint64_t tmp; // test block
+                    // tmp = ev.getTimeNotFullDataSz().totalSec;
+                    ret = dataSizeBytes+sizeof(uint32_t);
+                    break;
+                }
             } while((isData&(GENSTAT_EVTFIFO)) == 0 && readToEmptyLen > 0);
             CLOG(WARNING, "data") << "try read fifo to empty done";
             //scopeFlush();

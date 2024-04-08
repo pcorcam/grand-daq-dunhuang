@@ -61,9 +61,11 @@ uint32_t ElecConfig::funPreorPostTri(uint32_t value){return value/2;}
 uint32_t ElecConfig::funQuiettime(uint32_t value){return value/4;}
 uint32_t ElecConfig::funtimeAfter(uint32_t value){return value/16;}
 uint32_t ElecConfig::funMaxTime(uint32_t value){return value/4;}
-uint32_t ElecConfig::funAdditionaGain(double value) {
+double ElecConfig::funAdditionaGain(double value) {
+    printf("value is %f\n", value);
     assert((-14 <= value <= 23.5)&&("You should choose a number during this scope!"));
     uint32_t GainDB2=uint32_t(int((4096*(value+14)/(37.5*2.5))+0.5));
+    std::cout << "Gain DA is " << GainDB2 << std::endl;
     return GainDB2;
 }
 
@@ -411,17 +413,17 @@ size_t ElecConfig::toShadowlist(uint8_t *sl, std::string DUid)
                                     }   
                                     if(name2 == "(1000000,124)Hz") {
                                         uint32_t value = node_4->second.as<int>();
-                                        std::cout << "name is " << std::endl;
-                                        std::cout << "name2 is " << name2 << std::endl;
-                                        std::cout << "value is " << value << std::endl;
+                                        // std::cout << "name is " << std::endl;
+                                        // std::cout << "name2 is " << name2 << std::endl;
+                                        // std::cout << "value is " << value << std::endl;
                                         uint32_t value1 = transformFunction(group, name, name2)(value);
                                         setBits(sl, addr.baseAddr, addr.startBit, addr.nBits, value1);
                                     }
                                     else {
-                                        std::cout << "name is " << name << std::endl;
-                                        std::cout << "name2 is " << name2 << std::endl;
+                                        // std::cout << "name is " << name << std::endl;
+                                        // std::cout << "name2 is " << name2 << std::endl;
                                         double value = node_4->second.as<double>();
-                                        std::cout << "value is " << value << std::endl;
+                                        // std::cout << "value is " << value << std::endl;
                                         double value2 = transformFunction2(group, name, name2)(value);
                                         // std::cout << "value2 is " << value2 << std::endl;
                                         setBits(sl, addr.baseAddr, addr.startBit, addr.nBits, value2);

@@ -146,6 +146,8 @@ bool DUDAQApp::start() {
 
 bool DUDAQApp::stop() {
     m_frontend->stop();
+    if(m_daqMode == 2)
+        m_dataManager->stop();
     return true;
 }
 

@@ -19,8 +19,8 @@ CommonConfig:
       (not Ch1)AND Ch2: 0 # exclude the channe1 adc, and just open channel2
       Ch1 AND Ch2, Ch2>Ch1: 0
       Ch3 AND Ch4: 0
-      20Hz: 1
-      10 sec: 0
+      20Hz: 0
+      10 sec: 1
       Internal: 0 
     Internal Trigger Rate:
       (1000000,124)Hz: 0xFF
@@ -44,9 +44,9 @@ CommonConfig:
       ADC: 4
   Channels:
     Channel 1:
-      Pre Trigger: 1504 # readout: prevoious time window
-      Post Trigger: 480 # readout: post time window
-      Additional Gain[-14,23.5](dB): 5
+      Pre Trigger: 6112 # readout: prevoious time window
+      Post Trigger: 2016 # readout: post time window
+      Additional Gain[-14,23.5](dB): 20
       Integration time: 5    # smooth
       Min.Baseline(ADC): 6144
       Max.Baseline(ADC): 10240
@@ -72,8 +72,8 @@ CommonConfig:
         - 105.0
         - 0.999
     Channel 2:
-      Pre Trigger: 1504
-      Post Trigger: 480
+      Pre Trigger: 6112
+      Post Trigger: 2016
       Additional Gain[-14,23.5](dB): 20
       Integration time: 5
       Min.Baseline(ADC): 6144
@@ -100,8 +100,8 @@ CommonConfig:
         - 105.0
         - 0.999
     Channel 3:
-      Pre Trigger: 1504
-      Post Trigger: 480
+      Pre Trigger: 6112
+      Post Trigger: 2016
       Additional Gain[-14,23.5](dB): 20
       Integration time: 5
       Min.Baseline(ADC): 6144
@@ -128,8 +128,8 @@ CommonConfig:
         - 105.0
         - 0.999
     Channel 4:
-      Pre Trigger: 1504
-      Post Trigger: 480
+      Pre Trigger: 6112
+      Post Trigger: 2016
       Additional Gain[-14,23.5](dB): 20
       Integration time: 5
       Min.Baseline(ADC): 6144

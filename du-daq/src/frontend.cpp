@@ -53,10 +53,10 @@ void IFrontend::inputThread() {
 	if(retSz > 0) { // Here we think there is data from electronics.
 		m_time1 = XClock::nowNanoSeconds();
 		if(m_count == 0) {
-			printf("hitId is %d, ", hitId);
+			printf("hitId is %d\n, ", hitId);
 		}
 		else if(m_count>0) {
-			printf("hitId is %d, timediff is %lld, ", hitId, m_time1 - m_time0);
+			printf("hitId is %d, timediff is %lld\n, ", hitId, m_time1 - m_time0);
 		}
 		m_time0 = m_time1;
 		m_count++;

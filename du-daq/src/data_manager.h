@@ -52,23 +52,13 @@ public:
     void setEventOutput(EventOutput fun);
     void setT2EventOutput(EventOutput fun);
     void setRawEventOutput(EventOutput fun);
-
-    /**
-     * @brief called by readout thread
-     *
-     * @param data electronic event data
-     */
     void addRawEvent(char *data, size_t sz);
     void addEvent(char *data, size_t sz, int daqMode);
     void processCommand(char *data, size_t sz);
-    /**
-     * @brief called by backend command input thread
-     *
-     * @param accept message from cs-daq
-     */
     void accept(char *data, size_t sz);
-    
     void initialize();
+    void lastAddEvent();
+    void stop();
     void terminate();
 
 private:
@@ -127,7 +117,6 @@ private:
     uint64_t m_t0, m_t1, m_t2;
     size_t m_frequenceCountBefore;
     size_t m_frequenceCountAfter;
-
 
     void acceptT3Trigger(char* data, size_t sz);
     void acceptRandomTrigger(char* data, size_t sz);
