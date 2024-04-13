@@ -173,9 +173,11 @@ bool CSDAQApp::stop() {
     m_client->writeAll(buf, msg.size());
 
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
-    if(m_daqMode == 2 || m_daqMode == 3) 
+    if(m_daqMode == 2 || m_daqMode == 3) {
         m_t3Trigger->stop();
         m_eventStore->closeStream();
+    }
+        
     if(m_daqMode == 1 || m_daqMode == 3) 
         m_rawEventStore->closeStream();
     return true;
