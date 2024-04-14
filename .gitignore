@@ -1,8 +1,13 @@
-.swa
-.swp
-.nfs*
+*.swa
+*.swp
+*.nfs*
+*.bak
 bak/
+logs/
+releases/
+build-*/
 build/
+installed/
 # Prerequisites
 *.d
 

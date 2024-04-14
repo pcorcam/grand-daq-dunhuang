@@ -3,8 +3,8 @@ module_test(TARGET test_elec_config
             SRCS test_elec_config.cpp
             LINKS csdaq)
 
-module_test(TARGET test_sys_config
-            SRCS test_sys_config.cpp
+module_test(TARGET test_cs_sys_config
+            SRCS test_cs_sys_config.cpp
             LINKS csdaq)
 
 module_test(TARGET test_event_store

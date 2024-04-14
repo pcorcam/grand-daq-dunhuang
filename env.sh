@@ -1,7 +1,20 @@
-export GRAND_DAQ_HOME=/home/duanbh/workarea/gdaq-merged/
+export GRAND_DAQ_HOME=/home/grand/workarea/grand-daq
+export GRAND_DAQ_CONFIG=${GRAND_DAQ_HOME}/cfgs
+export GRAND_DAQ_CONFIG_LOG=${GRAND_DAQ_CONFIG}/logging
 
-export GRAND_CSDAQ_CONFIG=${GRAND_DAQ_HOME}/cfgs/csdaq
-export GRAND_CSDAQ_CONFIG_LOG=${GRAND_CSDAQ_CONFIG}/logging
+#export GRAND_DATA_DIR=/home/grand/workarea/data
+#export GRAND_T2_DATA_DIR=/home/grand/workarea/t2_data
+export GRAND_RAW_DATA_DIR=/home/grand/workarea/raw_data
+export GRAND_T3_DATA_DIR=/home/grand/workarea/t3_data
 
-export GRAND_DUDAQ_CONFIG=${GRAND_DAQ_HOME}/cfgs/dudaq
-export GRAND_DUDAQ_CONFIG_LOG=${GRAND_DUDAQ_CONFIG}/logging
+#export GRAND_MAX_FILE_SIZE=50 000 000 # 50MB per file
+# export GRAND_MAX_FILE_SIZE=35000000
+export GRAND_MAX_FILE_SIZE=630000000
+# export GRAND_MAX_FILE_SIZE=3000000
+# export GRAND_MAX_FILE_SIZE=20000000
+export GRAND_T2_MAX_FILE_SIZE=500000000
+
+export GRAND_EXTERNAL_HOME=/home/grand/pc_installed
+
+export LD_LIBRARY_PATH=${GRAND_DAQ_HOME}/installed/x86_64/lib:${GRAND_EXTERNAL_HOME}/lib64:${GRAND_EXTERNAL_HOME}/lib:${LD_LIBRARY_PATH}
+export PATH=${GRAND_DAQ_HOME}/installed/x86_64/bin:${PATH}

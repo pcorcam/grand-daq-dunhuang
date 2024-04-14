@@ -2,10 +2,13 @@
 #include <exceptions.h>
 #include <utils.h>
 #include <message_impl.h>
+#include <cs_sys_config.h>
 
 #define ZMQ_HAVE_POLLER
 #define ZMQ_BUILD_DRAFT_API
 #include <zmq.h>
+
+// extern int csDAQMODE;
 
 using namespace std;
 using namespace grand;
@@ -28,6 +31,10 @@ void ZMQClient::initialize() {
     }
 
     m_context = zmq_ctx_new();
+    // struct timeval timeout;
+    // timeout.tv_usec = 100;
+    // timeout.tv_sec = 0;
+    double timeout = 0.1;
     for(auto &info: m_clientInfo) {
         ClientItem item;
         item.ID  = info.ID;
@@ -36,8 +43,18 @@ void ZMQClient::initialize() {
         assert(rc == 0);
         rc = zmq_setsockopt(item.socket, ZMQ_SNDBUF, &m_zmqSndBufferSize, sizeof(m_zmqSndBufferSize));
         assert(rc == 0);
+        int sndhwm = 1000;
+        size_t sndhwm_size = sizeof(sndhwm);
+        
+        rc = zmq_setsockopt(item.socket, ZMQ_SNDHWM, &sndhwm, sndhwm_size);
+        assert(rc == 0);
         rc = zmq_setsockopt(item.socket, ZMQ_RCVBUF, &m_zmqSndBufferSize, sizeof(m_zmqSndBufferSize));
         assert(rc == 0);
+        // rc = zmq_setsockopt(item.socket, ZMQ_SNDTIMEO, &timeout, sizeof(double));
+        // assert(rc < 0);
+        // rc = zmq_setsockopt(item.socket, ZMQ_RCVTIMEO, &timeout, sizeof(double));
+        // assert(rc < 0);
+
         std::string url = std::string("tcp://") + info.ip + ":" + std::to_string(info.port);
         CLOG(INFO, "network") << "connect socket: " << url;
         zmq_connect(item.socket, url.c_str());
@@ -78,7 +95,7 @@ size_t ZMQClient::read(char* p, size_t maxSz, std::string &ID) {
     size_t more_size = sizeof(more);
     size_t recvSize = 0;
     zmq_poller_event_t events[1];
-    int rc = zmq_poller_wait_all(m_poller, events, 1, 1000);
+    int rc = zmq_poller_wait_all(m_poller, events, 1, 100);
     //std::cout << "rc: " << rc << std::endl;
     bool succ = true;
     if(rc > 0) {
@@ -93,7 +110,12 @@ size_t ZMQClient::read(char* p, size_t maxSz, std::string &ID) {
             if(nbytes < 0) {
                 succ = false;
             }
-            assert(nbytes == 1);
+            // std::cout << " nbytes is " << nbytes << std::endl;
+            if(nbytes != 1) {
+                // std::cout << " nbytes is " << nbytes << std::endl;
+                return 0;
+            }
+            // assert(nbytes == 1);
             int rc1 = zmq_getsockopt(socket, ZMQ_RCVMORE, &more, &more_size);
             assert(rc1 == 0);
             assert(more);
@@ -124,13 +146,21 @@ size_t ZMQClient::read(char* p, size_t maxSz, std::string &ID) {
     }
 }
 
-void ZMQClient::write(std::string ID, char* p, size_t sz) {    
+void ZMQClient::write(std::string ID, char* p, size_t sz) { 
+    
+    std::unique_lock<mutex> lock(m_mutex);
+    m_csDAQMODE = CSSysConfig::instance()->appConfig().daqMode;
+    int daqMode = m_csDAQMODE;
+    sprintf(m_daqMode, "%d", daqMode);
+    
     if(m_clientItem.count(ID) == 0) {
         throw NetworkError("socket does not connect, used in read function");
     }
     void *socket = m_clientItem[ID].socket;
     int rc = zmq_send(socket, "", sizeof(""), ZMQ_SNDMORE);
     assert(("", rc == 1));
+    rc = zmq_send(socket, m_daqMode, sizeof(m_daqMode), ZMQ_SNDMORE);
+    // std::cout << "we need send rc's value is " << rc << std::endl;
     rc = zmq_send(socket, p, sz, 0);
     assert(("", rc == sz));    
 }

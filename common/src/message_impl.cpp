@@ -1,3 +1,8 @@
+/**************************/
+// Creadted by duanbh,
+// 20220423
+/**************************/
+
 #include "message_impl.h"
 
 using namespace grand;
@@ -16,12 +21,36 @@ std::string CommandMessage::cmd() {
     return data();
 }
 
-void CommandMessage::setCmd(std::string cmd)
-{
-    assert(size()+cmd.size()+1 <= m_size);
+void *CommandMessage::param() {
+    std::string c = data();
+    char *p = data()+c.size()+1;
+    return (void*)p;
+}
+
+size_t CommandMessage::paramSize() {
+    std::string c = data();
+    return dataSize()-c.size()-1;
+}
+
+void CommandMessage::setCmd(std::string cmd, void *param, size_t paramSize)
+{   
+    size_t cmdSize = cmd.size()+1;
+    assert(size()+cmdSize+paramSize <= m_size);
+
     memcpy(data(), cmd.c_str(), cmd.size());
     data()[cmd.size()] = '\0';
-    setSizeByData(cmd.size()+1);
+
+    if(param != nullptr) {
+        memcpy(data()+cmdSize, param, paramSize);
+    }
+
+    setSizeByData(cmdSize+paramSize);
+}
+
+void CommandMessage::copyFrom(char *data, size_t sz) {
+    assert(size() + sz <= m_size);
+    memcpy(this->data()+dataSize(), data, sz);
+    sizeInc(sz);
 }
 
 AcceptMessage::AcceptMessage(char *data, size_t sz, bool write) : Message(data, sz, write, MT_ACCEPT) {
@@ -42,7 +71,7 @@ void AcceptMessage::addEventID(uint32_t id) {
     assert(size()+sizeof(uint32_t) <= m_size);
     char *ptr = data()+dataSize();
     *(uint32_t*)ptr = id;
-    sizeInc(sizeof(uint32_t));
+    sizeInc(sizeof(uint32_t)); // Expand header size.
 }
 
 void AcceptMessage::setEventIDs(std::set<uint32_t> &ids) {
@@ -52,6 +81,12 @@ void AcceptMessage::setEventIDs(std::set<uint32_t> &ids) {
         ((uint32_t*)data())[i] = id;
     }
     setSizeByData(sizeof(ids.size())*sizeof(uint32_t));
+}
+
+void AcceptMessage::copyFrom(char *data, size_t sz) {
+    assert(size() + sz <= m_size);
+    memcpy(this->data()+dataSize(), data, sz);
+    sizeInc(sz);
 }
 
 T2Message::T2Message(char *data, size_t sz, bool write) : Message(data, sz, write, MT_T2) {
@@ -71,7 +106,6 @@ std::vector<T2Message::TQ> T2Message::TQData() {
 }
 
 void T2Message::addTQ(uint64_t t, uint32_t q) {
-    //std::cout << sizeof(TQ) << std::endl;
     assert(size()+12 <= m_size);
     TQ *tq = (TQ*)(data()+dataSize());
     tq->time = t;
@@ -83,12 +117,29 @@ void T2Message::setTQData(char *eventData, size_t sz) {
     assert("this function is not implemented");
 }
 
+void T2Message::addTime(char *data, size_t sz) {
+    assert(size() + sz <= m_size);
+    memcpy(this->data()+dataSize(), data, sz);
+    sizeInc(sz);
+}
+
 DAQEvent::DAQEvent(char *data, size_t sz, bool write) :Message(data, sz, write, MT_DAQEVENT) {
 }
 
 DAQEvent::~DAQEvent() {}
 
 void DAQEvent::copyFrom(char *data, size_t sz) {
+    assert(size() + sz <= m_size);
+    memcpy(this->data()+dataSize(), data, sz);
+    sizeInc(sz);
+}
+
+RawEvent::RawEvent(char *data, size_t sz, bool write) : Message(data, sz, write, MT_RAWEVENT) {
+}
+
+RawEvent::~RawEvent() {}
+
+void RawEvent::copyFrom(char *data, size_t sz) {
     assert(size() + sz <= m_size);
     memcpy(this->data()+dataSize(), data, sz);
     sizeInc(sz);

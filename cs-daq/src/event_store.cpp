@@ -2,6 +2,9 @@
 #include <utils.h>
 #include <cassert>
 #include <iomanip>
+#include <eformat.h>
+#include <message_impl.h>
+#include <cs_sys_config.h>
 
 using namespace grand;
 
@@ -15,6 +18,7 @@ ESFileHeaderWriter::ESFileHeaderWriter()
 
 ESFileHeaderWriter::~ESFileHeaderWriter() {
     delete m_ptr;
+    m_ptr = nullptr;
 }
 
 void ESFileHeaderWriter::fileOpen(std::string filename)
@@ -39,24 +43,32 @@ void ESFileHeaderWriter::fileClose()
 }
 
 EventStore::EventStore(std::string module, std::string tag, std::string dir, size_t maxFileSize, FileHeaderWriter* fh, bool enableWriting) {
+    std::cout << "Here is EventStore!" << std::endl;
     m_file = nullptr;
     m_module = module;
     m_tag = tag;
     m_enableWriting = enableWriting;
-    if(!m_enableWriting) {
-        LOG(WARNING) << "data writing is disable by user";
-    }
 
+    if(!m_enableWriting) {
+        LOG(WARNING) << "Data writing is disabled by user";
+    }
+    
     if(dir == "") {
-        char *dir1 = ::getenv("GRAND_DATA_DIR");
-        if(dir1) {
-            m_dir = dir;
+        m_daqMode = CSSysConfig::instance()->appConfig().daqMode;
+        std::cout << "EventStore DAQ MODE IS " << m_daqMode;
+        
+        m_dir1 = ::getenv("GRAND_T3_DATA_DIR");
+        
+        if(m_dir1) {
+            m_dir = m_dir1;
         }
         else {
             m_dir = "./";
             LOG(WARNING) << "GRAND_DATA_DIR is not set, use working directory";
         }
     }
+    
+    LOG(INFO) << "data store directory = " << m_dir;
     m_maxFileSize = maxFileSize;
     if(m_maxFileSize == 0) {
         char *s = ::getenv("GRAND_MAX_FILE_SIZE");
@@ -64,6 +76,8 @@ EventStore::EventStore(std::string module, std::string tag, std::string dir, siz
             m_maxFileSize = strtol(s, nullptr, 0);
         }
     }
+
+    m_maxEventNumberSaved =  CSSysConfig::instance()->appConfig().eventNumberSaved;
 
     m_withSubdir = false;
     char *s = ::getenv("GRAND_STORE_WITH_SUBDIR");
@@ -87,22 +101,42 @@ EventStore::~EventStore() {
 }
 
 void EventStore::processData(std::string du, char *data, size_t sz) {
-    // TODO: this is dummy
+    // std::cout << "DuID is " << du << ",size is " << sz << std::endl;
+    static XRate rate("SAVE");
+    uint16_t triggerpattern = *(uint16_t*)(data + (40)*sizeof(uint16_t));
+
     CLOG(INFO, "data") << "input event from DU = " << du
-            << ", datasize = " << sz;
-    write(data, sz);
+            << ", datasize = " << sz << ", trigger pattern is " << triggerpattern;
+    uint32_t duID = atol(du.c_str());
+    DAQEvent msg(data, sz);
+    
+    struct DAQHeader header;
+    header.size = sizeof(DAQHeader) + msg.dataSize();
+    header.type = DAQPCK_TYPE_DUEVENT;
+    header.source = duID;
+
+    m_dataSz = msg.dataSize();
+    write((char*)&header, sizeof(DAQHeader));
+    write(msg.data(), msg.dataSize());
+    
+    rate.add();
 }
 
 #define WRITE_ONE_SIZE 128000000
 void EventStore::write(char *ptr, size_t size)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if(m_file == nullptr) {
+        LOG(WARNING) << "DAQ Data is still arriving after stop..";
+        return;
+    }
     if(!m_enableWriting) {
         return;
     }
     assert(m_file != nullptr);
-    if((m_maxFileSize != (size_t)0) && (m_currentWritten > m_maxFileSize)) {
-        newFile();
-    }
+    // if((m_maxFileSize != (size_t)0) && (m_currentWritten > m_maxFileSize)) {
+    //     newFile();
+    // }
 
     size_t pos = 0;
     while(pos + WRITE_ONE_SIZE  < size) {
@@ -111,17 +145,33 @@ void EventStore::write(char *ptr, size_t size)
     }
     fwrite(ptr+pos, size-pos, 1, m_file);
 
+    // use evt ID to save data.
+    if(size == m_dataSz) {
+        char tmp[10] = {0};
+        memcpy(tmp, ptr, 4);
+        m_eventSave[*(uint32_t*)(tmp)] = 1;
+        if((m_maxEventNumberSaved != (size_t)0) && m_eventSave.size() > m_maxEventNumberSaved) {
+            newFile();
+            std::map<size_t, size_t>::iterator it;
+            for(it = m_eventSave.begin(); it != m_eventSave.end(); ) {
+                m_eventSave.erase(it++);
+            }
+        }
+    }
+
     m_currentWritten += size;
     m_totalWritten += size;
 }
 
 void EventStore::openStream()
 {
-    assert(m_file == nullptr);
-    m_curId = 0;
-    m_totalWritten = 0;
-    m_currentWritten = 0;
-    openFile();
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if(m_file == nullptr) {
+        m_curId = 0;
+        m_totalWritten = 0;
+        m_currentWritten = 0;
+        openFile();
+    }
 }
 
 void EventStore::newFile()
@@ -134,10 +184,13 @@ void EventStore::newFile()
 
 void EventStore::closeStream()
 {
-    closeFile();
-    m_curId = 0;
-    m_totalWritten = 0;
-    m_currentWritten = 0;
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if(m_file) {
+        closeFile();
+        m_curId = 0;
+        m_totalWritten = 0;
+        m_currentWritten = 0;
+    }
 }
 
 void EventStore::openFile()
@@ -205,7 +258,7 @@ std::string EventStore::genFilename()
 
     std::stringstream ss;
     m_curId ++ ;
-    ss << m_module << "." << m_tag << "." << szBuf << "." << std::setw(3) << std::setfill('0') << m_curId << ".dat";
+     ss << m_module << "." << m_tag << "." << szBuf << "." << std::setw(3) << std::setfill('0') << m_maxEventNumberSaved << "."<<  m_curId << ".dat";
     return ss.str();
 }
 

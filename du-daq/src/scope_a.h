@@ -18,11 +18,13 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <data_format.h>
+#include <thread>
+#include <mutex>
 
 #include "frontend.h"
 
 #define DEVFILE "/dev/mem"
-//#define DEV int32_t
 #define Reg_End 0x1FC
 
 namespace grand {
@@ -31,35 +33,34 @@ class ScopeA: public IFrontend {
     public:
         ScopeA();
         ~ScopeA();
-
-        uint32_t page_offset;
-        int32_t dev = 0;
-        void *axi_ptr;
-        uint32_t shadowlist[Reg_End>>2];
-        uint16_t evtlen;
-        uint16_t *evtbuf=NULL;                                          
     protected:
         virtual void elecInit();
         virtual void elecConfig(void *parameters);
         virtual void elecStartRun();
-        virtual int elecReadData(char *data, size_t maxSize);
+        virtual int elecReadData(char *data, size_t maxSize, uint32_t* hitId);
         virtual void elecStopRun();
         virtual void elecTerminate();
 
     private:
-        //int scope_open();
-        // void scope_close();
-        void scope_raw_write(uint32_t reg_addr, uint32_t value);
-        int32_t scope_raw_read(uint32_t reg_addr, uint32_t *value);
-        void scope_set_parameters(uint32_t reg_addr, uint32_t value,uint32_t to_shadow);
-        void scope_flush();
-        // void scope_init_shadow();
-        //void scope_reset();
-        //void scope_start_run();
-        //void scope_stop_run();
-        //void readfromparas();
-        // void scope_copy_shadow();
-        //void scope_create_memory();
-};
+        void scopeRawWrite(uint32_t regAddr, uint32_t value);
+        void scopeRawRead(uint32_t regAddr, uint32_t *value);
+        void scopeSetParameter(uint32_t regAddr, uint32_t value, bool toShadow = false);
+        void scopeFlush();
 
+        std::mutex m_mtx;
+        
+        int station_id = 0;
+        
+        uint32_t m_pageOffset;
+        int32_t m_dev = 0;
+        void *m_axiPtr;
+        uint16_t* evtbuf;
+        uint16_t m_ppsbuf[WCNT_PPS*GPSSIZE];
+        uint32_t m_shadowList[Reg_End>>2];
+
+	uint64_t m_time0, m_time1;
+	int m_count;
+	uint64_t m_duNanoSec;
+};
 }
+

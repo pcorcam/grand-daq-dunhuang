@@ -1,4 +1,6 @@
 
+include(CMakeParseArguments)
+
 function(module_test)
     #set(options OPTIONAL FAST)
     set(oneValueArgs TARGET)

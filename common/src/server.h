@@ -7,6 +7,7 @@
 #include <cstring>
 #include <thread>
 #include <cassert>
+#include <functional>
 
 namespace grand {
 

@@ -18,6 +18,7 @@ const MessageType MT_CMD = 0x01;
 const MessageType MT_ACCEPT = 0x02;
 const MessageType MT_T2 = 0x03;
 const MessageType MT_DAQEVENT = 0x04;
+const MessageType MT_RAWEVENT = 0x05;
 
 struct MessageHeader {
     uint32_t size;
@@ -39,6 +40,7 @@ public:
     void sizeInc(size_t sz);
     void setSizeByData(size_t sz);
 
+    //void dump();
 protected:
     char* m_data;
     size_t m_size;

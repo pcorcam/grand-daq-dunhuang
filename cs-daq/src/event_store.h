@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <mutex>
+#include "map"
 
 namespace grand {
 
@@ -56,11 +58,14 @@ private:
     std::string m_dir;
     FILE *m_file;
     size_t m_maxFileSize;
+    size_t m_maxEventNumberSaved;
     bool m_enableWriting;
     int m_curId;
     
     size_t m_totalWritten;
     size_t m_currentWritten;
+    int m_daqMode;
+    char* m_dir1;
 
     std::string m_currentPath;
 
@@ -68,6 +73,10 @@ private:
 
     bool m_withSubdir;
     std::string m_curSubdir;
+    std::mutex m_mutex;
+
+    std::map<size_t, size_t> m_eventSave;
+    size_t m_dataSz = 0;
 };
 
 }

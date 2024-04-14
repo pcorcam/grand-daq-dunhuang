@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <vector>
+#include <thread>
+#include <mutex>
 #include <map>
 #include <assert.h>
 
@@ -26,9 +28,11 @@ public:
 
 protected:
     size_t read(char* p, size_t maxSz, std::string &ID);
-
+    size_t readT2(char* p, size_t maxSz, std::string &ID);
 private:
     int m_zmqSndBufferSize;
+
+    std::mutex m_mutex;
 
     struct ClientItem {
         std::string ID;
@@ -36,11 +40,14 @@ private:
     };
 
     bool m_inited;
-
     void *m_context;
     void *m_poller;
 
+    char m_daqMode[20] = {0};
+    int m_csDAQMODE;
+
     std::map<std::string/*duID*/, ClientItem> m_clientItem;
+
 };
 
 }
