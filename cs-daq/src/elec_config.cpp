@@ -88,8 +88,8 @@ void ElecConfig::funIIR(double *value, size_t sz, uint16_t* values, size_t& leng
     double a_dbl[10], b_dbl[10];
     int SAMP_FREQ = 500;
     double nu_s;
-    int W_INT = 22;
-    int W_FRAC = 10;
+    int W_INT = 20;
+    int W_FRAC = 12;
     double freq, width;
     freq = value[0];
     width = value[1];

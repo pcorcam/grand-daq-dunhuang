@@ -27,6 +27,7 @@
 #define M_TIMEBUFFERSZ 100000
 #define EACH_DATA_SZ 20
 #define timeCount 1000000000
+#define M_BAKRINGBUFSZ 30000000
 
 class XClock {
     public:
@@ -117,6 +118,11 @@ private:
     uint64_t m_t0, m_t1, m_t2;
     size_t m_frequenceCountBefore;
     size_t m_frequenceCountAfter;
+
+    char *m_bakRingBuffer;
+    char *m_bakDuTimeStampSave;
+    size_t szof_m_bakDuTimeStampSave = 0;
+    size_t szofBakRingBuffer = 0;
 
     void acceptT3Trigger(char* data, size_t sz);
     void acceptRandomTrigger(char* data, size_t sz);
