@@ -297,7 +297,7 @@ void T3Trigger::triggerAlgorithm(char *data, int sz, uint64_t tmID) {
     }
 
     t_be = XXClock::nowNanoSeconds();
-    std::sort(m_t3Container,m_t3Container+num-1);
+    std::sort(m_t3Container,m_t3Container+num);
     t_af = XXClock::nowNanoSeconds();
 
     // printf("after sort, the time diff is %lld\n",t_af - t_be);
