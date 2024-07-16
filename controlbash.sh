@@ -18,25 +18,24 @@ para5=$7
 
 
 if [ $cmd == "cp" -a $OBJ == "all" ];then
-#scp $para root@192.168.61.24:$para2
-#scp $para root@192.168.61.38:$para2
-#scp $para root@192.168.61.39:$para2
-#scp $para root@192.168.61.53:$para2
-#scp $para root@192.168.61.76:$para2
-#scp $para root@192.168.61.77:$para2
-scp $para root@192.168.61.10:$para2
+# scp $para root@192.168.61.10:$para2
 scp $para root@192.168.61.13:$para2
-scp $para root@192.168.61.16:$para2
-# scp $para root@192.168.61.17:$para2
+#scp $para root@192.168.61.16:$para2
+scp $para root@192.168.61.17:$para2
 scp $para root@192.168.61.19:$para2
 scp $para root@192.168.61.20:$para2
-scp $para root@192.168.61.21:$para2
-scp $para root@192.168.61.22:$para2
+#scp $para root@192.168.61.21:$para2
+#scp $para root@192.168.61.22:$para2
 scp $para root@192.168.61.29:$para2
-scp $para root@192.168.61.31:$para2
+# scp $para root@192.168.61.31:$para2
 scp $para root@192.168.61.32:$para2
-scp $para root@192.168.61.33:$para2
-scp $para root@192.168.61.35:$para2
+#scp $para root@192.168.61.33:$para2
+#scp $para root@192.168.61.35:$para2
+scp $para root@192.168.61.41:$para2
+# scp $para root@192.168.61.71:$para2
+# scp $para root@192.168.61.72:$para2
+# scp $para root@192.168.61.75:$para2
+# scp $para root@192.168.61.85:$para2
 #scp $para root@192.168.61.78:$para2
 #scp $para root@192.168.61.79:$para2
 #scp $para root@192.168.61.80:$para2

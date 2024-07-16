@@ -8,7 +8,9 @@ export GRAND_RAW_DATA_DIR=/home/grand/workarea/raw_data
 export GRAND_T3_DATA_DIR=/home/grand/workarea/t3_data
 
 #export GRAND_MAX_FILE_SIZE=50 000 000 # 50MB per file
-export GRAND_MAX_FILE_SIZE=50000000
+export GRAND_MAX_FILE_SIZE=35000000
+# export GRAND_MAX_FILE_SIZE=630000000
+# export GRAND_MAX_FILE_SIZE=3500000
 export GRAND_T2_MAX_FILE_SIZE=500000000
 
 export GRAND_EXTERNAL_HOME=/home/grand/pc_installed

@@ -1,0 +1,22 @@
+dataUnits:
+- ID: '1031'
+  ip: 192.168.61.31
+  port: '19555'
+  type: modelA
+- ID: '1032'
+  ip: 192.168.61.32
+  port: '19555'
+  type: modelA
+global:
+  daqMode: '1'
+  eventBufferNumberOfPages: '1'
+  eventBufferPageSize: '2048000'
+  eventNumberSaved: '1000'
+  l1FileName: RUN127_MD_RAW_20hz_ChanXYZ_20dB_DU31_test
+  l3FileName: TEST-L3Trigger-13DUs-RUN1
+  networkInputBufferSize: '102400'
+  t3TriggerDuNumber: '4'
+  t3TriggerTimeCut: '1000000000'
+  t3TriggerTimeOut: '1000000000'
+  t3TriggerTimeWindow: '6000'
+  zmqSndBufferSize: '2048'

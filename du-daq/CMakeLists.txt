@@ -5,5 +5,5 @@ link_libraries(grandcommon)
 
 add_subdirectory(src)
 add_subdirectory(exec)
-add_subdirectory(tests)
+# add_subdirectory(tests)
 

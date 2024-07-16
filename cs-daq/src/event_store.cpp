@@ -134,9 +134,9 @@ void EventStore::write(char *ptr, size_t size)
         return;
     }
     assert(m_file != nullptr);
-    if((m_maxFileSize != (size_t)0) && (m_currentWritten > m_maxFileSize)) {
-        newFile();
-    }
+    // if((m_maxFileSize != (size_t)0) && (m_currentWritten > m_maxFileSize)) {
+    //     newFile();
+    // }
 
     size_t pos = 0;
     while(pos + WRITE_ONE_SIZE  < size) {
@@ -149,7 +149,7 @@ void EventStore::write(char *ptr, size_t size)
     if(size == m_dataSz) {
         char tmp[10] = {0};
         memcpy(tmp, ptr, 4);
-        m_eventSave[atol(tmp)] = 1;
+        m_eventSave[*(uint32_t*)(tmp)] = 1;
         if((m_maxEventNumberSaved != (size_t)0) && m_eventSave.size() > m_maxEventNumberSaved) {
             newFile();
             std::map<size_t, size_t>::iterator it;
@@ -258,7 +258,7 @@ std::string EventStore::genFilename()
 
     std::stringstream ss;
     m_curId ++ ;
-     ss << m_module << "." << m_tag << "." << szBuf << "." << std::setw(3) << std::setfill('0') << m_maxEventNumberSaved << "."<<  m_curId << ".dat";
+    ss << m_module << "." << m_tag << "." << szBuf << "." << std::setw(3) << std::setfill('0') << m_maxEventNumberSaved << "."<<  m_curId << ".dat";
     return ss.str();
 }
 

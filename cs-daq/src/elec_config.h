@@ -37,7 +37,7 @@ public:
     size_t toShadowlist(uint8_t *sl, std::string DUid);
 
 private:
-    map<string, std::function<uint32_t(uint32_t)>> m_transformFunction;
+    map<string, std::function<double(double)>> m_transformFunction;
     map<string, std::function<void(double*, size_t, uint16_t*, size_t&)>> m_transformFunctionArray;
     map<string, std::function<uint32_t(uint32_t)>> m_transformFunction_2;
     YAML::Node m_config;
@@ -67,7 +67,7 @@ private:
     uint32_t funQuiettime(uint32_t value);
     uint32_t funtimeAfter(uint32_t value);
     uint32_t funMaxTime(uint32_t value);
-    uint32_t funAdditionaGain(double value);
+    double funAdditionaGain(double value);
     void funIIR(double *value, size_t sz, uint16_t* values, size_t& length);
 };
 

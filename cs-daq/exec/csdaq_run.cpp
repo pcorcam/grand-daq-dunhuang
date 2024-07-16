@@ -13,7 +13,6 @@ int main(int argc, char **argv)
     grand::CSDAQApp app;
     app.sysInit();
     app.startDAQ();
-
     std::this_thread::sleep_for(std::chrono::milliseconds(runTime * 1000));
 
     app.stopDAQ();

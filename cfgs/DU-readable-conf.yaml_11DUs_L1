@@ -1,0 +1,2986 @@
+CommonConfig:
+  ifopen: 1
+  Global:
+    Configuration:
+      Auto Reboot: 0
+      Filter 1: 1
+      Filter 2: 1
+      Filter 3: 1
+      Filter 4: 1
+      Fake ADC: 0
+      1PPS: 1
+      Enable DAQ: 1
+    Trigger:
+      Channel 1: 0 # self-triggered: based on signal from hits
+      Channel 2: 0
+      Channel 3: 1
+      Channel 4: 0
+      Ch1 AND Ch2: 0 
+      (not Ch1)AND Ch2: 0 # exclude the channe1 adc, and just open channel2
+      Ch1 AND Ch2, Ch2>Ch1: 0
+      Ch3 AND Ch4: 0
+      20Hz: 0
+      10 sec: 0
+      Internal: 0 
+    Internal Trigger Rate:
+      (1000000,124)Hz: 0xFF
+    TriggerOverlap: # readout: coincidence time
+      Time(ns): 64
+    Battery Voltages(off,on)V:
+      BatLow: 2570
+      BatHigh: 3111
+  Input:
+    Ch1:
+      Off: 0
+      ADC: 7
+    Ch2:
+      Off: 0
+      ADC: 2
+    Ch3:
+      Off: 0
+      ADC: 3
+    Ch4:
+      Off: 0
+      ADC: 4
+  Channels:
+    Channel 1:
+      Pre Trigger: 1024 # readout: prevoious time window
+      Post Trigger: 960 # readout: post time window
+      Additional Gain[-14,23.5](dB): 20
+      Integration time: 0    # smooth
+      Min.Baseline(ADC): 6144
+      Max.Baseline(ADC): 10240
+      Signal Treshold(ADC): 200
+      Noise Treshold(ADC): 100
+      Quiet Time before Sig treshold(ns): 52 # L0 trigger: Tprevious 
+      Time after Sig threshold(ns): 0 # LO trigger: Tperiod
+      Max Time between threshold crossings(ns): 500 # TCmax
+      Min number of threshold crossings(ns): 0 # NCmin
+      Max number of threshold crossings(ns): 255 # NCmax
+      Min charge: 0 # Q
+      Max charge: 255 # Q 
+      Filter1: # notch filter: middle frequence and width. 
+        - 80.0
+        - 0.9
+      Filter2:
+        - 95.0
+        - 0.999
+      Filter3:
+        - 100.0
+        - 0.999
+      Filter4:
+        - 105.0
+        - 0.999
+    Channel 2:
+      Pre Trigger: 1024
+      Post Trigger: 960
+      Additional Gain[-14,23.5](dB): 20
+      Integration time: 0
+      Min.Baseline(ADC): 6144
+      Max.Baseline(ADC): 10240
+      Signal Treshold(ADC): 60
+      Noise Treshold(ADC): 45
+      Quiet Time before Sig treshold(ns): 1000
+      Time after Sig threshold(ns): 100
+      Max Time between threshold crossings(ns): 500
+      Min number of threshold crossings(ns): 2
+      Max number of threshold crossings(ns): 10
+      Min charge: 0
+      Max charge: 255
+      Filter1:
+        - 132
+        - 0.97
+      Filter2:
+        - 137.5
+        - 0.98          
+      Filter3:
+        - 118.9
+        - 0.98       
+      Filter4:
+        - 106.5
+        - 0.98
+    Channel 3:
+      Pre Trigger: 1024
+      Post Trigger: 960
+      Additional Gain[-14,23.5](dB): 20
+      Integration time: 0
+      Min.Baseline(ADC): 6144
+      Max.Baseline(ADC): 10240
+      Signal Treshold(ADC): 110
+      Noise Treshold(ADC): 66
+      Quiet Time before Sig treshold(ns): 510
+      Time after Sig threshold(ns): 500
+      Max Time between threshold crossings(ns): 15
+      Min number of threshold crossings(ns): 2
+      Max number of threshold crossings(ns): 5
+      Min charge: 0
+      Max charge: 255
+      Filter1:
+        - 132
+        - 0.90
+      Filter2:
+        - 137.5
+        - 0.97          
+      Filter3:
+        - 118.9
+        - 0.98       
+      Filter4:
+        - 96.75
+        - 0.88
+    Channel 4:
+      Pre Trigger: 1024
+      Post Trigger: 960
+      Additional Gain[-14,23.5](dB): 20
+      Integration time: 0
+      Min.Baseline(ADC): 6144
+      Max.Baseline(ADC): 10240
+      Signal Treshold(ADC): 200
+      Noise Treshold(ADC): 100
+      Quiet Time before Sig treshold(ns): 52
+      Time after Sig threshold(ns): 0
+      Max Time between threshold crossings(ns): 500
+      Min number of threshold crossings(ns): 0
+      Max number of threshold crossings(ns): 255
+      Min charge: 0
+      Max charge: 255
+      Filter1:
+        - 90.0
+        - 0.999
+      Filter2:
+        - 95.0
+        - 0.999
+      Filter3:
+        - 100.0
+        - 0.999
+      Filter4:
+        - 105.0
+        - 0.999
+    Station Rate(Simulation): 1000
+SpecialConfig:
+  ifopen: 0
+  1031:
+    Global:
+      Configuration:
+        Auto Reboot: 0
+        Filter 1: 1
+        Filter 2: 1
+        Filter 3: 1
+        Filter 4: 1
+        Fake ADC: 0
+        1PPS: 1
+        Enable DAQ: 1
+      Trigger:
+        Channel 1: 0
+        Channel 2: 0
+        Channel 3: 1
+        Channel 4: 0
+        Ch1 AND Ch2: 0
+        (not Ch1)AND Ch2: 0
+        Ch1 AND Ch2, Ch2>Ch1: 0
+        Ch3 AND Ch4: 0
+        20Hz: 0
+        10 sec: 0
+        Internal: 0
+      Internal Trigger Rate:
+        (1000000,124)Hz: 0xFF
+      TriggerOverlap:
+        Time(ns): 64
+      Battery Voltages(off,on)V:
+        BatLow: 2570
+        BatHigh: 3111
+    Input:
+      Ch1:
+        Off: 0
+        ADC: 7
+      Ch2:
+        Off: 0
+        ADC: 2
+      Ch3:
+        Off: 0
+        ADC: 3
+      Ch4:
+        Off: 0
+        ADC: 4
+    Channels:
+      Channel 1:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 300
+        Noise Treshold(ADC): 100
+        Quiet Time before Sig treshold(ns): 52
+        Time after Sig threshold(ns): 0
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 0
+        Max number of threshold crossings(ns): 255
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 80.0
+          - 0.9
+        Filter2:
+          - 95.0
+          - 0.999
+        Filter3:
+          - 100.0
+          - 0.999
+        Filter4:
+          - 105.0
+          - 0.999
+      Channel 2:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 60
+        Noise Treshold(ADC): 45
+        Quiet Time before Sig treshold(ns): 1000
+        Time after Sig threshold(ns): 100
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 2
+        Max number of threshold crossings(ns): 10
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 132
+          - 0.97
+        Filter2:
+          - 137.5
+          - 0.98          
+        Filter3:
+          - 118.9
+          - 0.98       
+        Filter4:
+          - 106.5
+          - 0.98
+      Channel 3:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 85
+        Noise Treshold(ADC): 51
+        Quiet Time before Sig treshold(ns): 1000
+        Time after Sig threshold(ns): 500
+        Max Time between threshold crossings(ns): 15
+        Min number of threshold crossings(ns): 2
+        Max number of threshold crossings(ns): 5
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 132
+          - 0.90
+        Filter2:
+          - 137.5
+          - 0.97          
+        Filter3:
+          - 118.9
+          - 0.98       
+        Filter4:
+          - 106.5
+          - 0.98
+      Channel 4:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 300
+        Noise Treshold(ADC): 100
+        Quiet Time before Sig treshold(ns): 52
+        Time after Sig threshold(ns): 0
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 0
+        Max number of threshold crossings(ns): 255
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 90.0
+          - 0.999
+        Filter2:
+          - 95.0
+          - 0.999
+        Filter3:
+          - 100.0
+          - 0.999
+        Filter4:
+          - 105.0
+          - 0.999
+      Station Rate(Simulation): 1000
+  1071:
+    Global:
+      Configuration:
+        Auto Reboot: 0
+        Filter 1: 1
+        Filter 2: 1
+        Filter 3: 1
+        Filter 4: 1
+        Fake ADC: 0
+        1PPS: 1
+        Enable DAQ: 1
+      Trigger:
+        Channel 1: 0
+        Channel 2: 0
+        Channel 3: 1
+        Channel 4: 0
+        Ch1 AND Ch2: 0
+        (not Ch1)AND Ch2: 0
+        Ch1 AND Ch2, Ch2>Ch1: 0
+        Ch3 AND Ch4: 0
+        20Hz: 0
+        10 sec: 0
+        Internal: 0
+      Internal Trigger Rate:
+        (1000000,124)Hz: 0xFF
+      TriggerOverlap:
+        Time(ns): 64
+      Battery Voltages(off,on)V:
+        BatLow: 2570
+        BatHigh: 3111
+    Input:
+      Ch1:
+        Off: 0
+        ADC: 7
+      Ch2:
+        Off: 0
+        ADC: 2
+      Ch3:
+        Off: 0
+        ADC: 3
+      Ch4:
+        Off: 0
+        ADC: 4
+    Channels:
+      Channel 1:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 300
+        Noise Treshold(ADC): 100
+        Quiet Time before Sig treshold(ns): 52
+        Time after Sig threshold(ns): 0
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 0
+        Max number of threshold crossings(ns): 255
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 80.0
+          - 0.9
+        Filter2:
+          - 95.0
+          - 0.999
+        Filter3:
+          - 100.0
+          - 0.999
+        Filter4:
+          - 105.0
+          - 0.999
+      Channel 2:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 92
+        Noise Treshold(ADC): 23
+        Quiet Time before Sig treshold(ns): 26
+        Time after Sig threshold(ns): 0
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 0
+        Max number of threshold crossings(ns): 255
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 80.0
+          - 0.9
+        Filter2:
+          - 95.0
+          - 0.999
+        Filter3:
+          - 100.0
+          - 0.999
+        Filter4:
+          - 105.0
+          - 0.999
+      Channel 3:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 90
+        Noise Treshold(ADC): 54
+        Quiet Time before Sig treshold(ns): 1000
+        Time after Sig threshold(ns): 500
+        Max Time between threshold crossings(ns): 15
+        Min number of threshold crossings(ns): 2
+        Max number of threshold crossings(ns): 5
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 132
+          - 0.90
+        Filter2:
+          - 137.5
+          - 0.97          
+        Filter3:
+          - 118.9
+          - 0.98       
+        Filter4:
+          - 106.5
+          - 0.98
+      Channel 4:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 300
+        Noise Treshold(ADC): 100
+        Quiet Time before Sig treshold(ns): 52
+        Time after Sig threshold(ns): 0
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 0
+        Max number of threshold crossings(ns): 255
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 90.0
+          - 0.999
+        Filter2:
+          - 95.0
+          - 0.999
+        Filter3:
+          - 100.0
+          - 0.999
+        Filter4:
+          - 105.0
+          - 0.999
+      Station Rate(Simulation): 1000
+  1072:
+    Global:
+      Configuration:
+        Auto Reboot: 0
+        Filter 1: 1
+        Filter 2: 1
+        Filter 3: 1
+        Filter 4: 1
+        Fake ADC: 0
+        1PPS: 1
+        Enable DAQ: 1
+      Trigger:
+        Channel 1: 0
+        Channel 2: 0
+        Channel 3: 0
+        Channel 4: 0
+        Ch1 AND Ch2: 0
+        (not Ch1)AND Ch2: 0
+        Ch1 AND Ch2, Ch2>Ch1: 0
+        Ch3 AND Ch4: 0
+        20Hz: 0
+        10 sec: 1
+        Internal: 0
+      Internal Trigger Rate:
+        (1000000,124)Hz: 0xFF
+      TriggerOverlap:
+        Time(ns): 64
+      Battery Voltages(off,on)V:
+        BatLow: 2570
+        BatHigh: 3111
+    Input:
+      Ch1:
+        Off: 0
+        ADC: 7
+      Ch2:
+        Off: 0
+        ADC: 2
+      Ch3:
+        Off: 0
+        ADC: 3
+      Ch4:
+        Off: 0
+        ADC: 4
+    Channels:
+      Channel 1:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 300
+        Noise Treshold(ADC): 100
+        Quiet Time before Sig treshold(ns): 52
+        Time after Sig threshold(ns): 0
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 0
+        Max number of threshold crossings(ns): 255
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 80.0
+          - 0.9
+        Filter2:
+          - 95.0
+          - 0.999
+        Filter3:
+          - 100.0
+          - 0.999
+        Filter4:
+          - 105.0
+          - 0.999
+      Channel 2:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 92
+        Noise Treshold(ADC): 23
+        Quiet Time before Sig treshold(ns): 26
+        Time after Sig threshold(ns): 0
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 0
+        Max number of threshold crossings(ns): 255
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 80.0
+          - 0.9
+        Filter2:
+          - 95.0
+          - 0.999
+        Filter3:
+          - 100.0
+          - 0.999
+        Filter4:
+          - 105.0
+          - 0.999
+      Channel 3:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 85
+        Noise Treshold(ADC): 51
+        Quiet Time before Sig treshold(ns): 500
+        Time after Sig threshold(ns): 500
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 2
+        Max number of threshold crossings(ns): 10
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 132
+          - 0.90
+        Filter2:
+          - 137.5
+          - 0.97          
+        Filter3:
+          - 118.9
+          - 0.98       
+        Filter4:
+          - 106.5
+          - 0.98
+      Channel 4:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 300
+        Noise Treshold(ADC): 100
+        Quiet Time before Sig treshold(ns): 52
+        Time after Sig threshold(ns): 0
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 0
+        Max number of threshold crossings(ns): 255
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 90.0
+          - 0.999
+        Filter2:
+          - 95.0
+          - 0.999
+        Filter3:
+          - 100.0
+          - 0.999
+        Filter4:
+          - 105.0
+          - 0.999
+      Station Rate(Simulation): 1000
+  1075:
+    Global:
+      Configuration:
+        Auto Reboot: 0
+        Filter 1: 1
+        Filter 2: 1
+        Filter 3: 1
+        Filter 4: 1
+        Fake ADC: 0
+        1PPS: 1
+        Enable DAQ: 1
+      Trigger:
+        Channel 1: 0
+        Channel 2: 0
+        Channel 3: 1
+        Channel 4: 0
+        Ch1 AND Ch2: 0
+        (not Ch1)AND Ch2: 0
+        Ch1 AND Ch2, Ch2>Ch1: 0
+        Ch3 AND Ch4: 0
+        20Hz: 0
+        10 sec: 0
+        Internal: 0
+      Internal Trigger Rate:
+        (1000000,124)Hz: 0xFF
+      TriggerOverlap:
+        Time(ns): 64
+      Battery Voltages(off,on)V:
+        BatLow: 2570
+        BatHigh: 3111
+    Input:
+      Ch1:
+        Off: 0
+        ADC: 7
+      Ch2:
+        Off: 0
+        ADC: 2
+      Ch3:
+        Off: 0
+        ADC: 3
+      Ch4:
+        Off: 0
+        ADC: 4
+    Channels:
+      Channel 1:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 300
+        Noise Treshold(ADC): 100
+        Quiet Time before Sig treshold(ns): 52
+        Time after Sig threshold(ns): 0
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 0
+        Max number of threshold crossings(ns): 255
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 80.0
+          - 0.9
+        Filter2:
+          - 95.0
+          - 0.999
+        Filter3:
+          - 100.0
+          - 0.999
+        Filter4:
+          - 105.0
+          - 0.999
+      Channel 2:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 92
+        Noise Treshold(ADC): 23
+        Quiet Time before Sig treshold(ns): 26
+        Time after Sig threshold(ns): 0
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 0
+        Max number of threshold crossings(ns): 255
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 80.0
+          - 0.9
+        Filter2:
+          - 95.0
+          - 0.999
+        Filter3:
+          - 100.0
+          - 0.999
+        Filter4:
+          - 105.0
+          - 0.999
+      Channel 3:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 110
+        Noise Treshold(ADC): 66
+        Quiet Time before Sig treshold(ns): 1000
+        Time after Sig threshold(ns): 500
+        Max Time between threshold crossings(ns): 15
+        Min number of threshold crossings(ns): 2
+        Max number of threshold crossings(ns): 5
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 132
+          - 0.90
+        Filter2:
+          - 137.5
+          - 0.97          
+        Filter3:
+          - 118.9
+          - 0.98       
+        Filter4:
+          - 106.5
+          - 0.98
+      Channel 4:
+        Pre Trigger: 1024
+        Post Trigger: 960
+        Additional Gain[-14,23.5](dB): 20
+        Integration time: 0
+        Min.Baseline(ADC): 6144
+        Max.Baseline(ADC): 10240
+        Signal Treshold(ADC): 300
+        Noise Treshold(ADC): 100
+        Quiet Time before Sig treshold(ns): 52
+        Time after Sig threshold(ns): 0
+        Max Time between threshold crossings(ns): 500
+        Min number of threshold crossings(ns): 0
+        Max number of threshold crossings(ns): 255
+        Min charge: 0
+        Max charge: 255
+        Filter1:
+          - 90.0
+          - 0.999
+        Filter2:
+          - 95.0
+          - 0.999
+        Filter3:
+          - 100.0
+          - 0.999
+        Filter4:
+          - 105.0
+          - 0.999
+      Station Rate(Simulation): 1000
+  # 1020:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 0
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 92
+  #       Noise Treshold(ADC): 23
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 71
+  #       Noise Treshold(ADC): 44
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000
+  # 1021:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 0
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 92
+  #       Noise Treshold(ADC): 23
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 104
+  #       Noise Treshold(ADC): 65
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000   
+  # 1029:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 0
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 92
+  #       Noise Treshold(ADC): 23
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 74
+  #       Noise Treshold(ADC): 46
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000
+  # 1031:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 0
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 92
+  #       Noise Treshold(ADC): 23
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 83
+  #       Noise Treshold(ADC): 52
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000
+  # 1032:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 0
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 92
+  #       Noise Treshold(ADC): 23
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 109
+  #       Noise Treshold(ADC): 68
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000
+  # 1041:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 0
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 92
+  #       Noise Treshold(ADC): 23
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 109
+  #       Noise Treshold(ADC): 63
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000
+  # 1073:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 0
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 92
+  #       Noise Treshold(ADC): 23
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 94
+  #       Noise Treshold(ADC): 59
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000
+  # 1075:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 0
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 92
+  #       Noise Treshold(ADC): 23
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 109
+  #       Noise Treshold(ADC): 68
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000
+  # 1085:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 0
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 92
+  #       Noise Treshold(ADC): 23
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 20
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 109
+  #       Noise Treshold(ADC): 68
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1504
+  #       Post Trigger: 480
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 100
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000
+  # 1017:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 1
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0 # (ch1 && ch2) do coincidence
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1020
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 300
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 27
+  #       Noise Treshold(ADC): 9
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 30
+  #       Noise Treshold(ADC): 10
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 20
+  #       Noise Treshold(ADC): 10
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000
+  # 1019:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 1
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1020
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 300
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 37.5
+  #       Noise Treshold(ADC): 12.5
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 27
+  #       Noise Treshold(ADC): 9
+  #       Quiet Time before Sig treshold(ns): 26
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 20
+  #       Noise Treshold(ADC): 10
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000
+  # 1020:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 1
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1020
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 300
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 39
+  #       Noise Treshold(ADC): 13
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 33
+  #       Noise Treshold(ADC): 11
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 20
+  #       Noise Treshold(ADC): 10
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000
+  # 1029:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 1
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1020
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 300
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 27
+  #       Noise Treshold(ADC): 9
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 27
+  #       Noise Treshold(ADC): 9
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 20
+  #       Noise Treshold(ADC): 10
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000
+  # 1031:
+  #   Global:
+  #     Configuration:
+  #       Auto Reboot: 1
+  #       Filter 1: 0
+  #       Filter 2: 0
+  #       Filter 3: 0
+  #       Filter 4: 0
+  #       Fake ADC: 0
+  #       1PPS: 1
+  #       Enable DAQ: 1
+  #     Trigger:
+  #       Channel 1: 0
+  #       Channel 2: 1
+  #       Channel 3: 1
+  #       Channel 4: 0
+  #       Ch1 AND Ch2: 0
+  #       (not Ch1)AND Ch2: 0
+  #       Ch1 AND Ch2, Ch2>Ch1: 0
+  #       Ch3 AND Ch4: 0
+  #       20Hz: 0
+  #       10 sec: 0
+  #       Internal: 0
+  #     Internal Trigger Rate:
+  #       (1000000,124)Hz: 0xFF
+  #     TriggerOverlap:
+  #       Time(ns): 64
+  #     Battery Voltages(off,on)V:
+  #       BatLow: 2570
+  #       BatHigh: 3111
+  #   Input:
+  #     Ch1:
+  #       Off: 0
+  #       ADC: 1
+  #     Ch2:
+  #       Off: 0
+  #       ADC: 2
+  #     Ch3:
+  #       Off: 0
+  #       ADC: 3
+  #     Ch4:
+  #       Off: 0
+  #       ADC: 4
+  #   Channels:
+  #     Channel 1:
+  #       Pre Trigger: 1020
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 300
+  #       Noise Treshold(ADC): 300
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 2:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 42
+  #       Noise Treshold(ADC): 14
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 80.0
+  #         - 0.9
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 3:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 33
+  #       Noise Treshold(ADC): 11
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Channel 4:
+  #       Pre Trigger: 1024
+  #       Post Trigger: 960
+  #       Additional Gain[-14,23.5](dB): 5
+  #       Integration time: 5
+  #       Min.Baseline(ADC): 6144
+  #       Max.Baseline(ADC): 10240
+  #       Signal Treshold(ADC): 20
+  #       Noise Treshold(ADC): 10
+  #       Quiet Time before Sig treshold(ns): 52
+  #       Time after Sig threshold(ns): 0
+  #       Max Time between threshold crossings(ns): 1000
+  #       Min number of threshold crossings(ns): 0
+  #       Max number of threshold crossings(ns): 255
+  #       Min charge: 0
+  #       Max charge: 255
+  #       Filter1:
+  #         - 90.0
+  #         - 0.999
+  #       Filter2:
+  #         - 95.0
+  #         - 0.999
+  #       Filter3:
+  #         - 100.0
+  #         - 0.999
+  #       Filter4:
+  #         - 105.0
+  #         - 0.999
+  #     Station Rate(Simulation): 1000

@@ -49,6 +49,7 @@ private:
     bool toError();
 
     int m_daqMode = 0;
+    std::string m_dataFileName;
 };
 
 }

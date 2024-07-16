@@ -59,6 +59,7 @@ void DUDAQApp::sysInit() {
     DUFSM::start();
 
     m_server->initialize();
+
 }
 
 void DUDAQApp::sysTerm() {
@@ -73,6 +74,7 @@ void DUDAQApp::sysTerm() {
 }
 
 void DUDAQApp::processCommand(char *data, size_t sz) {
+    // std::cout << "processCommand func" << std::endl;
     CommandMessage msg(data, sz);
     std::string cmd = msg.cmd();
 
@@ -95,9 +97,9 @@ void DUDAQApp::processCommand(char *data, size_t sz) {
         DUFSM::sendEvent(e);
     }
     else if(cmd == "DOTRIGGER") {
-        std::cout << "we will trigger now" << std::endl;
+        // std::cout << "we will trigger now" << std::endl;
         m_dataManager->accept((char*)msg.param(), (size_t)msg.paramSize());
-        std::cout << "we will end trigger" << std::endl;
+        // std::cout << "we will end trigger" << std::endl;
     }
     else if(cmd == "STOP") {
         EStop e;
@@ -146,6 +148,8 @@ bool DUDAQApp::start() {
 
 bool DUDAQApp::stop() {
     m_frontend->stop();
+    if(m_daqMode == 2)
+        m_dataManager->stop();
     return true;
 }
 

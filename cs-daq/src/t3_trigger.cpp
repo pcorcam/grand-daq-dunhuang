@@ -48,19 +48,21 @@ T3Trigger::~T3Trigger() {
     m_buffers = nullptr;
 }
 
+void T3Trigger::stop() {
+    doLastT3Trigger();
+}
+
 void T3Trigger::processData(std::string du, char *data, size_t sz) {
     // TODO: this is dummy
     // *********************** DO random trigger ******************** //
     // randomTrigger(data,sz);
 
     m_daqMode = CSSysConfig::instance()->appConfig().daqMode;
-    // std::cout << "CSDAQ MODE IS " << m_daqMode;
     if(m_daqMode == 2) {
-        // std::cout << "Now will run T3_DATA mode!" << std::endl;
         doT3Trigger(du, data, sz);
     }
+    
     if(m_daqMode == 3) {
-        // std::cout << "Now will run BOTH_DATA mode!" << std::endl;
         doT3Trigger(du, data, sz);
     }
 }
@@ -167,6 +169,59 @@ void T3Trigger::doT3Trigger(std::string du, char* data, size_t sz) {
     memset(m_t3TimeBuf, 0, 20000000);
 }
 
+void T3Trigger::doLastT3Trigger() {
+    int eachSz = 0;
+    int delCounter = 0;
+    int erase_n1;
+    uint64_t delTimeID[100] = {0};
+
+    std::map<size_t, std::map<size_t, evtInfo>>::iterator it;
+    std::map<size_t, evtInfo>::iterator it_1;
+    std::map<size_t, uint64_t>::iterator it_2;
+    
+    for(it_2 = m_tmJudgement.begin(); it_2 != m_tmJudgement.end(); it_2++) {
+        
+        if(it_2->first == 0) {
+            std::cout << "There is no tmId in m_tmJudgement" << std::endl;
+            continue;
+        }
+
+        // if(m_stop == true) { // Second level.
+        int j=0;
+        it = m_eventInfo.find(it_2->first); // find tmID in m_eventInfo.
+        eachSz = m_eventInfo[it_2->first].size();
+        if(eachSz == 0) continue; // struct number.
+        // copy every tmID's info in m_t3TriggerBuf.
+        for(it_1 = it->second.begin(); it_1 != it->second.end(); it_1++) {
+            int tmpDUid = it_1->first;
+            if(tmpDUid>0 && it_2->first>0) {
+                // printf("copy m_eventInfo[%ld][%d].InfoSz is %d\n", it_2->first, it_1->first, m_eventInfo[it_2->first][it_1->first].InfoSz);
+                memcpy(m_t3TriggerBuf+m_szt3TriggerBuf, m_eventInfo[it_2->first][tmpDUid].buf, m_eventInfo[it_2->first][tmpDUid].InfoSz);
+                m_szt3TriggerBuf += m_eventInfo[it_2->first][it_1->first].InfoSz;
+            }
+            else
+                continue;
+        }
+        
+        // ************************************* //
+        //           Trigger algorithm
+        //                Do Triger              
+        triggerAlgorithm(m_t3TriggerBuf, m_szt3TriggerBuf, it_2->first);
+        // ************************************* //
+        m_szt3TriggerBuf = 0;
+        erase_n1 = m_eventInfo.erase(it_2->first);
+        memset(m_t3TriggerBuf, 0, 20000000);
+        delTimeID[delCounter] = it_2->first;
+        delCounter++;
+    }
+
+    for(int i = 0; i < delCounter; i++) {
+        m_tmJudgement.erase(delTimeID[i] );
+    }
+
+    memset(m_t3TimeBuf, 0, 20000000);
+}
+
 void T3Trigger::randomTrigger(char* data, size_t sz) {
     //************************Random Trigger can be packed.**********************************//
     int num[5] = {0};
@@ -228,6 +283,9 @@ void T3Trigger::triggerAlgorithm(char *data, int sz, uint64_t tmID) {
     char p2[EACH_DATA_SZ]={0};
     int diff=0;
     int nStruct=0;
+    int N_first_position_in_last_part = 0; // last paras.m_triggerThreshold
+    uint64_t N_first_time = 0;
+    int N_counts = 0;
 
     t3TmDuid win[num];
     std::map<size_t, evtInfo>::iterator it_t3;
@@ -239,7 +297,7 @@ void T3Trigger::triggerAlgorithm(char *data, int sz, uint64_t tmID) {
     }
 
     t_be = XXClock::nowNanoSeconds();
-    std::sort(m_t3Container,m_t3Container+num-1);
+    std::sort(m_t3Container,m_t3Container + num);
     t_af = XXClock::nowNanoSeconds();
 
     // printf("after sort, the time diff is %lld\n",t_af - t_be);
@@ -253,23 +311,49 @@ void T3Trigger::triggerAlgorithm(char *data, int sz, uint64_t tmID) {
         memcpy(p, m_t3TimeContainer+i*EACH_DATA_SZ, EACH_DATA_SZ);
         t1 = atoll(p);
 
-        for(int j=i; j<num; j++) {
-            memset(p2, 0, EACH_DATA_SZ);
-            memcpy(p2, m_t3TimeContainer+j*EACH_DATA_SZ, EACH_DATA_SZ);
-            t2 = atoll(p2);
+        if(num - i <= paras.m_triggerThreshold) {
+            if(N_counts == 0) {
+                N_first_time = t1;
+                N_first_position_in_last_part = i;
+            }   
             
-            if(t2-t1>paras.m_timeWindow) {
-                diff = j-i;
-                win[nStruct].buf = new char[(diff)*EACH_DATA_SZ]();
-                assert((i*EACH_DATA_SZ+diff*EACH_DATA_SZ < dataSz, "sz is out of range"));                
-                memcpy(win[nStruct].buf, m_t3TimeContainer+i*EACH_DATA_SZ, diff*EACH_DATA_SZ);
-                win[nStruct].sz = diff*EACH_DATA_SZ;
-                i=j-1;
-                nStruct++;
-                break;
+            for(int j=i; j<num; j++) {
+                memset(p2, 0, EACH_DATA_SZ);
+                memcpy(p2, m_t3TimeContainer+j*EACH_DATA_SZ, EACH_DATA_SZ);
+                t2 = atoll(p2);
+                if( 0 < t2-N_first_time < paras.m_timeWindow) {
+                    i=j+1; // must add 1 to itself because if i equal to j, the value will add twice.
+                    // nStruct++;
+                    N_counts++;
+                    continue;
+                }
             }
-            else 
-                continue;
+            win[nStruct].buf = new char[(N_counts+1)*EACH_DATA_SZ]();
+            assert((N_first_position_in_last_part*EACH_DATA_SZ+(N_counts+1)*EACH_DATA_SZ < dataSz, "sz is out of range"));                
+            memcpy(win[nStruct].buf, m_t3TimeContainer+N_first_position_in_last_part*EACH_DATA_SZ,(N_counts+1)*EACH_DATA_SZ);        
+            win[nStruct].sz = (N_counts+1)*EACH_DATA_SZ;
+            nStruct++;
+        }
+        
+        if(num - i > paras.m_triggerThreshold) {
+            for(int j=i; j<num; j++) {
+                memset(p2, 0, EACH_DATA_SZ);
+                memcpy(p2, m_t3TimeContainer+j*EACH_DATA_SZ, EACH_DATA_SZ);
+                t2 = atoll(p2);
+                
+                if(t2-t1>paras.m_timeWindow) {
+                    diff = j-i;
+                    win[nStruct].buf = new char[(diff)*EACH_DATA_SZ]();
+                    assert((i*EACH_DATA_SZ+diff*EACH_DATA_SZ < dataSz, "sz is out of range"));                
+                    memcpy(win[nStruct].buf, m_t3TimeContainer+i*EACH_DATA_SZ, diff*EACH_DATA_SZ);
+                    win[nStruct].sz = diff*EACH_DATA_SZ;
+                    i=j-1;
+                    nStruct++;
+                    break;
+                }
+                else 
+                    continue;
+            }
         }
     }
     
@@ -318,30 +402,16 @@ void T3Trigger::triggerAlgorithm(char *data, int sz, uint64_t tmID) {
             sprintf(duTriggerNumbers, "%d", n);
             if(msg.size()+sizeof(uint32_t)>20480) {
                 memset(buf, 0, 20480);
-                msg.copyFrom(tmpTag, sizeof(uint32_t)); 
+                msg.copyFrom((char*)(&m_tag), sizeof(uint32_t)); 
             }
             else {
-                msg.copyFrom(tmpTag, sizeof(uint32_t));
+                msg.copyFrom((char*)(&m_tag), sizeof(uint32_t));
             }
             msg.copyFrom(duTriggerNumbers, sizeof(uint32_t));
             // *********************************** //
 
             size_t szofMsg = msg.size();
             m_client->writeAll(buf, szofMsg);
-
-            // ****************** fake trigger ******************** //
-            // std::map<size_t, size_t>::iterator itter;
-            // for(itter = m_trigerDU.begin(); itter != m_trigerDU.end(); ) {
-            //     m_trigerDU.erase(itter++);
-            // }
-            // delete win[i].buf;
-            // win[i].buf = nullptr;
-            // **************************************************** //
-            // auto iter = m_trigerDU.erase(std::begin(m_trigerDU));
-            // std::cout << 111 << std::endl;
-            // if(iter == std::end(m_trigerDU))
-            //     std::cout << "Last Trigger DU element was removed." << std::endl;
-            // std::cout << 222 << std::endl;    
         
         }
         // ******************** True trigger ********************* //

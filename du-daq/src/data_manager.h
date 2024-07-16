@@ -27,6 +27,7 @@
 #define M_TIMEBUFFERSZ 100000
 #define EACH_DATA_SZ 20
 #define timeCount 1000000000
+#define M_BAKRINGBUFSZ 30000000
 
 class XClock {
     public:
@@ -52,23 +53,13 @@ public:
     void setEventOutput(EventOutput fun);
     void setT2EventOutput(EventOutput fun);
     void setRawEventOutput(EventOutput fun);
-
-    /**
-     * @brief called by readout thread
-     *
-     * @param data electronic event data
-     */
     void addRawEvent(char *data, size_t sz);
     void addEvent(char *data, size_t sz, int daqMode);
     void processCommand(char *data, size_t sz);
-    /**
-     * @brief called by backend command input thread
-     *
-     * @param accept message from cs-daq
-     */
     void accept(char *data, size_t sz);
-    
     void initialize();
+    void lastAddEvent();
+    void stop();
     void terminate();
 
 private:
@@ -128,6 +119,10 @@ private:
     size_t m_frequenceCountBefore;
     size_t m_frequenceCountAfter;
 
+    char *m_bakRingBuffer;
+    char *m_bakDuTimeStampSave;
+    size_t szof_m_bakDuTimeStampSave = 0;
+    size_t szofBakRingBuffer = 0;
 
     void acceptT3Trigger(char* data, size_t sz);
     void acceptRandomTrigger(char* data, size_t sz);

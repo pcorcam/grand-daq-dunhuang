@@ -1,0 +1,83 @@
+global:
+  networkInputBufferSize: 102400
+  zmqSndBufferSize: 819200
+  eventBufferPageSize: 1024000
+  eventBufferNumberOfPages: 4
+  eventBufferPageSize: 2048000
+  eventBufferNumberOfPages: 1
+  t3TriggerTimeCut: 1000000000
+  t3TriggerTimeOut: 1000000000
+  t3TriggerTimeWindow: 3000
+  t3TriggerDuNumber: 4
+  l1FileName: "RUN127_UD_RAW_ChanXYZ_20dB_11DUs"
+  # l1FileName: "RUN133_MD_20hz_ChanXYZ_20dB_DU10"
+  # l1FileName: "RUN125_MD_10s_ChanXYZ_20dB_DU72"
+  # l1FileName: "RUN124_MD_10s_ChanXYZ_20dB_DU21"
+  # l1FileName: "RUN133_MD_20hz_RAW_ChanXYZ_20dB_DU20_DU72_LNA_C90_test"
+  l3FileName: "RUN3_CD_L3_Trigger_ChanXYZ_20dB_10dus"
+  # daqMode: 1 is L1-TRIGGER mode, 2 is L3-TRIGGER mode, 3 is BOTH-DATA mode
+  daqMode: 1
+  eventNumberSaved: 1000
+  
+dataUnits:
+   #- type: "modelA"
+   # ID: "1001"
+   # ip: "192.168.10.2"
+   # port: 19555
+  #  - type: "modelA"
+  #    ID: "1010"
+  #    ip: "192.168.61.10"
+  #    port: 19555
+   - type: "modelA"
+     ID: "1013"
+     ip: "192.168.61.13"
+     port: 19555
+   - type: "modelA"
+     ID: "1017"
+     ip: "192.168.61.17"
+     port: 19555
+   - type: "modelA"
+     ID: "1019"
+     ip: "192.168.61.19"
+     port: 19555
+   - type: "modelA"
+     ID: "1020"
+     ip: "192.168.61.20"
+     port: 19555
+  #  - type: "modelA"
+  #    ID: "1021"
+  #    ip: "192.168.61.21"
+  #    port: 19555
+   - type: "modelA"
+     ID: "1029"
+     ip: "192.168.61.29"
+     port: 19555
+   - type: "modelA"
+     ID: "1031"
+     ip: "192.168.61.31"
+     port: 19555
+   - type: "modelA"
+     ID: "1032"
+     ip: "192.168.61.32"
+     port: 19555
+   - type: "modelA"
+     ID: "1041"
+     ip: "192.168.61.41"
+     port: 19555
+   - type: "modelA"
+     ID: "1071"
+     ip: "192.168.61.71"
+     port: 19555
+  #  - type: "modelA"
+  #    ID: "1072"
+  #    ip: "192.168.61.72"
+  #    port: 19555
+   - type: "modelA"
+     ID: "1075"
+     ip: "192.168.61.75"
+     port: 19555
+   - type: "modelA"
+     ID: "1085"
+     ip: "192.168.61.85"
+     port: 19555
+

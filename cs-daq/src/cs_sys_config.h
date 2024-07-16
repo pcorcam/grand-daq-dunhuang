@@ -25,6 +25,8 @@ struct APPConfig {
     int t3TriggerTimeOut;
     int t3TriggerTimeWindow;
     int t3TriggerDuNumber;
+    std::string l1FileName;
+    std::string l3FileName;
     int daqMode;
     int eventNumberSaved;
 };
