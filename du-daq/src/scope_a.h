@@ -54,7 +54,8 @@ class ScopeA: public IFrontend {
         uint32_t m_pageOffset;
         int32_t m_dev = 0;
         void *m_axiPtr;
-        uint16_t* evtbuf;
+        
+        // uint16_t* evtbuf;
         uint16_t m_ppsbuf[WCNT_PPS*GPSSIZE];
         uint32_t m_shadowList[Reg_End>>2];
 

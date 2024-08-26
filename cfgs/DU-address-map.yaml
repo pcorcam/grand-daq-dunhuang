@@ -96,6 +96,11 @@ Global:
       baseAddr: 0x00E
       startBit: 0
       nBits: 16
+  TriggerBlock:
+    FIFO count:
+      baseAddr: 0x00A
+      startBit: 0
+      nBits: 16
 Input: 
   Ch1:
     Off: 

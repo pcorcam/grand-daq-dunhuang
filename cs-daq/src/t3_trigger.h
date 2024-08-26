@@ -29,6 +29,7 @@ public:
     T3Trigger(TriggerDone triggerDoneCallback = nullptr, ZMQClient *client = nullptr);
     ~T3Trigger();
 
+    void stop(); // trigger within the last second.
     void processData(std::string du, char *data, size_t sz);
     
 private:
@@ -79,6 +80,7 @@ private:
     void doT3Trigger(std::string du, char* data, size_t sz);
     void randomTrigger(char* data, size_t sz);
     int genRand(int min, int max);
+    void doLastT3Trigger();
     
 };
 

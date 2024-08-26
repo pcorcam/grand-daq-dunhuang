@@ -54,6 +54,10 @@ void DataManager::initialize()
     m_rawEventSz = 1024000;
 }
 
+void DataManager::stop(){
+    lastAddEvent();
+}
+
 void DataManager::terminate()
 {
     // TODO: release all
@@ -86,20 +90,19 @@ void DataManager::terminate()
 
 void DataManager::addRawEvent(char *data, size_t sz)
 {   
-    // uint64_t nanoTime = 0;
-    	
+    // uint64_t nanoTime = 0;	
     // m_evtbuf = new uint16_t[sz/sizeof(uint16_t)];
     // memset(m_evtbuf, 0, sz);
     // memcpy(m_evtbuf, data, sz);
     // ElecEvent ev(m_evtbuf, sz/sizeof(uint16_t));
     // nanoTime = ev.getTimeFullDataSz().totalSec; // use getTimeFullDataSz because we include index 0 data length here.
     // printf("nanotime is %lld\n", nanoTime);
-	
     RawEvent msg(m_eventBuffer, 1024000, true);
     msg.copyFrom(data, sz);
     if(m_rawEventOutputFun) {
         // std::cout << "msg.size() in addRawEvent is " << msg.size() << std::endl;
-        m_rawEventOutputFun(msg.base(), msg.size());
+        if(msg.size() <= 1024000)
+            m_rawEventOutputFun(msg.base(), msg.size());
     }
     
     if(m_frequenceCountBefore == 0) {
@@ -112,9 +115,6 @@ void DataManager::addRawEvent(char *data, size_t sz)
         m_frequenceCountAfter = m_frequenceCountBefore;
         m_t0 = m_t1;
     }
-    
-    // delete m_evtbuf;
-    // m_evtbuf = nullptr;
 }
 
 void DataManager::addEvent(char *data, size_t sz, int daqMode) 
@@ -138,8 +138,6 @@ void DataManager::addEvent(char *data, size_t sz, int daqMode)
     char duIdTmp[4] = {0};
    
     m_time = 0;
-
-
     m_evtbuf = new uint16_t[sz/sizeof(uint16_t)];
     memset(m_evtbuf, 0, sz);
     memcpy(m_evtbuf, data, sz);
@@ -151,11 +149,29 @@ void DataManager::addEvent(char *data, size_t sz, int daqMode)
     if (szofRingBuffer+sz < M_RINGBUFSZ) {
         memcpy(m_ringBuffer + szofRingBuffer, data, sz); // save raw DAQ data.
     } else {
-        memset(m_duTimeStampSave, 0, M_DUTIMESTAMPSZ); // (szof_m_duTimeStampSave/EACH_DATA_SZ)*sz should less than szofRingBuffer
-        szof_m_duTimeStampSave = 0; // These two keep pace. 
+        // *************** updated by duanbh, 20240418 *************** //
+        memset(m_bakRingBuffer, 0, M_BAKRINGBUFSZ);
+        szofBakRingBuffer = szofRingBuffer - (szSended/EACH_DATA_SZ)*sz;
+        memcpy(m_bakRingBuffer, m_ringBuffer + (szSended/EACH_DATA_SZ)*sz, szofBakRingBuffer);
         memset(m_ringBuffer, 0, M_RINGBUFSZ);
-        szofRingBuffer = 0;
+        memcpy(m_ringBuffer, m_bakRingBuffer, szofBakRingBuffer);
+        szofRingBuffer = szofBakRingBuffer;
+        memcpy(m_ringBuffer + szofRingBuffer, data, sz);
+        szofBakRingBuffer = 0;
+
+        szof_m_bakDuTimeStampSave = szof_m_duTimeStampSave - szSended;
+        printf("szof_m_duTimeStampSave - szSended: %d\n", szof_m_duTimeStampSave - szSended);
+        memset(m_bakDuTimeStampSave, 0, M_DUTIMESTAMPSZ);
+        // memcpy(m_bakDuTimeStampSave, duIdTmp, sizeof(int));
+        memcpy(m_bakDuTimeStampSave, m_duTimeStampSave + sizeof(int) + szSended, szof_m_bakDuTimeStampSave);
+        memset(m_duTimeStampSave, 0, M_DUTIMESTAMPSZ);
+        memcpy(m_duTimeStampSave, duIdTmp, sizeof(int)); 
+        memcpy(m_duTimeStampSave + sizeof(int), m_bakDuTimeStampSave, szof_m_bakDuTimeStampSave);
+        szof_m_duTimeStampSave = szof_m_bakDuTimeStampSave;
+        printf("new szof_m_duTimeStampSave is %d\n", szof_m_duTimeStampSave);
         szSended = 0;
+        szof_m_bakDuTimeStampSave = 0;
+        // ************************************************************* //
     }
 
     if(szof_m_duTimeStampSave == 0)
@@ -171,13 +187,15 @@ void DataManager::addEvent(char *data, size_t sz, int daqMode)
     // int ret = snprintf(timeTmp, EACH_DATA_SZ, "%lld", m_time-m_timeInit+1000000000);
     // m_count++;
     // ***************************************** //
+
     int ret = snprintf(timeTmp, EACH_DATA_SZ, "%lld", m_time);
     memcpy(m_duTimeStampSave + sizeof(int) + szof_m_duTimeStampSave, timeTmp, EACH_DATA_SZ);
     assert(("sizeof(int) + szSended should less than M_DUTIMESTAMPSZ",sizeof(int) + szSended < M_DUTIMESTAMPSZ));
     memcpy(timeT0, m_duTimeStampSave+sizeof(int) + szSended, EACH_DATA_SZ); // get first time in m_duTimeStampSave
-    assert(("sizeof(int) + szof_m_duTimeStampSave should less than M_DUTIMESTAMPSZ", sizeof(int) + szof_m_duTimeStampSave < M_DUTIMESTAMPSZ));
-    memcpy(timeAcceptT2Msg, m_duTimeStampSave + sizeof(int) + szof_m_duTimeStampSave, EACH_DATA_SZ);
-    t_acceptT2Msg = atoll(timeAcceptT2Msg);
+    // assert(("sizeof(int) + szof_m_duTimeStampSave should less than M_DUTIMESTAMPSZ", sizeof(int) + szof_m_duTimeStampSave < M_DUTIMESTAMPSZ));
+    // memcpy(timeAcceptT2Msg, m_duTimeStampSave + sizeof(int) + szof_m_duTimeStampSave, EACH_DATA_SZ);
+    // t_acceptT2Msg = atoll(timeAcceptT2Msg);
+    t_acceptT2Msg = m_time;
     m_timeStart = (atoll(timeT0)/timeCut)*timeCut;
     // printf("m_timeStart is %lld\n", m_timeStart);
     // printf("t_acceptT2Msg is %lld\n", t_acceptT2Msg);
@@ -209,9 +227,24 @@ void DataManager::addEvent(char *data, size_t sz, int daqMode)
 
     szof_m_duTimeStampSave += EACH_DATA_SZ;
     szofRingBuffer+=sz;
-    
-    // delete m_evtbuf;
-    // m_evtbuf = nullptr;
+}
+
+void DataManager::lastAddEvent() {
+    std:: cout << "This is lastAddEvent func" << std::endl;
+    if(szof_m_duTimeStampSave >= szSended) {
+        memset(m_timeBuffer, 0 ,M_TIMEBUFFERSZ);
+        T2Message t2msg(m_timeBuffer, M_TIMEBUFFERSZ, true);
+        assert(szSended < M_DUTIMESTAMPSZ);
+        assert( szof_m_duTimeStampSave + sizeof(int) - szSended < M_DUTIMESTAMPSZ);
+        t2msg.addTime(m_duTimeStampSave + szSended, szof_m_duTimeStampSave + sizeof(int)-szSended); // keep tmID same, because t_acceptT2Msg-m_timeStart>timeCut 
+        szSended = szof_m_duTimeStampSave;
+        if(m_t2EventOutputFun){
+            m_t2EventOutputFun(t2msg.base(), t2msg.size());
+        }
+    }
+    else {
+        szSended = 0; // In this case, m_duTimeStampSave has been initialized;
+    }
 }
 
 void DataManager::accept(char *data, size_t sz) // send a buffer which include eventIDs' information
@@ -220,21 +253,8 @@ void DataManager::accept(char *data, size_t sz) // send a buffer which include e
     // acceptRandomTrigger(data, sz);
 
     // *********** T3 Trigger ************ //
-    // acceptT3Trigger(data, sz);
-
-    int daqMode = 0;
-    daqMode = m_server->m_duDAQMode;
-    // daqMode = duDAQMODE;
-    // std::cout << "DAQ MODE IS " << daqMode;
-    if(daqMode == 1) 
-        std::cout << "now will run RAW_DATA mode!" << std::endl;
-    if(daqMode == 2)
-        std::cout << "now will run T3_DATA mode!" << std::endl;
-        acceptT3Trigger(data, sz);
-    if(daqMode == 3) {
-        std::cout << "now will run BOTH_DATA mode!" << std::endl;
-        acceptT3Trigger(data, sz);
-    }
+    // std::cout << "now will run T3_DATA mode!" << std::endl;
+    acceptT3Trigger(data, sz);
 }
 
 void DataManager::acceptT3Trigger(char* data, size_t sz) {
@@ -261,7 +281,7 @@ void DataManager::acceptT3Trigger(char* data, size_t sz) {
     memset(m_duNumbers, 0, 20);
     memcpy(m_duNumbers, data+szT3Trigger-sizeof(uint32_t), sizeof(uint32_t));
 
-    printf("m_tag is %d\n", atoi(m_tag));
+    printf("m_tag is %d\n", *(uint32_t*)(m_tag));
     // printf("trigger dus number is %d\n", atoi(m_duNumbers));
     for(int i=0; i<szof_m_duTimeStampSave/EACH_DATA_SZ; i++) {
         tmpBuf[EACH_DATA_SZ] = {0};
@@ -279,14 +299,10 @@ void DataManager::acceptT3Trigger(char* data, size_t sz) {
                 t3msg.copyFrom(m_duNumbers, sizeof(uint32_t));
                 t3msg.copyFrom(m_ringBuffer+evtID1*m_rawDataSize, m_rawDataSize);
                 
-                // char test1[4]; // ok here
-                // memcpy(test1, m_eventBuffer + sizeof(MessageHeader), 4);
-                // printf("m_tag is %d\n", atol(test1));
-                
                 if(m_eventOutputFun) {
                     m_eventOutputFun(t3msg.base(), t3msg.size()); // call write function, which is packed by m_dataManager.
                 }
-                printf("t3msg sz is %d\n", t3msg.size());
+                // printf("t3msg sz is %d\n", t3msg.size());
                 memset(m_eventBuffer,0,100000);
                 m_mutex.unlock();
                 break;

@@ -62,7 +62,7 @@ rawEventStore::rawEventStore(std::string module, std::string tag, std::string di
     if(dir == "") {
         
         m_dir1 = ::getenv("GRAND_RAW_DATA_DIR");
-        std::cout << "RAW_DATA_Meantime'S SAVE PATH IS " << m_dir1 << std::endl;
+        // std::cout << "RAW_DATA_Meantime'S SAVE PATH IS " << m_dir1 << std::endl;
 
         if(m_dir1) {
             m_dir = m_dir1;
@@ -112,6 +112,7 @@ rawEventStore::~rawEventStore() {
 }
 
 void rawEventStore::processData(std::string du, char *data, size_t sz) {
+
     // std::cout << "DuID is " << du << ",daq data is " << data << ",size is " << sz << std::endl;
 	
     int hitId = 0;
@@ -121,17 +122,18 @@ void rawEventStore::processData(std::string du, char *data, size_t sz) {
     memset(m_evtbuf, 0, sz);
     memcpy(m_evtbuf, data, sz);
     ElecEvent ev(m_evtbuf, sz/sizeof(uint16_t));
-    // printf("length is %d\n", m_evtbuf[4]);
     nanoTime = ev.getTimeFullDataSz().totalSec; // use getTimeFullDataSz because we include index 0 data length here.
     hit = (uint32_t *)m_evtbuf;
     hitId = hit[2];
     m_time1 = XXClock::nowNanoSeconds();
     
     if(m_count == 0) {
-	    printf("DUId is %s, hitId is %d, nanotime is %lld\n", du.c_str(), hitId+1, nanoTime);
+	    // printf("DUId is %s, hitId is %d, nanotime is %lld\n", du.c_str(), hitId+1, nanoTime);
+        printf("DUId: %s, hitId: %d, nanotime: %lld\n", du.c_str(), hitId+1, nanoTime);
     }
     else if(m_count>0) {
-	    printf("DUId is %s, hitId is %d, timediff is %lld, nanotime is %lld\n", du.c_str(), hitId+1, m_time1 - m_time0, nanoTime);
+	    // printf("DUId is %s, hitId is %d, timediff is %lld, nanotime is %lld\n", du.c_str(), hitId+1, m_time1 - m_time0, nanoTime);
+        printf("DUId: %s, hitId: %d, timediff: %lld, nanotime: %lld\n", du.c_str(), hitId+1, m_time1 - m_time0, nanoTime);
     }
     m_time0 = m_time1;
     m_count++;
@@ -277,11 +279,12 @@ std::string rawEventStore::genFilename()
 {
     char szBuf[256] = {0};
     time_t ct = time(NULL);
-    strftime(szBuf, 256, "%Y%m%d%H%M%S", localtime(&ct));
+    // strftime(szBuf, 256, "%Y%m%d%H%M%S", localtime(&ct));
+    strftime(szBuf, 256, "%Y%m%d_%H%M%S", gmtime(&ct));
 
     std::stringstream ss;
     m_curId ++ ;
-    ss << m_module << "." << m_tag << "." << szBuf << "." << std::setw(3) << std::setfill('0') << m_curId << ".dat";
+    ss << m_module << "_" << szBuf << "_" << m_tag << "_" << std::setw(3) << std::setfill('0') << m_curId << ".dat";
     return ss.str();
 }
 
@@ -289,6 +292,7 @@ std::string rawEventStore::genSubdir()
 {
     char szBuf[256] = {0};
     time_t ct = time(NULL);
-    strftime(szBuf, 256, "%Y/%m%d/%H", localtime(&ct));
+    // strftime(szBuf, 256, "%Y/%m%d/%H", localtime(&ct));
+    strftime(szBuf, 256, "%Y%m%d_%H%M%S", gmtime(&ct));
     return szBuf;
 }

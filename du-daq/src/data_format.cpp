@@ -11,17 +11,16 @@ ElecEvent::ElecEvent(uint16_t *data, int sz)
 }
 
 ElecEvent::~ElecEvent(){
-    delete m_data;
-    m_data = nullptr;
 }
 
 ElecEvent::s_time ElecEvent::getTimeNotFullDataSz()
 {
+
     struct tm tt;
     double fracsec;
     uint32_t sec, nanosec;
     int offset = 0;
-
+    int CTP_value;
     tt.tm_sec = (m_data[offset+EVT_STATSEC-2]&0xff)-m_data[offset+EVT_LEAP-2];    // Convert GPS in a number of seconds
     tt.tm_min = (m_data[offset+EVT_MINHOUR-2]>>8)&0xff;
     tt.tm_hour = (m_data[offset+EVT_MINHOUR-2])&0xff;
@@ -29,11 +28,10 @@ ElecEvent::s_time ElecEvent::getTimeNotFullDataSz()
     tt.tm_mon = (m_data[offset+EVT_DAYMONTH-2]&0xff)-1;
     tt.tm_year = m_data[offset+EVT_YEAR-2] - 1900;
     sec = (unsigned int)timegm(&tt);
-
     if(*(m_data+36)!=0) {
-        fracsec = (double)(*(uint32_t*)(m_data+34))/(double)(*(uint32_t*)(m_data+36));
+        CTP_value = *(uint32_t*)(m_data+36);
+        fracsec = (double)(*(uint32_t*)(m_data+34))/(double)(CTP_value &= ~(1<<31));
         nanosec = uint32_t(fracsec*1000000000ULL);
-        *(m_data-m_size+2) = nanosec;
     }
     else {
         fracsec = 0;
@@ -52,6 +50,7 @@ ElecEvent::s_time ElecEvent::getTimeFullDataSz()
     double fracsec;
     uint32_t sec, nanosec;
     int offset = 0;
+    int CTP_value;
     
     tt.tm_sec = (m_data[offset+EVT_STATSEC+newDataSzAdded]&0xff)-m_data[offset+EVT_LEAP+newDataSzAdded];    // Convert GPS in a number of seconds
     tt.tm_min = (m_data[offset+EVT_MINHOUR+newDataSzAdded]>>8)&0xff;
@@ -62,7 +61,9 @@ ElecEvent::s_time ElecEvent::getTimeFullDataSz()
     sec = (unsigned int)timegm(&tt);
 	
     if(*(m_data+EVT_CTP)!=0) {
-        fracsec = (double)(*(uint32_t*)(m_data+EVT_CTD+newDataSzAdded))/(double)(*(uint32_t*)(m_data+EVT_CTP+newDataSzAdded));
+        // fracsec = (double)(*(uint32_t*)(m_data+EVT_CTD+newDataSzAdded))/(double)(*(uint32_t*)(m_data+EVT_CTP+newDataSzAdded));
+        CTP_value = *(uint32_t*)(m_data+EVT_CTP+newDataSzAdded);
+        fracsec = (double)(*(uint32_t*)(m_data+EVT_CTD+newDataSzAdded))/(double)(CTP_value &= ~(1<<31));
         nanosec = uint32_t(fracsec*1000000000ULL);
         *(m_data-m_size+EVT_NANOSEC+newDataSzAdded) = nanosec;
     }

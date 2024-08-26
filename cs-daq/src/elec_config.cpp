@@ -52,18 +52,31 @@ uint32_t ElecConfig::funBattery(uint32_t value) {
     volt = int(10*(volt+0.05))/10;
     return volt;
 }
+
+uint32_t ElecConfig::funTriggerBlock(uint32_t value) {                  // mod by xx(20240531)
+    if (value>16384 || value<0){
+        return 10880;
+    }else{
+        return value;
+    }
+}
+
 uint32_t ElecConfig::funInput_Off(uint32_t value) {return value*0;}
 uint32_t ElecConfig::funInput_ADC(uint32_t value) {
     assert((1 <= value <= 8)&&("value should be type int between 1to8"));
     return value-1;
 }
+
 uint32_t ElecConfig::funPreorPostTri(uint32_t value){return value/2;}
-uint32_t ElecConfig::funQuiettime(uint32_t value){return value/4;}
-uint32_t ElecConfig::funtimeAfter(uint32_t value){return value/16;}
-uint32_t ElecConfig::funMaxTime(uint32_t value){return value/4;}
-uint32_t ElecConfig::funAdditionaGain(double value) {
+uint32_t ElecConfig::funQuiettime(uint32_t value){return value/2;}
+uint32_t ElecConfig::funtimeAfter(uint32_t value){return value/10;}
+uint32_t ElecConfig::funMaxTime(uint32_t value){return value/2;}  // duanbh modified, beacuse we find the values do not cope with the firmware.
+
+double ElecConfig::funAdditionaGain(double value) {
+    printf("value is %f\n", value);
     assert((-14 <= value <= 23.5)&&("You should choose a number during this scope!"));
     uint32_t GainDB2=uint32_t(int((4096*(value+14)/(37.5*2.5))+0.5));
+    std::cout << "Gain DA is " << GainDB2 << std::endl;
     return GainDB2;
 }
 
@@ -86,8 +99,8 @@ void ElecConfig::funIIR(double *value, size_t sz, uint16_t* values, size_t& leng
     double a_dbl[10], b_dbl[10];
     int SAMP_FREQ = 500;
     double nu_s;
-    int W_INT = 22;
-    int W_FRAC = 10;
+    int W_INT = 20; // modified by xuxing and duanbh, 20240418
+    int W_FRAC = 12; // modified by xuxing and duanbh, 20240418
     double freq, width;
     freq = value[0];
     width = value[1];
@@ -133,6 +146,7 @@ void ElecConfig::load(std::string addressFile, std::string dataFile)
     m_transformFunction["Global|TriggerOverlap|Time(ns)"] = std::bind(&ElecConfig::funTriggerOverlap, this, std::placeholders::_1);
     m_transformFunction["Global|Battery Voltages(off,on)V|BatLow"] = std::bind(&ElecConfig::funBattery, this, std::placeholders::_1);
     m_transformFunction["Global|Battery Voltages(off,on)V|BatHigh"] = std::bind(&ElecConfig::funBattery, this, std::placeholders::_1);
+    m_transformFunction["Global|TriggerBlock|FIFO count"] = std::bind(&ElecConfig::funTriggerBlock, this, std::placeholders::_1);
     m_transformFunction["Input|Ch1|Off"] = std::bind(&ElecConfig::funInput_Off, this, std::placeholders::_1);
     m_transformFunction["Input|Ch1|ADC"] = std::bind(&ElecConfig::funInput_ADC, this, std::placeholders::_1);
     m_transformFunction["Input|Ch2|Off"] = std::bind(&ElecConfig::funInput_Off, this, std::placeholders::_1);
@@ -411,19 +425,12 @@ size_t ElecConfig::toShadowlist(uint8_t *sl, std::string DUid)
                                     }   
                                     if(name2 == "(1000000,124)Hz") {
                                         uint32_t value = node_4->second.as<int>();
-                                        std::cout << "name is " << std::endl;
-                                        std::cout << "name2 is " << name2 << std::endl;
-                                        std::cout << "value is " << value << std::endl;
                                         uint32_t value1 = transformFunction(group, name, name2)(value);
                                         setBits(sl, addr.baseAddr, addr.startBit, addr.nBits, value1);
                                     }
                                     else {
-                                        std::cout << "name is " << name << std::endl;
-                                        std::cout << "name2 is " << name2 << std::endl;
                                         double value = node_4->second.as<double>();
-                                        std::cout << "value is " << value << std::endl;
                                         double value2 = transformFunction2(group, name, name2)(value);
-                                        // std::cout << "value2 is " << value2 << std::endl;
                                         setBits(sl, addr.baseAddr, addr.startBit, addr.nBits, value2);
                                     }
                                     //just modify the value

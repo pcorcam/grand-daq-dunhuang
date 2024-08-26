@@ -57,7 +57,6 @@ void Client::writeOne(std::string ID, char *p, size_t sz) {
     // std::cout << "duID is " << ID << std::endl;
     // this->write(ID, p, sz);
     write(ID, p, sz);
-    // std::cout << "That's all for writeOne" << std::endl;
 }
 
 Client::Client() {

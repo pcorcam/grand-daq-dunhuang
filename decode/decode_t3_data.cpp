@@ -20,6 +20,8 @@ struct SaveHitID
 {
     int sameEventCount = 0;
     uint32_t* buf;
+    int dataLenth = 0;
+	int dataPos = 0;
 };
 
 void printChannelData(FILE *fp, uint16_t len, uint16_t *data) {
@@ -46,7 +48,7 @@ void printData(FILE *fp, char *buffer, size_t size, uint16_t duID, size_t hitIdI
     
     uint16_t *ptr = (uint16_t*)(buffer+sizeof(DAQHeader));
     memcpy(Event_ID_tag, (char*)(ptr++),4);
-    fprintf(fp, " Event_ID_Tag = %d\n", atoi(Event_ID_tag));
+    fprintf(fp, " Event_ID_Tag = %d\n", *(uint32_t*)(Event_ID_tag));
     *(ptr++);
 
     memcpy(TriggerNumbers, (char*)ptr++, 4);
@@ -214,7 +216,7 @@ int main(int argc, char* argv[])
     FILE* fin=fopen(argv[1],"rb");
     FILE* fout=fopen(argv[2],"w");
     char *buffer = new char[2048*2048];
-    char *tmp = new char[2048*2048];
+    char *buffer2 = new char[2048*2048];
     char tmpTag[100];
     char tagStack[1024] = {};
     size_t TraceOrder = 0;
@@ -227,6 +229,7 @@ int main(int argc, char* argv[])
     std::map<size_t, std::map<uint16_t, SaveHitID>>::iterator it; 
     std::map<uint16_t, SaveHitID>::iterator it2;
 
+    int readedLen = 0;
     fseek(fin, 256, SEEK_SET);
     while(!feof(fin)) {
         size_t ret = fread(buffer, 1, sizeof(DAQHeader), fin);
@@ -241,11 +244,16 @@ int main(int argc, char* argv[])
         ret = fread(buffer+sizeof(DAQHeader), 1, sz-sizeof(DAQHeader), fin);
         memset(tmpTag, 0, 100);
         memcpy(tmpTag, buffer+sizeof(DAQHeader), sizeof(uint32_t));
-        evtTag = atoi(tmpTag);
+        evtTag = *(uint32_t*)(tmpTag);
         if(!TraceOrderstack[evtTag].count(duID))
             TraceOrderstack[evtTag][duID].buf = new uint32_t[100];
         TraceOrderstack[evtTag][duID].buf[TraceOrderstack[evtTag][duID].sameEventCount] = TraceOrder;
-        TraceOrderstack[evtTag][duID].sameEventCount++;  
+        TraceOrderstack[evtTag][duID].sameEventCount++;
+        TraceOrderstack[evtTag][duID].dataLenth = sz;
+        // printf("dataLenth is %d\n", TraceOrderstack[evtTag][duID].dataLenth);
+		TraceOrderstack[evtTag][duID].dataPos = readedLen;
+		readedLen += sz;  
+
         // printf("TraceOrder is %d\n", TraceOrder);
         TraceOrder++;
         if(ret != sz-sizeof(DAQHeader)) {
@@ -253,29 +261,33 @@ int main(int argc, char* argv[])
         }
     }
     
+    fseek(fin, 256, SEEK_SET);
     for(it = TraceOrderstack.begin(); it != TraceOrderstack.end(); it++) {
         fprintf(fout, "****** Event %lld ******\n", it->first);
+        int evtReaded = 0;
         for(it2 = it->second.begin(); it2 != it->second.end(); it2++) {
             for(int i=0; i<it2->second.sameEventCount; i++) {
-                fseek(fin, FILE_HEAD_SZ + it2->second.buf[i]*sz, SEEK_SET); // TraceOrder*sz
-                size_t ret = fread(buffer, 1, sizeof(DAQHeader), fin);
+                memset(buffer2, 0, 2048*2048);
+                fseek(fin, FILE_HEAD_SZ + it2->second.dataPos, SEEK_SET); // TraceOrder*sz
+                size_t ret = fread(buffer2, 1, sizeof(DAQHeader), fin);
                 if(ret != sizeof(DAQHeader)) {
                     break;
                 }
-                ret = fread(buffer + sizeof(DAQHeader), 1, sz - sizeof(DAQHeader), fin);
-                if(ret != sz - sizeof(DAQHeader)) {
+                ret = fread(buffer2 + sizeof(DAQHeader), 1, it2->second.dataLenth - sizeof(DAQHeader), fin);
+                if(ret != it2->second.dataLenth - sizeof(DAQHeader)) {
                     break;
                 }
                 // printf("it->first is %d, it2->first is %d\n", it->first, it2->first);
-                printData(fout, buffer, sz, it2->first, it2->second.buf[i]);
+                printData(fout, buffer2, it2->second.dataLenth, it2->first, it2->second.buf[i]);
+                // evtReaded += it2->second.dataLenth;
             }
             delete TraceOrderstack[it->first][it2->first].buf; // it2->first: duID, it2->second: TraceOrder
         }
     }
     
     delete buffer;
-    delete tmp;
-    tmp = nullptr;
+    delete buffer2;
+    buffer2 = nullptr;
     buffer = nullptr;
 
     return(1);

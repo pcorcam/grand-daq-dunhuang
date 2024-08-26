@@ -8,142 +8,75 @@ global:
   t3TriggerTimeCut: 1000000000
   t3TriggerTimeOut: 1000000000
   t3TriggerTimeWindow: 6000
-  t3TriggerDuNumber: 3
+  t3TriggerDuNumber: 4
+  # l1FileName: "RUN133_MD_RAW_20hz_ChanXYZ_20dB_DU10_test"
+  # l1FileName: "RUN133_MD_RAW_20hz_ChanXYZ_20dB_DU19_DU20_DU41_test"
+  # l1FileName: "RUN124_MD_RAW_10s_ChanXYZ_20dB_DU21_test"
+  l1FileName: "RUN125_MD_RAW_10s_ChanXYZ_20dB_DU31_DU41_DU72_test"
+  l3FileName: "TEST-L3Trigger-13DUs-RUN1"
   # daqMode: 1 is L1-TRIGGER mode, 2 is L3-TRIGGER mode, 3 is BOTH-DATA mode
   daqMode: 1
-  eventNumberSaved: 100
+  eventNumberSaved: 1000
   
 dataUnits:
-#- type: "modelA"
-#  ID: "1001"
-#  ip: "192.168.10.2"
-#  port: 19555
-#- type: "modelA"
-#  ID: "1024"
-#  ip: "192.168.61.24"
-#  port: 19555
-# - type: "modelA"
-#   ID: "1010"
-#   ip: "192.168.61.10"
-#   port: 19555
-- type: "modelA"
-  ID: "1013"
-  ip: "192.168.61.13"
-  port: 19555
-# - type: "modelA"
-#   ID: "1016"
-#   ip: "192.168.61.16"
-#   port: 19555
-- type: "modelA"
-  ID: "1017"
-  ip: "192.168.61.17"
-  port: 19555
-- type: "modelA"
-  ID: "1019"
-  ip: "192.168.61.19"
-  port: 19555
-- type: "modelA"
-  ID: "1020"
-  ip: "192.168.61.20"
-  port: 19555
-# - type: "modelA"
-#   ID: "1021"
-#   ip: "192.168.61.21"
-#   port: 19555
-# # - type: "modelA"
-# #   ID: "1022"
-# #   ip: "192.168.61.22"
-# #   port: 19555
-# - type: "modelA"
-#   ID: "1027"
-#   ip: "192.168.61.27"
-#   port: 19555
-- type: "modelA"
-  ID: "1029"
-  ip: "192.168.61.29"
-  port: 19555
-- type: "modelA"
-  ID: "1031"
-  ip: "192.168.61.31"
-  port: 19555
-- type: "modelA"
-  ID: "1032"
-  ip: "192.168.61.32"
-  port: 19555
-# - type: "modelA"
-#   ID: "1033"
-#   ip: "192.168.61.33"
-#   port: 19555  # *******
-- type: "modelA"
-  ID: "1035"
-  ip: "192.168.61.35"
-  port: 19555
-#- type: "modelA"
-#  ID: "1038"
-#  ip: "192.168.61.38"
-#  port: 19555
-#- type: "modelA"
-#  ID: "1039"
-#  ip: "192.168.61.39"
-#  port: 19555
-#- type: "modelA"
-#  ID: "1002"
-#  ip: "192.168.61.53"
-#  port: 19555
-# - type: "modelA"
-#  ID: "1076"
-#  ip: "192.168.61.76"
-#  port: 19555
-#- type: "modelA"
-#  ID: "1077"
-#  ip: "192.168.61.77"
-#  port: 19555
-# - type: "modelA"
-#   ID: "1078"
-#   ip: "192.168.61.78"
-#   port: 19555
-#- type: "modelA"
-#  ID: "1079"
-#  ip: "192.168.61.79"
-#  port: 19555
-#- type: "modelA"
-#  ID: "1080"
-#  ip: "192.168.61.80"
-#  port: 19555
-#- type: "modelA"
-#  ID: "1081"
-#  ip: "192.168.61.81"
-#  port: 19555
-#- type: "modelA"
-#  ID: "1082"
-#  ip: "192.168.61.82"
-#  port: 19555
-#- type: "modelA"
-#  ID: "2003"
-#  ip: "192.168.61.83"
-#  port: 19555
-#- type: "modelA"
-#  ID: "2004"
-#  ip: "192.168.61.84"
-#  port: 19555
-#- type: "modelA"
-#  ID: "1085"
-#  ip: "192.168.61.85"
-#  port: 19555
-#- type: "modelA"
-#  ID: "1086"
-#  ip: "192.168.61.86"
-#  port: 19555
-#- type: "modelA"
-#  ID: "1087"
-#  ip: "192.168.61.87"
-#  port: 19555
-#- type: "modelA"
-#  ID: "2008"
-#  ip: "192.168.61.88"
-#  port: 19555
-#- type: "modelA"
-#  ID: "1094"
-#  ip: "192.168.61.94"
-#  port: 19555
+   #- type: "modelA"
+   # ID: "1001"
+   # ip: "192.168.10.2"
+   # port: 19555
+  #  - type: "modelA"
+  #    ID: "1010"
+  #    ip: "192.168.61.10"
+  #    port: 19555
+  #  - type: "modelA"
+  #    ID: "1013"
+  #    ip: "192.168.61.13"
+  #    port: 19555
+  #  - type: "modelA"
+  #    ID: "1017"
+  #    ip: "192.168.61.17"
+  #    port: 19555
+  #  - type: "modelA"
+  #    ID: "1019"
+  #    ip: "192.168.61.19"
+  #    port: 19555
+  #  - type: "modelA"
+  #    ID: "1020"
+  #    ip: "192.168.61.20"
+  #    port: 19555
+  #  - type: "modelA"
+  #    ID: "1021"
+  #    ip: "192.168.61.21"
+  #    port: 19555
+  #  - type: "modelA"
+  #    ID: "1029"
+  #    ip: "192.168.61.29"
+  #    port: 19555
+   - type: "modelA"
+     ID: "1031"
+     ip: "192.168.61.31"
+     port: 19555
+  #  - type: "modelA"
+  #    ID: "1032"
+  #    ip: "192.168.61.32"
+  #    port: 19555
+   - type: "modelA"
+     ID: "1041"
+     ip: "192.168.61.41"
+     port: 19555
+  #  - type: "modelA"
+  #    ID: "1071"
+  #    ip: "192.168.61.71"
+  #    port: 19555  
+   - type: "modelA"
+     ID: "1072"
+     ip: "192.168.61.72"
+     port: 19555
+  #  - type: "modelA"
+  #    ID: "1075"
+  #    ip: "192.168.61.75"
+  #    port: 19555
+  #  - type: "modelA"
+  #    ID: "1085"
+  #    ip: "192.168.61.85"
+  #    port: 19555
 

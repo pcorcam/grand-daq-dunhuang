@@ -36,7 +36,7 @@ IFrontend::~IFrontend() {
 }
 
 void IFrontend::inputThread() {
-    std::cout << "HERE IS INPUTTHREAD IN IFRONTEND FUNC " << std::endl;
+    // std::cout << "HERE IS INPUTTHREAD IN IFRONTEND FUNC " << std::endl;
     size_t bufSize = DUSysConfig::instance()->readoutBufferSize;
     char *buf = new char[bufSize];
     hitId = 0;
@@ -46,25 +46,27 @@ void IFrontend::inputThread() {
     m_count = 0;
 
     while(true) {
+        // std::cout << "out layer in frontend" << std::endl;
+        memset(buf, 0, bufSize);
         if(m_stop) {
             break;
         }
         int retSz = elecReadData(buf, bufSize, &hitId);
-	if(retSz > 0) { // Here we think there is data from electronics.
-		m_time1 = XClock::nowNanoSeconds();
-		if(m_count == 0) {
-			printf("hitId is %d, ", hitId);
-		}
-		else if(m_count>0) {
-			printf("hitId is %d, timediff is %lld, ", hitId, m_time1 - m_time0);
-		}
-		m_time0 = m_time1;
-		m_count++;
-
-		if(m_callback) {
-			m_callback(buf, retSz);
-		}
-	}
+        if(retSz > 0) { // Here we think there is data from electronics.
+            m_time1 = XClock::nowNanoSeconds();
+            if(m_count == 0) {
+                // printf("hitId is %d\n, ", hitId);
+            }
+            else if(m_count>0) {
+                // printf("hitId is %d, timediff is %lld\n, ", hitId, m_time1 - m_time0);
+            }
+            m_time0 = m_time1;
+            m_count++;
+            if(m_callback) {
+                m_callback(buf, retSz);
+            }
+        }
+        // std::cout << "out layer in frontend end" << std::endl;
     }
     delete buf;
     buf = nullptr;
@@ -92,7 +94,6 @@ void IFrontend::start(){
     elecStartRun();
 
     m_stop = false;
-    std::cout << "THIS IFRONTEND START" << std::endl;
     m_thread = std::thread(&IFrontend::inputThread,this);
 }
 

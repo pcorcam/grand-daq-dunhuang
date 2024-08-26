@@ -21,6 +21,7 @@ ElecEvent::s_time ElecEvent::getTimeNotFullDataSz()
     double fracsec;
     uint32_t sec, nanosec;
     int offset = 0;
+    int CTP_value;
 
     tt.tm_sec = (m_data[offset+EVT_STATSEC-2]&0xff)-m_data[offset+EVT_LEAP-2];    // Convert GPS in a number of seconds
     tt.tm_min = (m_data[offset+EVT_MINHOUR-2]>>8)&0xff;
@@ -31,7 +32,9 @@ ElecEvent::s_time ElecEvent::getTimeNotFullDataSz()
     sec = (unsigned int)timegm(&tt);
 
     if(*(m_data+36)!=0) {
-        fracsec = (double)(*(uint32_t*)(m_data+34))/(double)(*(uint32_t*)(m_data+36));
+        // fracsec = (double)(*(uint32_t*)(m_data+34))/(double)(*(uint32_t*)(m_data+36));
+        CTP_value = *(uint32_t*)(m_data+36);
+        fracsec = (double)(*(uint32_t*)(m_data+34))/(double)(CTP_value &= ~(1<<31));
         nanosec = uint32_t(fracsec*1000000000ULL);
         *(m_data-m_size+2) = nanosec;
     }
@@ -52,6 +55,7 @@ ElecEvent::s_time ElecEvent::getTimeFullDataSz()
     double fracsec;
     uint32_t sec, nanosec;
     int offset = 0;
+    int CTP_value;
 	
     tt.tm_sec = (m_data[offset+EVT_STATSEC+newDataSzAdded]&0xff)-m_data[offset+EVT_LEAP+newDataSzAdded];    // Convert GPS in a number of seconds
     tt.tm_min = (m_data[offset+EVT_MINHOUR+newDataSzAdded]>>8)&0xff;
@@ -62,8 +66,10 @@ ElecEvent::s_time ElecEvent::getTimeFullDataSz()
     sec = (unsigned int)timegm(&tt);
 
     if(*(m_data+EVT_CTP)!=0) {
-        fracsec = (double)(*(uint32_t*)(m_data+EVT_CTD+newDataSzAdded))/(double)(*(uint32_t*)(m_data+EVT_CTP+newDataSzAdded));
-	nanosec = uint32_t(fracsec*1000000000ULL);
+        // fracsec = (double)(*(uint32_t*)(m_data+EVT_CTD+newDataSzAdded))/(double)(*(uint32_t*)(m_data+EVT_CTP+newDataSzAdded));
+        CTP_value = *(uint32_t*)(m_data+EVT_CTP+newDataSzAdded);
+        fracsec = (double)(*(uint32_t*)(m_data+EVT_CTD+newDataSzAdded))/(double)(CTP_value &= ~(1<<31));
+	    nanosec = uint32_t(fracsec*1000000000ULL);
 	// *(m_data-m_size+EVT_NANOSEC+newDataSzAdded) = nanosec;
     }
     else {

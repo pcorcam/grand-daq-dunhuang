@@ -53,7 +53,8 @@ void Server::inputThread() {
         else {
             //std::cout << "no msg is recvd" << std::endl;
         }
-   }
+    }
+    std::cout << "server inputThread func end" << std::endl;
     delete cmd;
     cmd = nullptr;
 }
