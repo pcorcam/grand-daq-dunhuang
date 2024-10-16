@@ -1,0 +1,43 @@
+global:
+  networkInputBufferSize: 102400
+  zmqSndBufferSize: 81920
+  eventBufferPageSize: 1024000
+  eventBufferNumberOfPages: 4
+  eventBufferPageSize: 2048000
+  eventBufferNumberOfPages: 1
+  t3TriggerTimeCut: 1000000000
+  t3TriggerTimeOut: 1000000000
+  t3TriggerTimeWindow: 1500000
+  t3TriggerDuNumber: 3
+  l1FileName: "RUN125_MD_RAW_ChanXYZ_20dB_DU38_10s"
+  # l1FileName: "RUN127_UD_RAW_ChanXYZ_20dB_DU18_DU35_DU38"
+  # l1FileName: "RUN133_MD_RAW_ChanXYZ_20dB_DU35_20hz"
+  # l1FileName: "RUN124_MD_RAW_ChanXYZ_20dB_DU21_10s"
+  l3FileName: "TEST-TRIGGER-ChanY-xxtest_202_June_0dB_DU78_DU74_DU27_RUN1_1024s_chl3_trigger"
+  # daqMode: 1 is L1-TRIGGER mode, 2 is L3-TRIGGER mode, 3 is BOTH-DATA mode
+  daqMode: 1
+  eventNumberSaved: 10000
+
+  
+dataUnits:
+  # - type: "modelA"
+  #   ID: "1021"
+  #   ip: "192.168.61.21"
+  #   port: 19555
+  # - type: "modelA"
+  #   ID: "1048"
+  #   ip: "192.168.61.48"
+  #   port: 19555
+  # - type: "modelA"
+  #   ID: "1051"
+  #   ip: "192.168.61.51"
+  #   port: 19555
+  # - type: "modelA"
+  #   ID: "1035"
+  #   ip: "192.168.61.35"
+  #   port: 19555
+  - type: "modelA"
+    ID: "1038"
+    ip: "192.168.61.38"
+    port: 19555
+

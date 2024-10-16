@@ -1,0 +1,29 @@
+global:
+  networkInputBufferSize: 102400
+  zmqSndBufferSize: 81920
+  eventBufferPageSize: 1024000
+  eventBufferNumberOfPages: 4
+  eventBufferPageSize: 2048000
+  eventBufferNumberOfPages: 1
+  t3TriggerTimeCut: 1000000000
+  t3TriggerTimeOut: 1000000000
+  t3TriggerTimeWindow: 9000
+  t3TriggerDuNumber: 4
+  l1FileName: "RUN133_MD_10s_RAW_ChanXYZ_20dB_DU18_DU23"
+  # l1FileName: "RUN133_MD_RAW_ChanXYZ_20dB_DU31_20Hz"
+  l3FileName: "RUN0914_CD_20dB_11DUs_20Hz_75MHz_BeaconTest"
+  # daqMode: 1 is L1-TRIGGER mode, 2 is L3-TRIGGER mode, 3 is BOTH-DATA mode
+  daqMode: 1
+  eventNumberSaved: 10000
+
+  
+dataUnits:
+  - type: "modelA"
+    ID: "1018"
+    ip: "192.168.61.18"
+    port: 19555
+  - type: "modelA"
+    ID: "1023"
+    ip: "192.168.61.23"
+    port: 19555
+  - type: "modelA"
