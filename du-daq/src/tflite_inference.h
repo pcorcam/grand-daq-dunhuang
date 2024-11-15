@@ -9,7 +9,9 @@
 #ifndef DUDAQ_1_MYFILES_TFLITE_INFERENCE_H_
 #define DUDAQ_1_MYFILES_TFLITE_INFERENCE_H_
 
-#include "/home/grand/externals/tensorflow/tensorflow/lite/c/c_api.h"
+// #include "/home/grand/externals/tensorflow/tensorflow/lite/c/c_api.h"
+#include "tensorflow/lite/c/c_api.h"
+
 
 #define TFLT_SAMPLE_IN_TRACE 1024
 

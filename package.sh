@@ -3,8 +3,8 @@
 EXTERNAL_DIR_PC=/home/grand/pc_installed
 EXTERNAL_DIR_ARM=/home/grand/arm_a_installed
 
-EXTERNAL_LIB_PC="libyaml-cpp.so libyaml-cpp.so.0.7 libstdc++.so.6 libyaml-cpp.so.0.7.0 libzmq.so libzmq.so.5 libzmq.so.5.2.5"
-EXTERNAL_LIB_ARM="libstdc++.so.6.0.24 libstdc++.so.6 libstdc++.so libgcc_s.so.1 libgcc_s.so libzmq.so libzmq.so.5 libzmq.so.5.2.5 "
+EXTERNAL_LIB_PC="libyaml-cpp.so libyaml-cpp.so.0.7 libstdc++.so.6 libyaml-cpp.so.0.7.0 libzmq.so libzmq.so.5 libzmq.so.5.2.4"
+EXTERNAL_LIB_ARM="libstdc++.so.6.0.24 libstdc++.so.6 libstdc++.so libgcc_s.so.1 libgcc_s.so libzmq.so libzmq.so.5 libzmq.so.5.2.4"
 
 SOFT_DIR=$(dirname $0)
 
@@ -41,7 +41,7 @@ mkdir -p ${tmp_dir}/external/lib
 for i in ${EXTERNAL_LIB}; do 
     cp -r ${external_installed}/lib/$i ${tmp_dir}/external/lib/
 done
-cp -r ${external_installed}/bin ${tmp_dir}/external/
+# cp -r ${external_installed}/bin ${tmp_dir}/external/
 cp -r ${SOFT_DIR}/releases/env-${TAG}.sh ${tmp_dir}/env.sh
 
 rm -f ${SOFT_DIR}/releases/${TAG}.tar.gz

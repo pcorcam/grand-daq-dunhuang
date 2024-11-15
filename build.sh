@@ -7,8 +7,8 @@ SOFT_DIR=$(dirname $0)
 echo $1
 if [ "$1" == "arm" ]; then
     echo "building for ARM..."
-    CXX_COMPILER=aarch64-linux-gnu-g++
-    C_COMPILER=aarch64-linux-gnu-gcc
+    CXX_COMPILER=/home/grand/externals/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++
+    C_COMPILER=/home/grand/externals/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc
     TAG=arm
     REAL_DU=ON
 else 

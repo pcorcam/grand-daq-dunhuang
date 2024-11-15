@@ -1,11 +1,11 @@
-export GRAND_DAQ_HOME=/home/grand/workarea/grand-daq
+export GRAND_DAQ_HOME=/home/grand/testarea/grand-daq
 export GRAND_DAQ_CONFIG=${GRAND_DAQ_HOME}/cfgs
 export GRAND_DAQ_CONFIG_LOG=${GRAND_DAQ_CONFIG}/logging
 
-#export GRAND_DATA_DIR=/home/grand/workarea/data
-#export GRAND_T2_DATA_DIR=/home/grand/workarea/t2_data
-export GRAND_RAW_DATA_DIR=/home/grand/workarea/raw_data
-export GRAND_T3_DATA_DIR=/home/grand/workarea/t3_data
+#export GRAND_DATA_DIR=/home/grand/testarea/data
+#export GRAND_T2_DATA_DIR=/home/grand/testarea/t2_data
+export GRAND_RAW_DATA_DIR=/home/grand/testarea/raw_data
+export GRAND_T3_DATA_DIR=/home/grand/testarea/t3_data
 
 #export GRAND_MAX_FILE_SIZE=50 000 000 # 50MB per file
 export GRAND_MAX_FILE_SIZE=35000000

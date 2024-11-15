@@ -96,7 +96,7 @@ int ElecEvent::scope_t2(float thresold) {
     if (G_ptflt1 == NULL)
     {
         /* use multithreading of Tensorflow Lite => 2 CPUs*/
-        G_ptflt1 = TFLT_create (2);
+        G_ptflt1 = TFLT_create(2);
     }
 
     channenLen = (uint32_t*)(m_data + EVT_START_ADC);

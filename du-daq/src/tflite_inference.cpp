@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "/home/grand/externals/tensorflow/tensorflow/lite/c/c_api.h"
+#include "tensorflow/lite/c/c_api.h"
 #include "tflite_inference.h"
 
 // 2**13 = 8192

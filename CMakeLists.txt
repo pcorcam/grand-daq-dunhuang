@@ -23,7 +23,7 @@ set(EXTERNAL_DIR_PC /home/grand/pc_installed)
 
 IF(REAL_DU)
     set(EXTERNAL_DIR "${EXTERNAL_DIR_ARM}" CACHE PATH "external software install path")
-    set(TFLITE_DIR /home/grand/externals/tensorflow)
+    set(TFLITE_DIR /home/grand/externals/tensorflow-master)
 ELSE()
     set(EXTERNAL_DIR "${EXTERNAL_DIR_PC}" CACHE PATH "external software install path")
 ENDIF(REAL_DU)
@@ -36,11 +36,12 @@ include_directories(${EXTERNAL_DIR}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common/src)
 
 link_directories(${EXTERNAL_DIR}/lib ${EXTERNAL_DIR}/lib64)
+
+
 link_libraries(pthread zmq)
 
-
 IF(REAL_DU)
-    # include_directories(/home/grand/externals/tensorflow-master/tensorflow/lite)
+    include_directories(/home/grand/externals/tensorflow-master/tensorflow/lite)
     include_directories(${TFLITE_DIR})
     link_directories(${TFLITE_DIR})
     link_libraries(tensorflowlite_c)
