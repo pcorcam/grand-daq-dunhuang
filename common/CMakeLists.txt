@@ -1,0 +1,17 @@
+link_directories(${EXTERNAL_DIR}/lib ${EXTERNAL_DIR}/lib64)
+include_directories(${EXTERNAL_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+#link_libraries(pthread zmq yaml-cpp)
+#link_libraries(pthread zmq)
+#add_subdirectory(src)
+#add_subdirectory(tests)
+
+IF(REAL_DU)
+    link_libraries(pthread zmq)
+    add_subdirectory(src)
+ELSE()
+    link_libraries(pthread zmq yaml-cpp)
+    add_subdirectory(src)
+    add_subdirectory(tests)
+ENDIF(REAL_DU)

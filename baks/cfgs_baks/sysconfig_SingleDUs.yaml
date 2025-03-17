@@ -1,0 +1,82 @@
+global:
+  networkInputBufferSize: 102400
+  zmqSndBufferSize: 81920
+  eventBufferPageSize: 1024000
+  eventBufferNumberOfPages: 4
+  eventBufferPageSize: 2048000
+  eventBufferNumberOfPages: 1
+  t3TriggerTimeCut: 1000000000
+  t3TriggerTimeOut: 1000000000
+  t3TriggerTimeWindow: 9000
+  t3TriggerDuNumber: 4
+  # l1FileName: "RUN133_MD_10s_RAW_ChanXYZ_20dB_DU18_DU23"
+  l1FileName: "RUN127_UD_RAW_ChanXYZ_20dB_5DUs_SingleChannelTrigger"
+  l3FileName: "RUN0914_CD_20dB_11DUs_20Hz_75MHz_BeaconTest"
+  # daqMode: 1 is L1-TRIGGER mode, 2 is L3-TRIGGER mode, 3 is BOTH-DATA mode
+  daqMode: 1
+  eventNumberSaved: 10000
+
+  
+dataUnits:
+  # - type: "modelA"
+  #   ID: "1009"
+  #   ip: "192.168.61.9"
+  #   port: 19555
+  # - type: "modelA"
+  #   ID: "1018"
+  #   ip: "192.168.61.18"
+  #   port: 19555
+  - type: "modelA"
+    ID: "1023"
+    ip: "192.168.61.23"
+    port: 19555
+  - type: "modelA"
+    ID: "1031"
+    ip: "192.168.61.31"
+    port: 19555
+  # - type: "modelA"
+  #   ID: "1035"
+  #   ip: "192.168.61.35"
+  #   port: 19555
+  - type: "modelA"
+    ID: "1038"
+    ip: "192.168.61.38"
+    port: 19555
+  # - type: "modelA"
+  #   ID: "1040"
+  #   ip: "192.168.61.40"
+  #   port: 19555
+  # - type: "modelA"
+  #   ID: "1041"
+  #   ip: "192.168.61.41"
+  #   port: 19555
+  # - type: "modelA"
+  #   ID: "1043"
+  #   ip: "192.168.61.43"
+  #   port: 19555
+  # - type: "modelA"
+  #   ID: "1045"
+  #   ip: "192.168.61.45"
+  #   port: 19555
+  - type: "modelA"
+    ID: "1048"
+    ip: "192.168.61.48"
+    port: 19555
+  - type: "modelA"
+    ID: "1058"
+    ip: "192.168.61.58"
+    port: 19555
+  # - type: "modelA"
+  #   ID: "1059"
+  #   ip: "192.168.61.59"
+  #   port: 19555
+  - type: "modelA"
+    ID: "1065"
+    ip: "192.168.61.65"
+    port: 19555
+
+  # DU 80
+  # - type: "modelA"
+  #   ID: "1031"
+  #   ip: "192.168.61.31"
+  #   port: 19555
