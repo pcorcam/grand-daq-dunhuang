@@ -1,0 +1,97 @@
+global:
+  networkInputBufferSize: 1024000
+  zmqSndBufferSize: 1024000
+  eventBufferPageSize: 2048000
+  eventBufferNumberOfPages: 1
+  t3TriggerTimeCut: 1000000000
+  t3TriggerTimeOut: 1000000000
+  t3TriggerTimeWindow: 14000
+  t3TriggerDuNumber: 6
+  t3TriggerType: 1
+  l1FileName: RUN213_MD_20dB-GP65-20hz-DU32
+  l3FileName: RUN10104_CD_20dB-GP65-10s-Y2float-62dus
+  daqMode: 1
+  eventNumberSaved: 100000
+  dudaqFileInjection: false
+  antennaDistancesFile: gp80_antenna_distances.txt
+dataUnits:
+  - type: modelA
+    ID: 1032
+    ip: 192.168.61.32
+    port: 19555
+  # - type: modelA
+  #   ID: 1011
+  #   ip: 192.168.61.11
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1012
+  #   ip: 192.168.61.12
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1013
+  #   ip: 192.168.61.13
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1020
+  #   ip: 192.168.61.20
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1066
+  #   ip: 192.168.61.66
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1038
+  #   ip: 192.168.61.38
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1041
+  #   ip: 192.168.61.41
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1046
+  #   ip: 192.168.61.46
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1047
+  #   ip: 192.168.61.47
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1054
+  #   ip: 192.168.61.54
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1058
+  #   ip: 192.168.61.58
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1065
+  #   ip: 192.168.61.65
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1078
+  #   ip: 192.168.61.78
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1081
+  #   ip: 192.168.61.81
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1082
+  #   ip: 192.168.61.82
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1083
+  #   ip: 192.168.61.83
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1089
+  #   ip: 192.168.61.89
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1092
+  #   ip: 192.168.61.92
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1093
+  #   ip: 192.168.61.93
+  #   port: 19555

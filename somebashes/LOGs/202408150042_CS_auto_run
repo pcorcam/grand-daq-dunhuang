@@ -1,0 +1,24 @@
+nohup: ignoring input
+csdaqAutoRun.sh: line 40: run_time: command not found
+sleep: invalid time interval ‘s’
+Try 'sleep --help' for more information.
+csdaqAutoRun.sh: line 44: 186324 Aborted                 (core dumped) nohup csdaq_run $run_time > /home/grand/workarea/grand-daq/logs/log_L1_mode_${filename}_11DUs_35M.txt 2>&1
+csdaqAutoRun.sh: line 40: run_time: command not found
+sleep: invalid time interval ‘s’
+Try 'sleep --help' for more information.
+csdaqAutoRun.sh: line 44: 400563 Aborted                 (core dumped) nohup csdaq_run $run_time > /home/grand/workarea/grand-daq/logs/log_L1_mode_${filename}_11DUs_35M.txt 2>&1
+csdaqAutoRun.sh: line 40: run_time: command not found
+sleep: invalid time interval ‘s’
+Try 'sleep --help' for more information.
+csdaqAutoRun.sh: line 44: 636318 Aborted                 (core dumped) nohup csdaq_run $run_time > /home/grand/workarea/grand-daq/logs/log_L1_mode_${filename}_11DUs_35M.txt 2>&1
+csdaqAutoRun.sh: line 40: run_time: command not found
+sleep: invalid time interval ‘s’
+Try 'sleep --help' for more information.
+csdaqAutoRun.sh: line 44: 850448 Aborted                 (core dumped) nohup csdaq_run $run_time > /home/grand/workarea/grand-daq/logs/log_L1_mode_${filename}_11DUs_35M.txt 2>&1
+csdaqAutoRun.sh: line 40: run_time: command not found
+sleep: invalid time interval ‘s’
+Try 'sleep --help' for more information.
+csdaqAutoRun.sh: line 44: 1064511 Aborted                 (core dumped) nohup csdaq_run $run_time > /home/grand/workarea/grand-daq/logs/log_L1_mode_${filename}_11DUs_35M.txt 2>&1
+csdaqAutoRun.sh: line 40: run_time: command not found
+sleep: invalid time interval ‘s’
+Try 'sleep --help' for more information.

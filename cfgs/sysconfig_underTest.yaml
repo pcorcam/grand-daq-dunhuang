@@ -1,0 +1,63 @@
+global:
+  networkInputBufferSize: 1024000
+  zmqSndBufferSize: 1024000
+  eventBufferPageSize: 2048000
+  eventBufferNumberOfPages: 1
+  t3TriggerTimeCut: 1000000000
+  t3TriggerTimeOut: 1000000000
+  t3TriggerTimeWindow: 22000
+  t3TriggerDuNumber: 5
+  t3TriggerType: 0
+  l1FileName: RUN252_MD_20dB-GP65-10s-5DUs
+  l3FileName: RUN10142_CD_20dB-GP65-Y2float-5DUs-updateTest-step2-V1p3p1
+  # l1FileName: RUN254_MD_20dB-GP65-10s-5DUs
+  # l3FileName: RUN10144_CD_20dB-GP65-Y2float-5DUs-updateTest-step1-V1p3p1
+  daqMode: 3
+  eventNumberSaved: 100000
+  dudaqFileInjection: false
+  antennaDistancesFile: gp80_antenna_distances.txt
+dataUnits:
+  # - type: modelA
+  #   ID: 103
+  #   ip: 192.168.61.3
+  #   port: 19555
+  # - type: modelA
+  #   ID: 109
+  #   ip: 192.168.61.9
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1010
+  #   ip: 192.168.61.10
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1011
+  #   ip: 192.168.61.11
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1012
+  #   ip: 192.168.61.12
+  #   port: 19555
+  # - type: modelA
+  #   ID: 1013
+  #   ip: 192.168.61.13
+  #   port: 19555
+  - type: modelA
+    ID: 1045
+    ip: 192.168.61.45
+    port: 19555
+  - type: modelA
+    ID: 1047
+    ip: 192.168.61.47
+    port: 19555
+  - type: modelA
+    ID: 1048
+    ip: 192.168.61.48
+    port: 19555
+  - type: modelA
+    ID: 1052
+    ip: 192.168.61.52
+    port: 19555
+  - type: modelA
+    ID: 1088
+    ip: 192.168.61.88
+    port: 19555
