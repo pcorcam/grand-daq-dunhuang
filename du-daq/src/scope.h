@@ -205,6 +205,7 @@ int scope_read(int ioff);
 #define EVT_FILTER2       160
 #define EVT_FILTER3       192
 #define EVT_FILTER4       224
+#define EVT_ADC_DATA      256 // start of ADC data channel 1
 
 #define EVENT_BCNT        2 //bytecount
 #define EVENT_TRIGMASK    4

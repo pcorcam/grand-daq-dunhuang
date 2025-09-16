@@ -8,12 +8,19 @@
 #include <stdint.h>
 #include <utils.h>
 #include <chrono>
+#include <tuple>
 
 using namespace grand;
 using namespace std;
 
 ScopeA::ScopeA()
 {
+  // Initiate the TemplateFLT objects for X and Y channels for Template-Fitting-T2
+  // NOTE: If at some point you want to use Z, you need to include a TEMPLATE_Z_FILE
+  template_flt_x = new TemplateFLT(TEMPLATES_XY_FILE);
+  template_flt_y = new TemplateFLT(TEMPLATES_XY_FILE);
+  // Initiate the TFlite object for CNN-T2
+  cnn_flt = TFLT_create(2); // 2 CPU cores using multithreading of TFlite
 }
 
 ScopeA::~ScopeA(){
@@ -171,12 +178,24 @@ int ScopeA::elecReadData(char *data, size_t maxSize, uint32_t* hitId){
             ev.getTimeNotFullDataSz(); // use getTimeNotFullDataSz because we do not include index 0 data.
             *(ptr-dataSizeDWord+2) = ev.getTimeNotFullDataSz().sec;
             *(ptr-dataSizeDWord+3) = ev.getTimeNotFullDataSz().nanosec;
-            //printf("nanosec is %x\n", ev.getTimeNotFullDataSz().nanosec);
-            uint64_t tmp;
-            tmp = ev.getTimeNotFullDataSz().totalSec;
-            // printf("nanotime is %lld\n", tmp);
 
             ret = dataSizeBytes+sizeof(uint32_t);
+
+            // *************** T2 TRIGGER BLOCK **************** //
+            // *********** Pablo Correa,  2024-12-10 *********** //
+
+            // Perform the T2 trigger algorithms
+            tuple<uint16_t,uint16_t> t2_res = ev.scope_t2(template_flt_x,template_flt_y,cnn_flt);
+            // Write the results of T2 into the data file
+            // For now, we save it like:
+            // ADC sample frequency = correlation value of template FLT
+            // ADC resolution = score value of CNN FLT
+            // This is so that GTOT will save the T2 results in the ROOT file
+            ptr[12-dataSizeDWord] = get<0>(t2_res) << 16;
+            ptr[13-dataSizeDWord] = get<1>(t2_res);
+
+            // *************** T2 TRIGGER BLOCK **************** //
+
         }
         else {
             // dat in buffer format error
@@ -189,7 +208,7 @@ int ScopeA::elecReadData(char *data, size_t maxSize, uint32_t* hitId){
             m_counts++;
             // fprintf(fp, "error counts: %d\n", m_counts);
             // fclose(fp);
-            printf("error counts: %d\n", m_counts);
+            //printf("error counts: %d\n", m_counts);
             do {
                 //rate.add();
                 scopeRawRead(Reg_Data, &tmpData);
@@ -199,12 +218,12 @@ int ScopeA::elecReadData(char *data, size_t maxSize, uint32_t* hitId){
                 if((tmpData>>16) == 0xADC0) {
                     uint32_t dataSizeBytes = (tmpData&0xffff)*sizeof(uint16_t);
                     int dataSizeDWord = dataSizeBytes/(sizeof(uint32_t));
-                    printf("error level 2 maxsize: %d\n", maxSize);
+                    //printf("error level 2 maxsize: %d\n", maxSize);
                     assert(("data buffer size >= real data size", maxSize >= dataSizeBytes+sizeof(uint32_t) ));    
                     uint32_t *ptr = (uint32_t*)data;
                     *ptr++ = *hitId;
                     (*hitId)++;
-                    printf("hit: %lld\n", *hitId);
+                    //printf("hit: %lld\n", *hitId);
                     (*ptr++) = tmpData;
 
                     evtbuf = new uint16_t[2*dataSizeDWord];

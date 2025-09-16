@@ -23,6 +23,8 @@
 #include <mutex>
 
 #include "frontend.h"
+#include "template_FLT.h"
+#include "tflite_inference.h"
 
 #define DEVFILE "/dev/mem"
 #define Reg_End 0x1FC
@@ -62,6 +64,11 @@ class ScopeA: public IFrontend {
 	    uint64_t m_time0, m_time1;
 	    int m_counts = 0;
 	    uint64_t m_duNanoSec;
+
+        TemplateFLT *template_flt_x;
+        TemplateFLT *template_flt_y;
+
+        S_TFLite *cnn_flt;
 };
 }
 
