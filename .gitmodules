@@ -1,0 +1,3 @@
+[submodule "du-daq/src/template_flt_online"]
+	path = du-daq/src/template_flt_online
+	url = https://github.com/pcorcam/template_flt_online.git
