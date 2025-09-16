@@ -36,6 +36,20 @@ rm -rf ${tmp_dir}
 mkdir -p ${tmp_dir}/grand-daq
 mkdir -p ${tmp_dir}/external
 
+# ***** Pablo Correa, 2024-12-10 *****
+# Add template files + neural network to the du-daq release
+if [ "$TAG" = "arm" ]; then
+    mkdir -p "${tmp_dir}/template_lib"
+    for template in "${SOFT_DIR}/du-daq/src/template_flt_online/templates_"*.txt; do
+        cp "$template" "${tmp_dir}/template_lib/"
+    done
+    
+    mkdir -p "${tmp_dir}/cnn_trained"
+    cp "${SOFT_DIR}/du-daq/src/trigger_grand.tflite" "${tmp_dir}/cnn_trained/"
+
+    #cp "${SOFT_DIR}/du-daq/src/template_flt_online/templates_*.txt" "${tmp_dir}/template_lib"
+fi
+
 cp -r ${soft_installed}/* ${tmp_dir}/grand-daq/
 mkdir -p ${tmp_dir}/external/lib
 for i in ${EXTERNAL_LIB}; do 
